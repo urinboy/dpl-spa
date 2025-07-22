@@ -1,0 +1,40 @@
+<!-- src/index.html -->
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPL SPA</title>
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <nav class="navbar">
+                <div class="logo">DPL</div>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="DPL.navigate('home')">Bosh sahifa</a></li>
+                    <li><a href="#" onclick="DPL.navigate('products')">Mahsulotlar</a></li>
+                    <li><a href="#" onclick="DPL.navigate('cart')">Savat</a></li>
+                    <li><a href="#" onclick="DPL.navigate('profile')">Profil</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main id="main-content">
+            <div id="categoriesGrid" class="categories-grid"></div>
+            <div id="productsGrid" class="products-grid"></div>
+            <div id="cartContainer" class="cart-container"></div>
+        </main>
+        <footer>
+            <p>&copy; 2025 DPL. Barcha huquqlar himoyalangan.</p>
+        </footer>
+    </div>
+    <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>

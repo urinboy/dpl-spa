@@ -1,0 +1,17 @@
+{
+    "name": "dpl-spa",
+    "version": "1.0.0",
+    "description": "DPL Single Page Application",
+    "scripts": {
+      "start": "vite",
+      "build": "vite build",
+      "test": "jest"
+    },
+    "dependencies": {
+      "dompurify": "^2.4.0"
+    },
+    "devDependencies": {
+      "vite": "^4.0.0",
+      "jest": "^29.0.0"
+    }
+  }

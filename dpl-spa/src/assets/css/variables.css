@@ -1,0 +1,9 @@
+/* src/assets/css/variables.css */
+:root {
+    --z-toast: 9999;
+    --z-loading: 10000;
+    --primary-color: #007bff;
+    --success-bg: #28a745;
+    --error-bg: #dc3545;
+    --toast-bg: #fff;
+}

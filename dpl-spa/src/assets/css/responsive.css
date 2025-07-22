@@ -1,0 +1,12 @@
+/* src/assets/css/responsive.css */
+@media (max-width: 768px) {
+    .toast-container {
+        left: 0.5rem;
+        right: 0.5rem;
+        max-width: unset;
+    }
+    .loading-overlay .loading-content {
+        flex-direction: column;
+        text-align: center;
+    }
+}
