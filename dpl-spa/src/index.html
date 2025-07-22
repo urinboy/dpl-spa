@@ -1,40 +1,121 @@
-<!-- src/index.html -->
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DPL SPA</title>
-    <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/pages.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Loyihaning o'zining CSS fayllari -->
+    <link rel="stylesheet" href="./assets/css/variables.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+    <link rel="stylesheet" href="./assets/css/pages.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
 <body>
-    <div id="app">
-        <header>
-            <nav class="navbar">
-                <div class="logo">DPL</div>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="DPL.navigate('home')">Bosh sahifa</a></li>
-                    <li><a href="#" onclick="DPL.navigate('products')">Mahsulotlar</a></li>
-                    <li><a href="#" onclick="DPL.navigate('cart')">Savat</a></li>
-                    <li><a href="#" onclick="DPL.navigate('profile')">Profil</a></li>
-                </ul>
-            </nav>
+    <div class="app-container" id="app">
+        <!-- Header Component -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo"><i class="fas fa-shopping-cart"></i> Dom Product 🛍️</h1>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Mahsulotlarni qidiring..." id="searchInput">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" id="profileBtn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn" id="cartBtn">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartBadge">0</span>
+                    </button>
+                </div>
+            </div>
         </header>
-        <main id="main-content">
-            <div id="categoriesGrid" class="categories-grid"></div>
-            <div id="productsGrid" class="products-grid"></div>
-            <div id="cartContainer" class="cart-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Sahifalar uchun konteyner -->
         </main>
-        <footer>
-            <p>&copy; 2025 DPL. Barcha huquqlar himoyalangan.</p>
-        </footer>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="#home" class="nav-item active" data-route="home">
+                <i class="fas fa-home nav-icon"></i>
+            </a>
+            <a href="#products" class="nav-item" data-route="products">
+                <i class="fas fa-cubes nav-icon"></i>
+            </a>
+            <a href="#cart" class="nav-item" data-route="cart">
+                <i class="fas fa-shopping-cart nav-icon"></i>
+            </a>
+            <a href="#orders" class="nav-item" data-route="orders">
+                <i class="fas fa-clipboard-list nav-icon"></i>
+            </a>
+            <a href="#profile" class="nav-item" data-route="profile">
+                <i class="fas fa-user nav-icon"></i>
+            </a>
+        </nav>
+
+        <!-- Modals -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <button class="modal-close" data-close-modal="loginModal">&times;</button>
+                <h3 style="margin-bottom: 1rem;">Kirish</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email yoki Telefon</label>
+                        <input type="text" class="form-input" id="loginInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="passwordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Kirish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkount yo'qmi? <a href="#" id="showRegisterLink">Ro'yxatdan o'ting</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="modal" id="registerModal">
+            <div class="modal-content">
+                <button class="modal-close" data-close-modal="registerModal">&times;</button>
+                <h3 style="margin-bottom: 1rem;">Ro'yxatdan o'tish</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label">Ism</label>
+                        <input type="text" class="form-input" id="nameInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="emailInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefon</label>
+                        <input type="tel" class="form-input" id="phoneInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="newPasswordInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parolni tasdiqlang</label>
+                        <input type="password" class="form-input" id="confirmPasswordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkountingiz bormi? <a href="#" id="showLoginLink">Kirish</a>
+                </p>
+            </div>
+        </div>
     </div>
-    <script type="module" src="assets/js/app.js"></script>
+
+    <!-- Asosiy ilova skripti -->
+    <script type="module" src="./assets/js/app.js"></script>
 </body>
 </html>

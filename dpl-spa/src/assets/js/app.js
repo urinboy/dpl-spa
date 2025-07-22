@@ -1,19 +1,23 @@
-/* src/assets/js/app.js */
-import { Toast } from './components/toast.js';
-import { Loading } from './components/loading.js';
+import './config.js';
+import './utils.js';
+import './storage.js';
+import './services/api.js';
+import './components/ui.js';
+import './managers/auth.js';
+import './managers/cart.js';
+import Router from './router.js';
 
-window.DPL = window.DPL || {};
+class App {
+    constructor() {
+        this.init();
+    }
 
-// Navigatsiya funksiyasi
-window.DPL.navigate = function(page) {
-    DPL.simpleLoading.show(`Yuklanmoqda: ${page}`);
-    setTimeout(() => {
-        document.getElementById('main-content').innerHTML = `<h2>${page.charAt(0).toUpperCase() + page.slice(1)}</h2>`;
-        DPL.simpleLoading.hide();
-    }, 500);
-};
+    init() {
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('App Initialized');
+            // Router handles the rest
+        });
+    }
+}
 
-// Boshlang‘ich sozlash
-document.addEventListener('DOMContentLoaded', () => {
-    DPL.simpleToast.success('Ilova muvaffaqiyatli yuklandi!');
-});
+new App();
