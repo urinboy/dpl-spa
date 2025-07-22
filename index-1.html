@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Product App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./assets/css/variables.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+    <link rel="stylesheet" href="./assets/css/pages.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Header Component -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo"><i class="fas fa-shopping-cart"></i> Dom Product 🛍️</h1>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Mahsulotlarni qidiring..." id="searchInput">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="ProfileManager.showProfile()">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn" onclick="CartManager.showCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div class="page active" id="homePage">
+                <h2 style="margin-bottom: 1rem;">Kategoriyalar</h2>
+                <div class="category-grid" id="categoriesGrid">
+                    <!-- Categories will be loaded here -->
+                </div>
+                <h2 style="margin-bottom: 1rem;">Tavsiya etilgan mahsulotlar</h2>
+                <div class="product-grid" id="featuredProducts">
+                    <!-- Featured products will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Products Page -->
+            <div class="page" id="productsPage">
+                <h2 style="margin-bottom: 1rem;">Mahsulotlar</h2>
+                <div class="product-grid" id="productsGrid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Cart Page -->
+            <div class="page" id="cartPage">
+                <h2 style="margin-bottom: 1rem;">Savatcha</h2>
+                <div id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                <div id="cartSummary" class="cart-summary">
+                    <!-- Cart summary will be shown here -->
+                </div>
+            </div>
+
+            <!-- Orders Page -->
+            <div class="page" id="ordersPage">
+                <h2 style="margin-bottom: 1rem;">Buyurtmalarim</h2>
+                <div id="ordersList">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="page" id="profilePage">
+                <h2 style="margin-bottom: 1rem;">Profil</h2>
+                <div id="profileContent">
+                    <!-- Profile content will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a class="nav-item active" onclick="Router.navigate('home')">
+                <i class="fas fa-home nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="Router.navigate('products')">
+                <i class="fas fa-cubes nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="Router.navigate('cart')">
+                <i class="fas fa-shopping-cart nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="Router.navigate('orders')">
+                <i class="fas fa-clipboard-list nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="Router.navigate('profile')">
+                <i class="fas fa-user nav-icon"></i>
+            </a>
+        </nav>
+
+        <!-- Modals -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <h3 style="margin-bottom: 1rem;">Kirish</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email yoki Telefon</label>
+                        <input type="text" class="form-input" id="loginInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="passwordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Kirish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkount yo'qmi? <a href="#" onclick="AuthManager.showRegister()">Ro'yxatdan o'ting</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="modal" id="registerModal">
+            <div class="modal-content">
+                <h3 style="margin-bottom: 1rem;">Ro'yxatdan o'tish</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label">Ism</label>
+                        <input type="text" class="form-input" id="nameInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="emailInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefon</label>
+                        <input type="tel" class="form-input" id="phoneInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="newPasswordInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parolni tasdiqlang</label>
+                        <input type="password" class="form-input" id="confirmPasswordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkountingiz bormi? <a href="#" onclick="AuthManager.showLogin()">Kirish</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/storage.js"></script>
+    <script src="./assets/js/components/ui.js"></script>
+    <script src="./assets/js/components/modals.js"></script>
+    <script src="./assets/js/managers/auth.js"></script>
+    <script src="./assets/js/managers/cart.js"></script>
+    <script src="./assets/js/managers/products.js"></script>
+    <script src="./assets/js/managers/orders.js"></script>
+    <script src="./assets/js/managers/profile.js"></script>
+    <script src="./assets/js/renderers/categories.js"></script>
+    <script src="./assets/js/renderers/products.js"></script>
+    <script src="./assets/js/renderers/cart.js"></script>
+    <script src="./assets/js/renderers/orders.js"></script>
+    <script src="./assets/js/renderers/profile.js"></script>
+    <script src="./assets/js/router.js"></script>
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>

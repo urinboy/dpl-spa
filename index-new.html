@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom Product App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- CSS Variables with fixed z-index values -->
+    <style>
+        :root {
+            /* Z-index values - fixed with specific numbers */
+            --z-dropdown: 1000;
+            --z-sticky: 1020;
+            --z-fixed: 1030;
+            --z-modal-backdrop: 1040;
+            --z-modal: 1050;
+            --z-popover: 1060;
+            --z-tooltip: 1070;
+            --z-toast: 9999; /* Very high value for toasts */
+            
+            /* Colors */
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --info-color: #3b82f6;
+            
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --white: #ffffff;
+            --black: #000000;
+        }
+
+        /* Toast Container - Fixed z-index */
+        .toast-container {
+            position: fixed !important;
+            top: 1rem !important;
+            right: 1rem !important;
+            z-index: 9999 !important; /* Direct number instead of variable */
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            pointer-events: none;
+            max-width: 400px;
+        }
+
+        /* Toast Styles */
+        .toast {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            pointer-events: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #3b82f6;
+            position: relative;
+            z-index: 9999 !important;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: var(--success-color);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger-color);
+        }
+
+        .toast.warning {
+            border-left-color: var(--warning-color);
+        }
+
+        .toast.info {
+            border-left-color: var(--info-color);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast-icon {
+            font-size: 1.125rem;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success-color);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger-color);
+        }
+
+        .toast.warning .toast-icon {
+            color: var(--warning-color);
+        }
+
+        .toast.info .toast-icon {
+            color: var(--info-color);
+        }
+
+        .toast-message {
+            flex: 1;
+            font-size: 0.875rem;
+            color: var(--gray-800);
+            font-weight: 500;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--gray-400);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: var(--gray-600);
+        }
+
+        /* Header with fixed z-index */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1020; /* Lower than toast */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal with proper z-index */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1050; /* Lower than toast but higher than header */
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        /* Loading overlay with proper z-index */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 8888; /* Lower than toast */
+            backdrop-filter: blur(2px);
+        }
+
+        /* Other essential styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gray-100);
+            color: var(--gray-800);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-top: 2px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Page layout */
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Header styles */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .search-container {
+            flex: 1;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 3rem;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.9);
+            transition: background 0.2s;
+        }
+
+        .search-input:focus {
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-600);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50px;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50px;
+            min-width: 18px;
+            height: 18px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bottom navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            padding: 0.5rem 0;
+            z-index: 1030;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem;
+            color: var(--gray-600);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Modal styles */
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-400);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        /* Category grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Product grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray-400);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray-500);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Loading and error states */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            color: var(--gray-600);
+            gap: 0.5rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: var(--danger-color);
+            background: #fee2e2;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Empty states */
+        .cart-empty,
+        .orders-empty,
+        .profile-guest {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--gray-600);
+        }
+
+        .cart-empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--gray-400);
+        }
+
+        .cart-empty-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-empty-message {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Cart items */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background: var(--gray-100);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: var(--gray-200);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--gray-300);
+        }
+
+        .quantity-display {
+            padding: 0 1rem;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Cart summary */
+        .cart-summary {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .cart-summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 1rem;
+            border-top: 1px solid var(--gray-200);
+            font-weight: bold;
+        }
+
+        .cart-total {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+                padding-bottom: 5rem; /* Space for bottom nav */
+            }
+
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            .search-container {
+                order: 3;
+                flex-basis: 100%;
+                margin-top: 0.5rem;
+                max-width: none;
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .cart-item-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .toast-container {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
+            }
+        }
+    </style>
+    
+    <!-- External CSS Files -->
+    <link rel="stylesheet" href="./assets/css/variables.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+    <link rel="stylesheet" href="./assets/css/pages.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+    <div class="app-container" id="app">
+        <!-- Header Component -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo"><i class="fas fa-shopping-cart"></i> Dom Product 🛍️</h1>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Mahsulotlarni qidiring..." id="searchInput">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="showProfile()">
+                        <i class="fas fa-user"></i>
+                    </button>
+                    <button class="icon-btn" onclick="showCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="badge" id="cartBadge">0</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Page -->
+            <div class="page active" id="homePage">
+                <h2 style="margin-bottom: 1rem;">Kategoriyalar</h2>
+                <div class="category-grid" id="categoriesGrid">
+                    <div class="loading" id="categoriesLoading">
+                        <div class="spinner"></div>
+                        <span>Kategoriyalar yuklanmoqda...</span>
+                    </div>
+                </div>
+                <h2 style="margin-bottom: 1rem;">Tavsiya etilgan mahsulotlar</h2>
+                <div class="product-grid" id="featuredProducts">
+                    <div class="loading" id="productsLoading">
+                        <div class="spinner"></div>
+                        <span>Mahsulotlar yuklanmoqda...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Page -->
+            <div class="page" id="productsPage">
+                <h2 style="margin-bottom: 1rem;">Mahsulotlar</h2>
+                <div class="product-grid" id="productsGrid"></div>
+            </div>
+
+            <!-- Cart Page -->
+            <div class="page" id="cartPage">
+                <h2 style="margin-bottom: 1rem;">Savatcha</h2>
+                <div id="cartItems"></div>
+                <div id="cartSummary" class="cart-summary"></div>
+            </div>
+
+            <!-- Orders Page -->
+            <div class="page" id="ordersPage">
+                <h2 style="margin-bottom: 1rem;">Buyurtmalarim</h2>
+                <div id="ordersList"></div>
+            </div>
+
+            <!-- Profile Page -->
+            <div class="page" id="profilePage">
+                <h2 style="margin-bottom: 1rem;">Profil</h2>
+                <div id="profileContent"></div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a class="nav-item active" onclick="navigateTo('home')">
+                <i class="fas fa-home nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="navigateTo('products')">
+                <i class="fas fa-cubes nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="navigateTo('cart')">
+                <i class="fas fa-shopping-cart nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="navigateTo('orders')">
+                <i class="fas fa-clipboard-list nav-icon"></i>
+            </a>
+            <a class="nav-item" onclick="navigateTo('profile')">
+                <i class="fas fa-user nav-icon"></i>
+            </a>
+        </nav>
+
+        <!-- Modals -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+                <h3 style="margin-bottom: 1rem;">Kirish</h3>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email yoki Telefon</label>
+                        <input type="text" class="form-input" id="loginInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="passwordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Kirish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkount yo'qmi? <a href="#" onclick="showRegister()">Ro'yxatdan o'ting</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="modal" id="registerModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+                <h3 style="margin-bottom: 1rem;">Ro'yxatdan o'tish</h3>
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label">Ism</label>
+                        <input type="text" class="form-input" id="nameInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="emailInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefon</label>
+                        <input type="tel" class="form-input" id="phoneInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parol</label>
+                        <input type="password" class="form-input" id="newPasswordInput" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Parolni tasdiqlang</label>
+                        <input type="password" class="form-input" id="confirmPasswordInput" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
+                </form>
+                <p style="text-align: center; margin-top: 1rem;">
+                    Akkountingiz bormi? <a href="#" onclick="showLogin()">Kirish</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/storage.js"></script>
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/components/ui.js"></script>
+    <script src="./assets/js/managers/auth.js"></script>
+    <script src="./assets/js/managers/cart.js"></script>
+    <script src="./assets/js/router.js"></script>
+    
+    <script>
+        // Enhanced Toast System with Fixed Z-Index
+        class SimpleToast {
+            constructor() {
+                this.container = null;
+                this.queue = [];
+                this.isProcessing = false;
+                this.init();
+            }
+
+            init() {
+                // Create toast container with fixed z-index
+                this.container = document.createElement('div');
+                this.container.className = 'toast-container';
+                this.container.style.cssText = `
+                    position: fixed !important;
+                    top: 1rem !important;
+                    right: 1rem !important;
+                    z-index: 9999 !important;
+                    display: flex !important;
+                    flex-direction: column !important;
+                    gap: 0.5rem !important;
+                    pointer-events: none !important;
+                    max-width: 400px !important;
+                `;
+                document.body.appendChild(this.container);
+            }
+
+            show(message, type = 'info', duration = 3000) {
+                const toast = {
+                    id: 'toast_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                    message,
+                    type,
+                    duration
+                };
+
+                this.queue.push(toast);
+                this.processQueue();
+            }
+
+            async processQueue() {
+                if (this.isProcessing || this.queue.length === 0) return;
+                
+                this.isProcessing = true;
+                const toast = this.queue.shift();
+                
+                await this.renderToast(toast);
+                
+                this.isProcessing = false;
+                
+                if (this.queue.length > 0) {
+                    setTimeout(() => this.processQueue(), 300);
+                }
+            }
+
+            async renderToast(toast) {
+                const toastElement = document.createElement('div');
+                toastElement.className = `toast ${toast.type}`;
+                toastElement.id = toast.id;
+                toastElement.style.cssText = `
+                    background: white !important;
+                    border-radius: 8px !important;
+                    padding: 1rem !important;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+                    pointer-events: auto !important;
+                    transform: translateX(100%) !important;
+                    transition: transform 0.3s ease !important;
+                    border-left: 4px solid #3b82f6 !important;
+                    position: relative !important;
+                    z-index: 9999 !important;
+                `;
+
+                const icon = this.getTypeIcon(toast.type);
+                const iconColor = this.getTypeColor(toast.type);
+                
+                toastElement.innerHTML = `
+                    <div class="toast-content" style="display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fas fa-${icon}" style="font-size: 1.125rem; color: ${iconColor};"></i>
+                        <span class="toast-message" style="flex: 1; font-size: 0.875rem; color: var(--gray-800); font-weight: 500;">${this.sanitizeHtml(toast.message)}</span>
+                        <button class="toast-close" onclick="window.simpleToast.dismiss('${toast.id}')" style="background: none; border: none; color: var(--gray-400); cursor: pointer; padding: 0.25rem; border-radius: 4px;">&times;</button>
+                    </div>
+                `;
+
+                // Set border color based on type
+                if (toast.type === 'success') {
+                    toastElement.style.borderLeftColor = 'var(--success-color)';
+                } else if (toast.type === 'error') {
+                    toastElement.style.borderLeftColor = 'var(--danger-color)';
+                } else if (toast.type === 'warning') {
+                    toastElement.style.borderLeftColor = 'var(--warning-color)';
+                } else {
+                    toastElement.style.borderLeftColor = 'var(--info-color)';
+                }
+
+                this.container.appendChild(toastElement);
+
+                // Animate in
+                requestAnimationFrame(() => {
+                    toastElement.style.transform = 'translateX(0)';
+                });
+
+                // Auto dismiss
+                if (toast.duration > 0) {
+                    setTimeout(() => {
+                        this.dismiss(toast.id);
+                    }, toast.duration);
+                }
+            }
+
+            getTypeIcon(type) {
+                const icons = {
+                    success: 'check-circle',
+                    error: 'exclamation-circle',
+                    warning: 'exclamation-triangle',
+                    info: 'info-circle'
+                };
+                return icons[type] || icons.info;
+            }
+
+            getTypeColor(type) {
+                const colors = {
+                    success: 'var(--success-color)',
+                    error: 'var(--danger-color)',
+                    warning: 'var(--warning-color)',
+                    info: 'var(--info-color)'
+                };
+                return colors[type] || colors.info;
+            }
+
+            dismiss(toastId) {
+                const toastElement = document.getElementById(toastId);
+                if (toastElement) {
+                    toastElement.style.transform = 'translateX(100%)';
+                    setTimeout(() => {
+                        if (toastElement.parentNode) {
+                            toastElement.parentNode.removeChild(toastElement);
+                        }
+                    }, 300);
+                }
+            }
+
+            sanitizeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // Convenience methods
+            success(message, duration = 3000) {
+                this.show(message, 'success', duration);
+            }
+
+            error(message, duration = 5000) {
+                this.show(message, 'error', duration);
+            }
+
+            warning(message, duration = 4000) {
+                this.show(message, 'warning', duration);
+            }
+
+            info(message, duration = 3000) {
+                this.show(message, 'info', duration);
+            }
+        }
+
+        // Enhanced Loading System with Fixed Z-Index
+        class SimpleLoading {
+            constructor() {
+                this.overlay = null;
+                this.isVisible = false;
+            }
+
+            show(message = 'Yuklanmoqda...') {
+                if (this.isVisible) {
+                    this.updateMessage(message);
+                    return;
+                }
+
+                this.overlay = document.createElement('div');
+                this.overlay.className = 'loading-overlay';
+                this.overlay.style.cssText = `
+                    position: fixed !important;
+                    top: 0 !important;
+                    left: 0 !important;
+                    width: 100% !important;
+                    height: 100% !important;
+                    background: rgba(0, 0, 0, 0.5) !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    z-index: 8888 !important;
+                    backdrop-filter: blur(2px) !important;
+                `;
+
+                const content = document.createElement('div');
+                content.style.cssText = `
+                    background: white !important;
+                    padding: 2rem !important;
+                    border-radius: 12px !important;
+                    text-align: center !important;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+                    max-width: 300px !important;
+                `;
+
+                content.innerHTML = `
+                    <div class="spinner" style="margin: 0 auto 1rem; width: 40px; height: 40px; border: 3px solid var(--gray-300); border-top: 3px solid var(--primary-color); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <div class="loading-message" style="color: var(--gray-800); font-weight: 600;">${this.sanitizeHtml(message)}</div>
+                `;
+
+                this.overlay.appendChild(content);
+                document.body.appendChild(this.overlay);
+
+                document.body.style.overflow = 'hidden';
+                this.isVisible = true;
+
+                requestAnimationFrame(() => {
+                    this.overlay.style.opacity = '1';
+                });
+            }
+
+            updateMessage(message) {
+                if (this.overlay) {
+                    const messageElement = this.overlay.querySelector('.loading-message');
+                    if (messageElement) {
+                        messageElement.innerHTML = this.sanitizeHtml(message);
+                    }
+                }
+            }
+
+            hide() {
+                if (this.overlay && this.isVisible) {
+                    this.overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        if (this.overlay && this.overlay.parentNode) {
+                            this.overlay.parentNode.removeChild(this.overlay);
+                        }
+                        this.overlay = null;
+                        this.isVisible = false;
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            }
+
+            sanitizeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+        }
+
+        // Initialize global instances
+        window.simpleToast = new SimpleToast();
+        window.simpleLoading = new SimpleLoading();
+
+        // Global functions for navigation and UI
+        function navigateTo(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            const targetPage = document.getElementById(page + 'Page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+            
+            loadPageData(page);
+        }
+        
+        function showLogin() {
+            openModal('loginModal');
+        }
+        
+        function showRegister() {
+            closeModal('loginModal');
+            openModal('registerModal');
+        }
+        
+        function showProfile() {
+            if (!isAuthenticated()) {
+                simpleToast.warning('Bu sahifani ko\'rish uchun tizimga kirish kerak');
+                showLogin();
+                return;
+            }
+            navigateTo('profile');
+        }
+        
+        function showCart() {
+            navigateTo('cart');
+        }
+        
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function isAuthenticated() {
+            return window.AuthManager && AuthManager.checkAuth();
+        }
+
+        // Load page data functions
+        async function loadPageData(page) {
+            try {
+                switch(page) {
+                    case 'home':
+                        await loadCategories();
+                        await loadFeaturedProducts();
+                        break;
+                    case 'products':
+                        await loadProducts();
+                        break;
+                    case 'cart':
+                        await loadCart();
+                        break;
+                    case 'orders':
+                        await loadOrders();
+                        break;
+                    case 'profile':
+                        await loadProfile();
+                        break;
+                }
+            } catch (error) {
+                console.error('Load page data error:', error);
+                simpleToast.error('Ma\'lumotlarni yuklashda xatolik');
+            }
+        }
+        
+        async function loadCategories() {
+            const container = document.getElementById('categoriesGrid');
+            const loading = document.getElementById('categoriesLoading');
+            
+            try {
+                if (loading) loading.style.display = 'flex';
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Mock data
+                const categories = [
+                    { id: 1, name: 'Elektronika' },
+                    { id: 2, name: 'Kiyim' },
+                    { id: 3, name: 'Uy-ro\'zg\'or' },
+                    { id: 4, name: 'Sport' },
+                    { id: 5, name: 'Kitoblar' },
+                    { id: 6, name: 'Avtomobil' }
+                ];
+                
+                container.innerHTML = categories.map(category => `
+                    <div class="category-card" onclick="navigateToCategory('${category.id}')">
+                        <div class="category-icon">${getRandomIcon()}</div>
+                        <h3>${category.name}</h3>
+                    </div>
+                `).join('');
+                
+                // simpleToast.success('Kategoriyalar yuklandi');
+            } catch (error) {
+                console.error('Load categories error:', error);
+                container.innerHTML = '<div class="error">Kategoriyalarni yuklashda xatolik yuz berdi</div>';
+                simpleToast.error('Kategoriyalarni yuklashda xatolik');
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+        
+        async function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            const loading = document.getElementById('productsLoading');
+            
+            try {
+                if (loading) loading.style.display = 'flex';
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1200));
+                
+                // Mock data
+                const products = [
+                    { id: 1, name: 'iPhone 15 Pro', price: 15000000, current_price: 14000000, image: null },
+                    { id: 2, name: 'Samsung Galaxy S24', price: 12000000, current_price: 11500000, image: null },
+                    { id: 3, name: 'MacBook Air M3', price: 18000000, current_price: 17500000, image: null },
+                    { id: 4, name: 'AirPods Pro', price: 3500000, current_price: 3200000, image: null }
+                ];
+                
+                container.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">📱</div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">
+                                <span class="current-price">${formatPrice(product.current_price)}</span>
+                                ${product.price > product.current_price ? 
+                                    `<span class="original-price">${formatPrice(product.price)}</span>` : ''}
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="addToCart('${product.id}')">
+                                Savatga qo'shish
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // simpleToast.success('Mahsulotlar yuklandi');
+            } catch (error) {
+                console.error('Load featured products error:', error);
+                container.innerHTML = '<div class="error">Mahsulotlarni yuklashda xatolik yuz berdi</div>';
+                simpleToast.error('Mahsulotlarni yuklashda xatolik');
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+        
+        async function loadProducts() {
+            const container = document.getElementById('productsGrid');
+            
+            try {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><span>Mahsulotlar yuklanmoqda...</span></div>';
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Mock data
+                const products = [
+                    { id: 1, name: 'iPhone 15 Pro', price: 15000000, current_price: 14000000 },
+                    { id: 2, name: 'Samsung Galaxy S24', price: 12000000, current_price: 11500000 },
+                    { id: 3, name: 'MacBook Air M3', price: 18000000, current_price: 17500000 },
+                    { id: 4, name: 'AirPods Pro', price: 3500000, current_price: 3200000 },
+                    { id: 5, name: 'iPad Pro', price: 8000000, current_price: 7500000 },
+                    { id: 6, name: 'Apple Watch', price: 4500000, current_price: 4200000 }
+                ];
+                
+                container.innerHTML = products.map(product => `
+                    <div class="product-card">
+                        <div class="product-image">📱</div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">
+                                <span class="current-price">${formatPrice(product.current_price)}</span>
+                                ${product.price > product.current_price ? 
+                                    `<span class="original-price">${formatPrice(product.price)}</span>` : ''}
+                            </div>
+                            <button class="btn btn-primary btn-sm" onclick="addToCart('${product.id}')">
+                                Savatga qo'shish
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // simpleToast.success('Barcha mahsulotlar yuklandi');
+            } catch (error) {
+                console.error('Load products error:', error);
+                container.innerHTML = '<div class="error">Mahsulotlarni yuklashda xatolik yuz berdi</div>';
+                simpleToast.error('Mahsulotlarni yuklashda xatolik');
+            }
+        }
+        
+        // Simple cart management
+        let cartItems = JSON.parse(localStorage.getItem('cartItems') || '[]');
+        
+        async function loadCart() {
+            const container = document.getElementById('cartItems');
+            const summaryContainer = document.getElementById('cartSummary');
+            
+            try {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><span>Savatcha yuklanmoqda...</span></div>';
+                
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                if (cartItems.length === 0) {
+                    container.innerHTML = `
+                        <div class="cart-empty">
+                            <div class="cart-empty-icon">🛒</div>
+                            <h3 class="cart-empty-title">Savatcha bo'sh</h3>
+                            <p class="cart-empty-message">Xaridni boshlash uchun mahsulot qo'shing</p>
+                            <button class="btn btn-primary" onclick="navigateTo('products')">Mahsulotlarni ko'rish</button>
+                        </div>
+                    `;
+                    summaryContainer.innerHTML = '';
+                } else {
+                    container.innerHTML = cartItems.map(item => `
+                        <div class="cart-item" data-item-id="${item.id}">
+                            <div class="cart-item-image">📱</div>
+                            <div class="cart-item-info">
+                                <h4 class="cart-item-title">${item.name}</h4>
+                                <div class="cart-item-price">${formatPrice(item.price)}</div>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity - 1})">-</button>
+                                    <span class="quantity-display">${item.quantity}</span>
+                                    <button class="quantity-btn" onclick="updateQuantity('${item.id}', ${item.quantity + 1})">+</button>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="removeFromCart('${item.id}')">O'chirish</button>
+                        </div>
+                    `).join('');
+                    
+                    const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                    summaryContainer.innerHTML = `
+                        <div class="cart-summary-row">
+                            <span class="cart-summary-label">Jami:</span>
+                            <span class="cart-summary-value cart-total">${formatPrice(total)}</span>
+                        </div>
+                        <button class="btn btn-primary btn-block" onclick="proceedToCheckout()">
+                            Buyurtma berish
+                        </button>
+                    `;
+                }
+                
+                updateCartBadge();
+            } catch (error) {
+                console.error('Load cart error:', error);
+                container.innerHTML = '<div class="error">Savatchani yuklashda xatolik yuz berdi</div>';
+                simpleToast.error('Savatchani yuklashda xatolik');
+            }
+        }
+        
+        async function loadOrders() {
+            const container = document.getElementById('ordersList');
+            container.innerHTML = `
+                <div class="orders-empty">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; color: var(--gray-400);">📋</div>
+                    <h3 style="color: var(--gray-700); margin-bottom: 0.5rem;">Buyurtmalar yo'q</h3>
+                    <p style="color: var(--gray-600);">Hali buyurtma bermagansiz</p>
+                </div>
+            `;
+        }
+        
+        async function loadProfile() {
+            const container = document.getElementById('profileContent');
+            if (isAuthenticated()) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">👤</div>
+                        <h3>Foydalanuvchi</h3>
+                        <p>user@example.com</p>
+                        <button class="btn btn-danger" onclick="logout()" style="margin-top: 1rem;">Chiqish</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="profile-guest">
+                        <div style="font-size: 4rem; margin-bottom: 1rem; color: var(--gray-400);">🔒</div>
+                        <h3 style="color: var(--gray-700); margin-bottom: 0.5rem;">Profilni ko'rish uchun</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Tizimga kirish kerak</p>
+                        <button class="btn btn-primary" onclick="showLogin()">Kirish</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Cart functions
+        async function addToCart(productId) {
+            try {
+                simpleLoading.show('Savatga qo\'shilmoqda...');
+                
+                // Mock product data
+                const products = {
+                    '1': { id: '1', name: 'iPhone 15 Pro', price: 14000000 },
+                    '2': { id: '2', name: 'Samsung Galaxy S24', price: 11500000 },
+                    '3': { id: '3', name: 'MacBook Air M3', price: 17500000 },
+                    '4': { id: '4', name: 'AirPods Pro', price: 3200000 },
+                    '5': { id: '5', name: 'iPad Pro', price: 7500000 },
+                    '6': { id: '6', name: 'Apple Watch', price: 4200000 }
+                };
+                
+                const product = products[productId];
+                if (!product) {
+                    throw new Error('Mahsulot topilmadi');
+                }
+                
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                const existingItem = cartItems.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cartItems.push({ ...product, quantity: 1 });
+                }
+                
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartBadge();
+                
+                simpleToast.success('Mahsulot savatga qo\'shildi!');
+            } catch (error) {
+                console.error('Add to cart error:', error);
+                simpleToast.error('Savatga qo\'shishda xatolik');
+            } finally {
+                simpleLoading.hide();
+            }
+        }
+        
+        async function removeFromCart(itemId) {
+            try {
+                cartItems = cartItems.filter(item => item.id !== itemId);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartBadge();
+                
+                simpleToast.success('Mahsulot savatdan olib tashlandi');
+                
+                // Reload cart if we're on cart page
+                if (document.getElementById('cartPage').classList.contains('active')) {
+                    await loadCart();
+                }
+            } catch (error) {
+                console.error('Remove from cart error:', error);
+                simpleToast.error('Mahsulotni o\'chirishda xatolik');
+            }
+        }
+        
+        function updateQuantity(itemId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeFromCart(itemId);
+                return;
+            }
+            
+            const item = cartItems.find(item => item.id === itemId);
+            if (item) {
+                item.quantity = newQuantity;
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                updateCartBadge();
+                
+                // Update quantity display
+                const quantityDisplay = document.querySelector(`[data-item-id="${itemId}"] .quantity-display`);
+                if (quantityDisplay) {
+                    quantityDisplay.textContent = newQuantity;
+                }
+                
+                // Update cart summary
+                const summaryContainer = document.getElementById('cartSummary');
+                const total = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                summaryContainer.querySelector('.cart-total').textContent = formatPrice(total);
+            }
+        }
+        
+        function updateCartBadge() {
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+                cartBadge.textContent = count || 0;
+                
+                // Add animation
+                cartBadge.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartBadge.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }
+        
+        // Utility functions
+        function formatPrice(price) {
+            if (typeof price !== 'number') price = parseFloat(price) || 0;
+            return new Intl.NumberFormat('uz-UZ').format(price) + ' so\'m';
+        }
+        
+        function getRandomIcon() {
+            const icons = ['🍎', '👔', '📱', '🏠', '⚽', '📚', '🎵', '🚗'];
+            return icons[Math.floor(Math.random() * icons.length)];
+        }
+        
+        function navigateToCategory(categoryId) {
+            navigateTo('products');
+            simpleToast.info(`Kategoriya #${categoryId} tanlandi`);
+        }
+        
+        function proceedToCheckout() {
+            simpleToast.info('Checkout funksiyasi tez orada qo\'shiladi');
+        }
+        
+        function logout() {
+            simpleToast.success('Tizimdan chiqildi');
+            navigateTo('home');
+        }
+        
+        // Event listeners
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const login = document.getElementById('loginInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            if (!login || !password) {
+                simpleToast.error('Login va parolni kiriting');
+                return;
+            }
+            
+            try {
+                simpleLoading.show('Kirilmoqda...');
+                
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                simpleToast.success('Muvaffaqiyatli kirildi!');
+                closeModal('loginModal');
+                
+                // Reset form
+                document.getElementById('loginForm').reset();
+                
+                // Update cart badge and reload current page
+                updateCartBadge();
+                const activePage = document.querySelector('.page.active').id.replace('Page', '');
+                loadPageData(activePage);
+            } catch (error) {
+                console.error('Login error:', error);
+                simpleToast.error('Kirish xatoligi');
+            } finally {
+                simpleLoading.hide();
+            }
+        });
+        
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const phone = document.getElementById('phoneInput').value;
+            const password = document.getElementById('newPasswordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            
+            if (!name || !email || !phone || !password || !confirmPassword) {
+                simpleToast.error('Barcha maydonlarni to\'ldiring');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                simpleToast.error('Parollar mos kelmaydi');
+                return;
+            }
+            
+            if (password.length < 6) {
+                simpleToast.error('Parol kamida 6 ta belgidan iborat bo\'lishi kerak');
+                return;
+            }
+            
+            try {
+                simpleLoading.show('Ro\'yxatdan o\'tilmoqda...');
+                
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                simpleToast.success('Muvaffaqiyatli ro\'yxatdan o\'tildi!');
+                closeModal('registerModal');
+                
+                // Reset form
+                document.getElementById('registerForm').reset();
+            } catch (error) {
+                console.error('Register error:', error);
+                simpleToast.error('Ro\'yxatdan o\'tish xatoligi');
+            } finally {
+                simpleLoading.hide();
+            }
+        });
+        
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('App initializing...');
+            
+            // Test toast system immediately
+            // setTimeout(() => {
+            //     simpleToast.info('Ilova yuklandi! Toast tizimi ishlayapti 🎉');
+            // }, 1000);
+            
+            // Load initial data
+            await loadPageData('home');
+            
+            // Update cart badge
+            updateCartBadge();
+            
+            console.log('App initialized successfully');
+        });
+        
+        // Global error handling
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+            simpleToast.error('Kutilmagan xatolik yuz berdi');
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+            simpleToast.error('So\'rov xatoligi');
+        });
+    </script>
+</body>
+</html>

@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- CSS Files -->
-    <link rel="stylesheet" href="/assets/css/variables.css">
-    <link rel="stylesheet" href="/assets/css/base.css">
-    <link rel="stylesheet" href="/assets/css/components.css">
-    <link rel="stylesheet" href="/assets/css/pages.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="./assets/css/variables.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/components.css">
+    <link rel="stylesheet" href="./assets/css/pages.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
 </head>
 <body>
     <div class="app-container" id="app">
@@ -24,10 +24,10 @@
                     <input type="text" class="search-input" placeholder="Mahsulotlarni qidiring..." id="searchInput">
                 </div>
                 <div class="header-actions">
-                    <button class="icon-btn" onclick="ProfileManager.showProfile()">
+                    <button class="icon-btn" onclick="showProfile()">
                         <i class="fas fa-user"></i>
                     </button>
-                    <button class="icon-btn" onclick="CartManager.showCart()">
+                    <button class="icon-btn" onclick="showCart()">
                         <i class="fas fa-shopping-cart"></i>
                         <span class="badge" id="cartBadge">0</span>
                     </button>
@@ -42,10 +42,18 @@
                 <h2 style="margin-bottom: 1rem;">Kategoriyalar</h2>
                 <div class="category-grid" id="categoriesGrid">
                     <!-- Categories will be loaded here -->
+                    <div class="loading" id="categoriesLoading">
+                        <div class="spinner"></div>
+                        <span>Kategoriyalar yuklanmoqda...</span>
+                    </div>
                 </div>
                 <h2 style="margin-bottom: 1rem;">Tavsiya etilgan mahsulotlar</h2>
                 <div class="product-grid" id="featuredProducts">
                     <!-- Featured products will be loaded here -->
+                    <div class="loading" id="productsLoading">
+                        <div class="spinner"></div>
+                        <span>Mahsulotlar yuklanmoqda...</span>
+                    </div>
                 </div>
             </div>
 
@@ -87,26 +95,27 @@
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a class="nav-item active" onclick="Router.navigate('home')">
+            <a class="nav-item active" onclick="navigateTo('home')">
                 <i class="fas fa-home nav-icon"></i>
             </a>
-            <a class="nav-item" onclick="Router.navigate('products')">
+            <a class="nav-item" onclick="navigateTo('products')">
                 <i class="fas fa-cubes nav-icon"></i>
             </a>
-            <a class="nav-item" onclick="Router.navigate('cart')">
+            <a class="nav-item" onclick="navigateTo('cart')">
                 <i class="fas fa-shopping-cart nav-icon"></i>
             </a>
-            <a class="nav-item" onclick="Router.navigate('orders')">
+            <a class="nav-item" onclick="navigateTo('orders')">
                 <i class="fas fa-clipboard-list nav-icon"></i>
             </a>
-            <a class="nav-item" onclick="Router.navigate('profile')">
+            <a class="nav-item" onclick="navigateTo('profile')">
                 <i class="fas fa-user nav-icon"></i>
             </a>
         </nav>
 
-        <!-- Modals -->
+        <!-- Login Modal -->
         <div class="modal" id="loginModal">
             <div class="modal-content">
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
                 <h3 style="margin-bottom: 1rem;">Kirish</h3>
                 <form id="loginForm">
                     <div class="form-group">
@@ -120,13 +129,15 @@
                     <button type="submit" class="btn btn-primary btn-block">Kirish</button>
                 </form>
                 <p style="text-align: center; margin-top: 1rem;">
-                    Akkount yo'qmi? <a href="#" onclick="AuthManager.showRegister()">Ro'yxatdan o'ting</a>
+                    Akkount yo'qmi? <a href="#" onclick="showRegister()">Ro'yxatdan o'ting</a>
                 </p>
             </div>
         </div>
 
+        <!-- Register Modal -->
         <div class="modal" id="registerModal">
             <div class="modal-content">
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
                 <h3 style="margin-bottom: 1rem;">Ro'yxatdan o'tish</h3>
                 <form id="registerForm">
                     <div class="form-group">
@@ -152,30 +163,397 @@
                     <button type="submit" class="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
                 </form>
                 <p style="text-align: center; margin-top: 1rem;">
-                    Akkountingiz bormi? <a href="#" onclick="AuthManager.showLogin()">Kirish</a>
+                    Akkountingiz bormi? <a href="#" onclick="showLogin()">Kirish</a>
                 </p>
             </div>
         </div>
     </div>
 
     <!-- JavaScript Files -->
-    <script src="/assets/js/config.js"></script>
-    <script src="/assets/js/utils.js"></script>
-    <script src="/assets/js/api.js"></script>
-    <script src="/assets/js/storage.js"></script>
-    <script src="/assets/js/components/ui.js"></script>
-    <script src="/assets/js/components/modals.js"></script>
-    <script src="/assets/js/managers/auth.js"></script>
-    <script src="/assets/js/managers/cart.js"></script>
-    <script src="/assets/js/managers/products.js"></script>
-    <script src="/assets/js/managers/orders.js"></script>
-    <script src="/assets/js/managers/profile.js"></script>
-    <script src="/assets/js/renderers/categories.js"></script>
-    <script src="/assets/js/renderers/products.js"></script>
-    <script src="/assets/js/renderers/cart.js"></script>
-    <script src="/assets/js/renderers/orders.js"></script>
-    <script src="/assets/js/renderers/profile.js"></script>
-    <script src="/assets/js/router.js"></script>
-    <script src="/assets/js/app.js"></script>
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/utils.js"></script>
+    <script src="./assets/js/storage.js"></script>
+    <script src="./assets/js/api.js"></script>
+    <script src="./assets/js/components/ui.js"></script>
+    <script src="./assets/js/managers/auth.js"></script>
+    <script src="./assets/js/managers/cart.js"></script>
+    <script src="./assets/js/router.js"></script>
+    
+    <!-- Simple App Initialization -->
+    <script>
+        // Global navigation functions
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            
+            // Show target page
+            const targetPage = document.getElementById(page + 'Page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Load page data
+            loadPageData(page);
+        }
+        
+        function showLogin() {
+            openModal('loginModal');
+        }
+        
+        function showRegister() {
+            closeModal('loginModal');
+            openModal('registerModal');
+        }
+        
+        function showProfile() {
+            if (!isAuthenticated()) {
+                showToast('Bu sahifani ko\'rish uchun tizimga kirish kerak', 'warning');
+                showLogin();
+                return;
+            }
+            navigateTo('profile');
+        }
+        
+        function showCart() {
+            navigateTo('cart');
+        }
+        
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function isAuthenticated() {
+            return window.AuthManager && AuthManager.checkAuth();
+        }
+        
+        function showToast(message, type = 'info') {
+            if (window.UI && UI.Toast) {
+                UI.Toast.show(message, type);
+            } else {
+                alert(message);
+            }
+        }
+        
+        // Load page data
+        async function loadPageData(page) {
+            try {
+                switch(page) {
+                    case 'home':
+                        await loadCategories();
+                        await loadFeaturedProducts();
+                        break;
+                    case 'products':
+                        await loadProducts();
+                        break;
+                    case 'cart':
+                        await loadCart();
+                        break;
+                    case 'orders':
+                        await loadOrders();
+                        break;
+                    case 'profile':
+                        await loadProfile();
+                        break;
+                }
+            } catch (error) {
+                console.error('Load page data error:', error);
+                showToast('Ma\'lumotlarni yuklashda xatolik', 'error');
+            }
+        }
+        
+        // Load categories
+        async function loadCategories() {
+            const container = document.getElementById('categoriesGrid');
+            const loading = document.getElementById('categoriesLoading');
+            
+            try {
+                if (loading) loading.style.display = 'flex';
+                
+                const response = await window.API.categories.getAll();
+                
+                if (response.success) {
+                    const categories = response.data;
+                    container.innerHTML = categories.map(category => `
+                        <div class="category-card" onclick="navigateToCategory('${category.id}')">
+                            <div class="category-icon">${getRandomIcon()}</div>
+                            <h3>${category.name}</h3>
+                        </div>
+                    `).join('');
+                } else {
+                    throw new Error(response.message || 'Kategoriyalarni yuklashda xatolik');
+                }
+            } catch (error) {
+                console.error('Load categories error:', error);
+                container.innerHTML = '<div class="error">Kategoriyalarni yuklashda xatolik yuz berdi</div>';
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+        
+        // Load featured products
+        async function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            const loading = document.getElementById('productsLoading');
+            
+            try {
+                if (loading) loading.style.display = 'flex';
+                
+                const response = await window.API.products.getFeatured();
+                
+                if (response.success) {
+                    const products = response.data;
+                    container.innerHTML = products.map(product => `
+                        <div class="product-card">
+                            <div class="product-image">
+                                ${product.image ? `<img src="${product.image}" alt="${product.name}">` : '📦'}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">${product.name}</h3>
+                                <div class="product-price">
+                                    <span class="current-price">${formatPrice(product.current_price || product.price)}</span>
+                                    ${product.original_price && product.original_price > product.current_price ? 
+                                        `<span class="original-price">${formatPrice(product.original_price)}</span>` : ''}
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('${product.id}')">
+                                    Savatga qo'shish
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    throw new Error(response.message || 'Mahsulotlarni yuklashda xatolik');
+                }
+            } catch (error) {
+                console.error('Load featured products error:', error);
+                container.innerHTML = '<div class="error">Mahsulotlarni yuklashda xatolik yuz berdi</div>';
+            } finally {
+                if (loading) loading.style.display = 'none';
+            }
+        }
+        
+        // Load products
+        async function loadProducts() {
+            const container = document.getElementById('productsGrid');
+            
+            try {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><span>Mahsulotlar yuklanmoqda...</span></div>';
+                
+                const response = await window.API.products.getAll();
+                
+                if (response.success) {
+                    const products = response.data;
+                    container.innerHTML = products.map(product => `
+                        <div class="product-card">
+                            <div class="product-image">
+                                ${product.image ? `<img src="${product.image}" alt="${product.name}">` : '📦'}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">${product.name}</h3>
+                                <div class="product-price">
+                                    <span class="current-price">${formatPrice(product.current_price || product.price)}</span>
+                                    ${product.original_price && product.original_price > product.current_price ? 
+                                        `<span class="original-price">${formatPrice(product.original_price)}</span>` : ''}
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('${product.id}')">
+                                    Savatga qo'shish
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    throw new Error(response.message || 'Mahsulotlarni yuklashda xatolik');
+                }
+            } catch (error) {
+                console.error('Load products error:', error);
+                container.innerHTML = '<div class="error">Mahsulotlarni yuklashda xatolik yuz berdi</div>';
+            }
+        }
+        
+        // Load cart
+        async function loadCart() {
+            const container = document.getElementById('cartItems');
+            
+            try {
+                container.innerHTML = '<div class="loading"><div class="spinner"></div><span>Savatcha yuklanmoqda...</span></div>';
+                
+                if (window.CartManager) {
+                    await CartManager.loadCart();
+                    const cart = CartManager.getCartSummary();
+                    
+                    if (cart.items.length === 0) {
+                        container.innerHTML = `
+                            <div class="cart-empty">
+                                <div class="cart-empty-icon">🛒</div>
+                                <h3 class="cart-empty-title">Savatcha bo'sh</h3>
+                                <p class="cart-empty-message">Xaridni boshlash uchun mahsulot qo'shing</p>
+                                <button class="btn btn-primary" onclick="navigateTo('products')">Mahsulotlarni ko'rish</button>
+                            </div>
+                        `;
+                    } else {
+                        container.innerHTML = cart.items.map(item => `
+                            <div class="cart-item" data-item-id="${item.id}">
+                                <div class="cart-item-image">
+                                    ${item.product.image ? `<img src="${item.product.image}" alt="${item.product.name}">` : '📦'}
+                                </div>
+                                <div class="cart-item-info">
+                                    <h4 class="cart-item-title">${item.product.name}</h4>
+                                    <div class="cart-item-price">${formatPrice(item.price)}</div>
+                                    <div class="quantity-controls">
+                                        <button class="quantity-btn" data-action="decrease" data-item-id="${item.id}">-</button>
+                                        <span class="quantity-display">${item.quantity}</span>
+                                        <button class="quantity-btn" data-action="increase" data-item-id="${item.id}">+</button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-danger btn-sm" onclick="removeFromCart('${item.id}')">O'chirish</button>
+                            </div>
+                        `).join('');
+                        
+                        // Update cart summary
+                        const summaryContainer = document.getElementById('cartSummary');
+                        summaryContainer.innerHTML = `
+                            <div class="cart-summary-row">
+                                <span class="cart-summary-label">Jami:</span>
+                                <span class="cart-summary-value cart-total">${formatPrice(cart.total)}</span>
+                            </div>
+                            <button class="btn btn-primary btn-block" onclick="proceedToCheckout()">
+                                Buyurtma berish
+                            </button>
+                        `;
+                    }
+                } else {
+                    container.innerHTML = '<div class="error">Savatcha yuklanmadi</div>';
+                }
+            } catch (error) {
+                console.error('Load cart error:', error);
+                container.innerHTML = '<div class="error">Savatchani yuklashda xatolik yuz berdi</div>';
+            }
+        }
+        
+        // Load orders (placeholder)
+        async function loadOrders() {
+            const container = document.getElementById('ordersList');
+            container.innerHTML = '<div class="orders-empty">Buyurtmalar yo\'q</div>';
+        }
+        
+        // Load profile (placeholder)
+        async function loadProfile() {
+            const container = document.getElementById('profileContent');
+            container.innerHTML = '<div class="profile-guest">Profilni ko\'rish uchun tizimga kiring</div>';
+        }
+        
+        // Add to cart
+        async function addToCart(productId) {
+            try {
+                if (window.CartManager) {
+                    await CartManager.addToCart(productId);
+                } else {
+                    showToast('Savatcha yuklanmagan', 'error');
+                }
+            } catch (error) {
+                console.error('Add to cart error:', error);
+                showToast('Savatga qo\'shishda xatolik', 'error');
+            }
+        }
+        
+        // Remove from cart
+        async function removeFromCart(itemId) {
+            try {
+                if (window.CartManager) {
+                    await CartManager.removeFromCart(itemId);
+                    await loadCart(); // Reload cart
+                } else {
+                    showToast('Savatcha yuklanmagan', 'error');
+                }
+            } catch (error) {
+                console.error('Remove from cart error:', error);
+                showToast('Mahsulotni o\'chirishda xatolik', 'error');
+            }
+        }
+        
+        // Utility functions
+        function formatPrice(price) {
+            if (typeof price !== 'number') price = parseFloat(price) || 0;
+            return price.toLocaleString('uz-UZ') + ' so\'m';
+        }
+        
+        function getRandomIcon() {
+            const icons = ['🍎', '👔', '📱', '🏠', '⚽', '📚', '🎵', '🚗'];
+            return icons[Math.floor(Math.random() * icons.length)];
+        }
+        
+        function navigateToCategory(categoryId) {
+            navigateTo('products');
+            // TODO: Filter products by category
+        }
+        
+        function proceedToCheckout() {
+            showToast('Checkout funksiyasi tez orada qo\'shiladi', 'info');
+        }
+        
+        // Modal event listeners
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const login = document.getElementById('loginInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            try {
+                if (window.AuthManager) {
+                    // Use AuthManager if available
+                    await AuthManager.handleLogin(e);
+                } else {
+                    // Simple login simulation
+                    showToast('Kirish funksiyasi hali to\'liq ishlamaydi', 'warning');
+                    closeModal('loginModal');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Kirish xatoligi', 'error');
+            }
+        });
+        
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('App initializing...');
+            
+            // Load initial data
+            await loadPageData('home');
+            
+            console.log('App initialized');
+        });
+        
+        // Handle errors
+        window.addEventListener('error', (event) => {
+            console.error('Global error:', event.error);
+        });
+        
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('Unhandled promise rejection:', event.reason);
+        });
+    </script>
 </body>
 </html>
