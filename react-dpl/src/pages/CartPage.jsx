@@ -1,18 +1,31 @@
 import React from 'react';
+import { useCart } from '../contexts/CartContext';
+import { useModal } from '../contexts/ModalContext';
+import ConfirmModal from '../components/ConfirmModal';
 
 const CartPage = () => {
-    const cartItems = [
-        { id: 1, name: 'Smartfon X1', price: 3500000, quantity: 1, image: 'https://images.unsplash.com/photo-1585060544211-eb16e3870e32?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-        { id: 2, name: 'Aqlli soat', price: 1200000, quantity: 2, image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-        { id: 3, name: 'Simsiz quloqchin', price: 750000, quantity: 1, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06f2e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    ];
+    const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } = useCart();
+    const { openModal, closeModal } = useModal();
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shipping = subtotal > 0 ? 25000 : 0; // Agar savat bo'sh bo'lsa, yetkazib berish narxi 0
+    const shipping = subtotal > 0 ? 25000 : 0;
     const total = subtotal + shipping;
 
+    const handleDelete = (productId) => {
+        openModal(
+            <ConfirmModal 
+                message="Rostdan ham mahsulotni savatdan o'chirmoqchimisiz?"
+                onConfirm={() => {
+                    removeFromCart(productId);
+                    closeModal();
+                }}
+                onCancel={closeModal}
+            />
+        );
+    };
+
     return (
-        <div className="page" id="cartPage">
+        <div id="cartPage">
             <h2 style={{ marginBottom: '1rem' }}>Savatcha</h2>
             {cartItems.length === 0 ? (
                 <div className="cart-empty">
@@ -33,29 +46,34 @@ const CartPage = () => {
                                     <div className="cart-item-title">{item.name}</div>
                                     <div className="cart-item-price">{item.price.toLocaleString('uz-UZ')} UZS</div>
                                     <div className="quantity-controls">
-                                        <button className="quantity-btn">-</button>
+                                        <button className="quantity-btn" onClick={() => decrementQuantity(item.id)}>-</button>
                                         <span className="quantity-display">{item.quantity}</span>
-                                        <button className="quantity-btn">+</button>
+                                        <button className="quantity-btn" onClick={() => incrementQuantity(item.id)}>+</button>
                                     </div>
                                 </div>
-                                <button className="btn btn-danger">O'chirish</button>
+                                <button className="btn btn-danger" onClick={() => handleDelete(item.id)}>O'chirish</button>
                             </div>
                         ))}
                     </div>
                     <div id="cartSummary" className="cart-summary">
-                        <div className="cart-summary-row">
-                            <span>Jami:</span>
-                            <span>{subtotal.toLocaleString('uz-UZ')} UZS</span>
+                        <h3 className="summary-title">Buyurtma xulosasi</h3>
+                        <div className="summary-row">
+                            <span className="summary-label">Mahsulotlar narxi:</span>
+                            <span className="summary-value">{subtotal.toLocaleString('uz-UZ')} UZS</span>
                         </div>
-                        <div className="cart-summary-row">
-                            <span>Yetkazib berish:</span>
-                            <span>{shipping.toLocaleString('uz-UZ')} UZS</span>
+                        <div className="summary-row">
+                            <span className="summary-label">Yetkazib berish:</span>
+                            <span className="summary-value">{shipping.toLocaleString('uz-UZ')} UZS</span>
                         </div>
-                        <div className="cart-summary-row">
-                            <span>Umumiy:</span>
-                            <span className="cart-total">{total.toLocaleString('uz-UZ')} UZS</span>
+                        <div className="summary-divider"></div>
+                        <div className="summary-row summary-total-row">
+                            <span className="summary-label">Umumiy narx:</span>
+                            <span className="summary-total-value">{total.toLocaleString('uz-UZ')} UZS</span>
                         </div>
-                        <button className="btn btn-primary btn-block" style={{ marginTop: '1rem' }}>Buyurtma berish</button>
+                        <button className="btn btn-primary btn-block" style={{ marginTop: '1.5rem' }}>
+                            <i className="fas fa-check-circle" style={{ marginRight: '0.5rem' }}></i>
+                            Rasmiylashtirish
+                        </button>
                     </div>
                 </>
             )}

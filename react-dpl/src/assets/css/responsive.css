@@ -7,6 +7,16 @@
 
     .header-content {
         flex-wrap: wrap;
+        gap: 0.75rem; /* Adjust gap for smaller screens */
+    }
+
+    .logo {
+        font-size: 1.2rem; /* Reduce logo font size */
+        order: 1; /* Ensure logo is first */
+    }
+
+    .header-actions {
+        order: 2; /* Ensure actions are second */
     }
 
     .search-container {
@@ -17,11 +27,18 @@
     }
 
     .category-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* Explicitly 2 columns */
+        gap: 1rem;
+    }
+
+    /* This rule makes the last item in a 2-column grid span both columns if it's an odd-numbered child */
+    .category-grid .category-card:last-child:nth-child(odd) {
+        grid-column: span 2;
     }
 
     .product-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
     }
 
     .cart-item {
@@ -38,5 +55,37 @@
         left: 1rem;
         right: 1rem;
         max-width: none;
+    }
+
+    .filters-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .profile-page-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr; /* Single column on very small screens */
+    }
+
+    .logo {
+        font-size: 1.1rem; /* Further reduce logo size */
+    }
+
+    .icon-btn {
+        font-size: 1.2rem; /* Adjust icon button size */
+        padding: 0.5rem;
+    }
+
+    .header-actions {
+        gap: 0.25rem;
     }
 }

@@ -1,58 +1,77 @@
-import React, { useState } from 'react';
+
+
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useModal } from '../contexts/ModalContext';
+import { useToast } from '../components/Toast';
+import LoginModalContent from '../components/LoginModal';
+import ConfirmModal from '../components/ConfirmModal';
 
 const ProfilePage = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true); // Demo uchun state
-    const [user] = useState({
-        name: 'Ali Valiyev',
-        email: 'ali.valiyev@example.com',
-        phone: '+998 90 123 45 67',
-    });
+    const { isLoggedIn, user, logout } = useAuth();
+    const { openModal, closeModal } = useModal();
+    const { showToast } = useToast();
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        alert('Chiqish amalga oshirildi!');
-        setIsLoggedIn(false);
+        openModal(
+            <ConfirmModal 
+                message="Rostdan ham tizimdan chiqmoqchimisiz?"
+                onConfirm={() => {
+                    logout();
+                    showToast('Tizimdan muvaffaqiyatli chiqdingiz', 'info');
+                    closeModal();
+                }}
+                onCancel={closeModal}
+            />
+        );
     };
 
-    const handleChangePassword = () => {
-        alert('Parolni o\'zgartirish funksiyasi hali ishlamaydi.');
-    };
-
-    const handleLogin = () => {
-        alert('Kirish funksiyasi hali ishlamaydi.');
-        setIsLoggedIn(true); // Demo uchun
-    };
-
-    const handleRegister = () => {
-        alert('Ro\'yxatdan o\'tish funksiyasi hali ishlamaydi.');
+    const handleComingSoon = () => {
+        showToast('Bu bo\'lim tez orada qo\'shiladi', 'warning');
     };
 
     return (
-        <div className="page" id="profilePage">
+        <div id="profilePage">
             <h2 style={{ marginBottom: '1rem' }}>Profil</h2>
             {!isLoggedIn ? (
-                <div className="profile-guest cart-empty">
+                <div className="profile-guest-card">
                     <i className="fas fa-user-circle cart-empty-icon"></i>
                     <div className="cart-empty-title">Profilga kirish</div>
-                    <p className="cart-empty-message">Profil ma'lumotlaringizni ko'rish uchun tizimga kiring yoki ro'yxatdan o'ting.</p>
-                    <button className="btn btn-primary" onClick={handleLogin}>Kirish</button>
-                    <button className="btn btn-primary" style={{ marginLeft: '1rem' }} onClick={handleRegister}>Ro'yxatdan o'tish</button>
+                    <p className="cart-empty-message">Buyurtmalaringizni va sevimlilar ro'yxatini ko'rish uchun tizimga kiring.</p>
+                    <div className="profile-actions">
+                        <button className="btn btn-primary" onClick={() => openModal(<LoginModalContent />)}>Kirish</button>
+                    </div>
                 </div>
             ) : (
-                <div id="profileContent" className="cart-summary">
-                    <div className="cart-summary-row">
-                        <span>Ism:</span>
-                        <span>{user.name}</span>
+                <div className="profile-container">
+                    <div className="profile-user-card">
+                        <div className="profile-avatar">{user.name.charAt(0)}</div>
+                        <h3 className="profile-name">{user.name}</h3>
                     </div>
-                    <div className="cart-summary-row">
-                        <span>Email:</span>
-                        <span>{user.email}</span>
+                    <div className="profile-menu">
+                        <button className="profile-menu-item" onClick={handleComingSoon}>
+                            <i className="fas fa-cog profile-menu-icon"></i>
+                            <span>Sozlamalar</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                        <button className="profile-menu-item" onClick={() => navigate('/orders')}>
+                            <i className="fas fa-clipboard-list profile-menu-icon"></i>
+                            <span>Buyurtmalarim</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                        <button className="profile-menu-item" onClick={() => navigate('/wishlist')}>
+                            <i className="fas fa-heart profile-menu-icon"></i>
+                            <span>Sevimlilar</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                        <button className="profile-menu-item danger" onClick={handleLogout}>
+                            <i className="fas fa-sign-out-alt profile-menu-icon"></i>
+                            <span>Chiqish</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-                    <div className="cart-summary-row">
-                        <span>Telefon:</span>
-                        <span>{user.phone}</span>
-                    </div>
-                    <button className="btn btn-primary btn-block" style={{ marginTop: '1rem' }} onClick={handleChangePassword}>Parolni o'zgartirish</button>
-                    <button className="btn btn-danger btn-block" style={{ marginTop: '0.5rem' }} onClick={handleLogout}>Chiqish</button>
                 </div>
             )}
         </div>

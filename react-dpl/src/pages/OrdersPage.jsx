@@ -8,8 +8,26 @@ const OrdersPage = () => {
         { id: 4, date: '2023-04-01', total: '6,000,000 UZS', status: 'Yetkazib berildi', items: ['Televizor 4K', 'O\'yin konsoli'] },
     ];
 
+    const getStatusColor = (status) => {
+        switch (status) {
+            case 'Yetkazib berildi': return 'var(--success-color)';
+            case 'Kutilmoqda': return 'var(--warning-color)';
+            case 'Bekor qilindi': return 'var(--danger-color)';
+            default: return 'var(--gray-600)';
+        }
+    };
+
+    const getStatusIcon = (status) => {
+        switch (status) {
+            case 'Yetkazib berildi': return 'fa-check-circle';
+            case 'Kutilmoqda': return 'fa-clock';
+            case 'Bekor qilindi': return 'fa-times-circle';
+            default: return 'fa-info-circle';
+        }
+    };
+
     return (
-        <div className="page" id="ordersPage">
+        <div id="ordersPage">
             <h2 style={{ marginBottom: '1rem' }}>Buyurtmalarim</h2>
             {dummyOrders.length === 0 ? (
                 <div className="orders-empty cart-empty">
@@ -21,28 +39,28 @@ const OrdersPage = () => {
             ) : (
                 <div id="ordersList">
                     {dummyOrders.map(order => (
-                        <div className="cart-summary" key={order.id} style={{ marginBottom: '1rem' }}>
-                            <div className="cart-summary-row">
-                                <span>Buyurtma ID:</span>
-                                <span>#{order.id}</span>
+                        <div className="order-card" key={order.id} style={{ borderLeftColor: getStatusColor(order.status) }}>
+                            <div className="order-card-header">
+                                <span className="order-id">Buyurtma #{order.id}</span>
+                                <span className="order-date">{order.date}</span>
                             </div>
-                            <div className="cart-summary-row">
-                                <span>Sana:</span>
-                                <span>{order.date}</span>
+                            <div className="order-card-body">
+                                <div className="order-detail-item">
+                                    <span className="order-detail-label">Holati</span>
+                                    <span className="order-detail-value" style={{ color: getStatusColor(order.status) }}>
+                                        <i className={`fas ${getStatusIcon(order.status)}`}></i> {order.status}
+                                    </span>
+                                </div>
+                                <div className="order-detail-item">
+                                    <span className="order-detail-label">Umumiy summa</span>
+                                    <span className="order-detail-value total-price">{order.total}</span>
+                                </div>
                             </div>
-                            <div className="cart-summary-row">
-                                <span>Holat:</span>
-                                <span>{order.status}</span>
-                            </div>
-                            <div className="cart-summary-row">
-                                <span>Jami:</span>
-                                <span>{order.total}</span>
-                            </div>
-                            <div className="cart-summary-row" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                                <span>Mahsulotlar:</span>
-                                <ul style={{ listStyle: 'none', paddingLeft: '0', marginTop: '0.5rem' }}>
+                            <div className="order-card-footer">
+                                <h4 className="order-items-title">Mahsulotlar:</h4>
+                                <ul className="order-items-list">
                                     {order.items.map((item, index) => (
-                                        <li key={index} style={{ marginBottom: '0.2rem' }}>- {item}</li>
+                                        <li key={index}>{item}</li>
                                     ))}
                                 </ul>
                             </div>

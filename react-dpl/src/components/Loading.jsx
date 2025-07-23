@@ -1,20 +1,17 @@
-import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
+
+import React, { useState, createContext, useContext, useCallback } from 'react';
 
 const LoadingContext = createContext();
 
 export const LoadingProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('Yuklanmoqda...');
 
-    const showLoading = useCallback((msg = 'Yuklanmoqda...') => {
-        setMessage(msg);
+    const showLoading = useCallback(() => {
         setLoading(true);
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
     }, []);
 
     const hideLoading = useCallback(() => {
         setLoading(false);
-        document.body.style.overflow = ''; // Restore scrolling
     }, []);
 
     const value = { showLoading, hideLoading };
@@ -24,10 +21,7 @@ export const LoadingProvider = ({ children }) => {
             {children}
             {loading && (
                 <div className="loading-overlay">
-                    <div className="loading-content">
-                        <div className="spinner"></div>
-                        <div className="loading-message">{message}</div>
-                    </div>
+                    <div className="loading-spinner"></div>
                 </div>
             )}
         </LoadingContext.Provider>
