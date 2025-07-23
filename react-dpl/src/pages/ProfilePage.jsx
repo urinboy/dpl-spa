@@ -17,7 +17,11 @@ const ProfilePage = () => {
     const handleLogout = () => {
         openModal(
             <ConfirmModal 
-                message="Rostdan ham tizimdan chiqmoqchimisiz?"
+                title="Tizimdan chiqish"
+                message="Rostdan ham profilingizdan chiqmoqchimisiz?"
+                confirmText="Chiqish"
+                cancelText="Bekor qilish"
+                confirmButtonClass="btn-primary" /* btn-danger dan btn-primary ga o'zgartirildi */
                 onConfirm={() => {
                     logout();
                     showToast('Tizimdan muvaffaqiyatli chiqdingiz', 'info');
@@ -39,7 +43,7 @@ const ProfilePage = () => {
                 <div className="profile-guest-card">
                     <i className="fas fa-user-circle cart-empty-icon"></i>
                     <div className="cart-empty-title">Profilga kirish</div>
-                    <p className="cart-empty-message">Buyurtmalaringizni va sevimlilar ro'yxatini ko'rish uchun tizimga kiring.</p>
+                    <p className="cart-empty-message">Buyurtmalaringizni va sevimlilar ro\'yxatini ko\'rish uchun tizimga kiring.</p>
                     <div className="profile-actions">
                         <button className="btn btn-primary" onClick={() => openModal(<LoginModalContent />)}>Kirish</button>
                     </div>

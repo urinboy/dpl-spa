@@ -1,14 +1,22 @@
 
 import React from 'react';
 
-const ConfirmModal = ({ message, onConfirm, onCancel }) => {
+const ConfirmModal = ({ title, message, onConfirm, onCancel, confirmText, cancelText, confirmButtonClass }) => {
     return (
-        <div className="confirm-modal">
-            <h3 className="confirm-title">Tasdiqlash</h3>
-            <p className="confirm-message">{message}</p>
-            <div className="confirm-actions">
-                <button onClick={onCancel} className="btn btn-secondary">Bekor qilish</button>
-                <button onClick={onConfirm} className="btn btn-danger">O'chirish</button>
+        <div className="confirm-modal-container modal-content"> {/* modal-content klassi qo'shildi */}
+            <div className="confirm-modal-header">
+                <h3 className="confirm-modal-title">{title}</h3>
+            </div>
+            <div className="confirm-modal-body">
+                <p className="confirm-modal-message">{message}</p>
+            </div>
+            <div className="confirm-modal-footer">
+                <button onClick={onCancel} className="btn btn-secondary">
+                    {cancelText || 'Bekor qilish'}
+                </button>
+                <button onClick={onConfirm} className={`btn ${confirmButtonClass || 'btn-danger'}`}>
+                    {confirmText || 'Tasdiqlash'}
+                </button>
             </div>
         </div>
     );

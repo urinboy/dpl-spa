@@ -4,6 +4,7 @@ import { allProducts } from '../data/products';
 import ImageSlider from '../components/ImageSlider';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
+import Meta from '../components/Meta'; // Meta komponentini import qilish
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ const HomePage = () => {
 
     return (
         <div id="homePage">
+            <Meta /> {/* Standart meta-teglarni o'rnatish */}
             <ImageSlider />
             <h2 style={{ marginBottom: '1rem' }}>Kategoriyalar</h2>
             <div className="category-grid" id="categoriesGrid">

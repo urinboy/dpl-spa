@@ -1,4 +1,10 @@
 /* Responsive */
+
+/* Mobil qidiruv tugmasi (boshida ko'rinmaydi) */
+.mobile-search-btn {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .main-content {
         padding: 1rem;
@@ -6,32 +12,35 @@
     }
 
     .header-content {
-        flex-wrap: wrap;
-        gap: 0.75rem; /* Adjust gap for smaller screens */
-    }
-
-    .logo {
-        font-size: 1.2rem; /* Reduce logo font size */
-        order: 1; /* Ensure logo is first */
-    }
-
-    .header-actions {
-        order: 2; /* Ensure actions are second */
-    }
-
-    .search-container {
-        order: 3;
-        flex-basis: 100%;
-        margin-top: 0.5rem;
-        max-width: none;
-    }
-
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr); /* Explicitly 2 columns */
+        flex-wrap: nowrap; /* Qaytadan o'rashni bekor qilish */
+        justify-content: space-between;
         gap: 1rem;
     }
 
-    /* This rule makes the last item in a 2-column grid span both columns if it's an odd-numbered child */
+    .logo {
+        font-size: 1.6rem; /* Mobil uchun o'lchamni kattalashtirish */
+        flex-shrink: 0; /* Logonni qisqarmasligini ta'minlash */
+    }
+
+    /* Katta ekranlar uchun qidiruvni yashirish */
+    .desktop-search {
+        display: none;
+    }
+
+    /* Mobil qidiruv tugmasini ko'rsatish */
+    .mobile-search-btn {
+        display: flex;
+    }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
     .category-grid .category-card:last-child:nth-child(odd) {
         grid-column: span 2;
     }
@@ -77,7 +86,7 @@
     }
 
     .logo {
-        font-size: 1.1rem; /* Further reduce logo size */
+        font-size: 1.5rem; /* Further reduce logo size */
     }
 
     .icon-btn {

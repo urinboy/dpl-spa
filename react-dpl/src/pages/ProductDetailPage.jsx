@@ -3,16 +3,26 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { allProducts } from '../data/products';
 import { useToast } from '../components/Toast';
 import { useCart } from '../contexts/CartContext';
+import { useWishlist } from '../contexts/WishlistContext';
+import Meta from '../components/Meta';
 
 const ProductDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { showToast } = useToast();
     const { addToCart } = useCart();
+    const { toggleWishlist, isItemInWishlist } = useWishlist(); // toggleWishlist va isItemInWishlist ishlatiladi
 
     const product = allProducts.find(p => p.id === parseInt(id));
+    const isLiked = product && isItemInWishlist(product.id); // isItemInWishlist ishlatiladi
 
-    const handleGoBack = () => navigate(-1);
+    const handleGoBack = () => {
+        if (window.history.length > 2) {
+            navigate(-1);
+        } else {
+            navigate('/');
+        }
+    };
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
@@ -20,12 +30,14 @@ const ProductDetailPage = () => {
     };
 
     const handleLike = () => {
-        showToast(`'${product.name}' sevimlilarga qo'shildi!`, 'success');
+        if (!product) return;
+        toggleWishlist(product); // toggleWishlist chaqiriladi
     };
 
     if (!product) {
         return (
             <div className="product-detail-container">
+                <Meta title="Mahsulot topilmadi" />
                 <div className="error">Mahsulot topilmadi</div>
             </div>
         );
@@ -33,6 +45,10 @@ const ProductDetailPage = () => {
 
     return (
         <div className="product-detail-page">
+            <Meta 
+                title={`${product.name} - Dom Product`}
+                description={product.description}
+            />
             <header className="detail-header">
                 <button onClick={handleGoBack} className="header-btn">
                     <i className="fas fa-arrow-left"></i>
@@ -41,8 +57,8 @@ const ProductDetailPage = () => {
                     <button onClick={handleShare} className="header-btn">
                         <i className="fas fa-share-alt"></i>
                     </button>
-                    <button onClick={handleLike} className="header-btn">
-                        <i className="far fa-heart"></i>
+                    <button onClick={handleLike} className={`header-btn ${isLiked ? 'liked' : ''}`}>
+                        <i className={isLiked ? "fas fa-heart" : "far fa-heart"}></i>
                     </button>
                 </div>
             </header>

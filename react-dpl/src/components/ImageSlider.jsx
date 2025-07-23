@@ -12,7 +12,7 @@ import { Pagination, Autoplay } from 'swiper/modules';
 
 // New grocery-themed slider images
 const sliderImages = [
-    { id: 1, src: 'https://catherineasquithgallery.com/uploads/posts/2021-02/1613665899_68-p-fon-dlya-prezentatsii-zdorovoe-pitanie-94.jpg', alt: 'Fresh Vegetables Banner' },
+    { id: 1, src: 'https://animalequality.org.uk/app/uploads/2024/11/vegan-food-ingredients-shutterstock_2284408579-1-1.jpg', alt: 'Fresh Vegetables Banner' },
     { id: 2, src: 'https://avatars.mds.yandex.net/i?id=f690dbcd7d7520b85b423b9f80537dc2_l-8243435-images-thumbs&n=13', alt: 'Seasonal Fruits Banner' },
     { id: 3, src: 'https://avatars.mds.yandex.net/i?id=7a33e200e09ce56ced863f74f321c7af_l-5223485-images-thumbs&n=13', alt: 'Farm to Table Banner' },
     { id: 4, src: 'https://i.pinimg.com/originals/19/10/9c/19109c660dd3c2eb602b926d9e2be6da.jpg', alt: 'Organic Greens Banner' },
