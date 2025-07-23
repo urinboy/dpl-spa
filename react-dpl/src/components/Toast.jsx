@@ -1,6 +1,15 @@
 import React, { useState, useEffect, createContext, useContext, useCallback } from 'react';
 import ReactDOM from 'react-dom/client';
-import { Utils } from '../services/utils';
+
+const generateId = (prefix = '') => {
+    return prefix + Math.random().toString(36).substr(2, 9);
+};
+
+const sanitizeHtml = (html) => {
+    const div = document.createElement('div');
+    div.innerText = html;
+    return div.innerHTML;
+};
 
 const ToastContext = createContext();
 
@@ -8,7 +17,7 @@ export const ToastProvider = ({ children }) => {
     const [toasts, setToasts] = useState([]);
 
     const showToast = useCallback((message, type = 'info', duration = 3000) => {
-        const id = Utils.generateId('toast');
+        const id = generateId('toast');
         setToasts(prevToasts => [...prevToasts, { id, message, type, duration }]);
     }, []);
 
@@ -67,10 +76,10 @@ const ToastItem = ({ id, message, type, duration, onDismiss }) => {
     };
 
     return (
-        <div className={`toast ${type} ${isVisible ? 'show' : ''}`}>
+        <div className={`toast ${type} ${isVisible ? 'show' : ''}`} style={{ borderLeftColor: getTypeColor(type) }}>
             <div className="toast-content">
-                <i className={`fas fa-${getTypeIcon(type)}`} style={{ color: getTypeColor(type) }}></i>
-                <span className="toast-message">{Utils.sanitizeHtml(message)}</span>
+                <i className={`fas fa-${getTypeIcon(type)} toast-icon`} style={{ color: getTypeColor(type) }}></i>
+                <span className="toast-message">{sanitizeHtml(message)}</span>
                 <button className="toast-close" onClick={() => onDismiss(id)}>&times;</button>
             </div>
         </div>

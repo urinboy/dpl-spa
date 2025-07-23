@@ -1,16 +1,17 @@
 import React from 'react';
-
-import { Routes, Route, Link, NavLink } from 'react-router-dom';
+import { Routes, Route, NavLink } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
+import LoginModal from './components/LoginModal';
+import RegisterModal from './components/RegisterModal';
 
 function App() {
-
     return (
         <div className="app-container" id="app">
+            {/* Header Component */}
             <header className="header">
                 <div className="header-content">
                     <h1 className="logo"><i className="fas fa-shopping-cart"></i> Dom Product 🛍️</h1>
@@ -19,10 +20,10 @@ function App() {
                         <input type="text" className="search-input" placeholder="Mahsulotlarni qidiring..." id="searchInput" />
                     </div>
                     <div className="header-actions">
-                        <button className="icon-btn">
+                        <button className="icon-btn" /* onClick={showProfile} */>
                             <i className="fas fa-user"></i>
                         </button>
-                        <button className="icon-btn">
+                        <button className="icon-btn" /* onClick={showCart} */>
                             <i className="fas fa-shopping-cart"></i>
                             <span className="badge" id="cartBadge">0</span>
                         </button>
@@ -30,6 +31,7 @@ function App() {
                 </div>
             </header>
 
+            {/* Main Content */}
             <main className="main-content">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
@@ -40,6 +42,7 @@ function App() {
                 </Routes>
             </main>
 
+            {/* Bottom Navigation */}
             <nav className="bottom-nav">
                 <NavLink to="/" className="nav-item">
                     <i className="fas fa-home nav-icon"></i>
@@ -58,7 +61,9 @@ function App() {
                 </NavLink>
             </nav>
 
-            {/* Modals will be handled by a different mechanism in React */}
+            {/* Modals */}
+            <LoginModal />
+            <RegisterModal />
         </div>
     );
 }
