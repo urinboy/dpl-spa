@@ -2,6 +2,7 @@ import React from 'react';
 import { useCart } from '../contexts/CartContext';
 import { useModal } from '../contexts/ModalContext';
 import ConfirmModal from '../components/ConfirmModal';
+import { Link } from 'react-router-dom';
 
 const CartPage = () => {
     const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } = useCart();
@@ -32,7 +33,7 @@ const CartPage = () => {
                     <i className="fas fa-shopping-cart cart-empty-icon"></i>
                     <div className="cart-empty-title">Savatchangiz bo'sh</div>
                     <p className="cart-empty-message">Mahsulotlarni qo'shish uchun mahsulotlar sahifasiga o'ting.</p>
-                    <button className="btn btn-primary">Mahsulotlarga o'tish</button>
+                    <Link to="/products" className="btn btn-primary">Mahsulotlarga o'tish</Link>
                 </div>
             ) : (
                 <>

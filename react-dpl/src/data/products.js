@@ -4,7 +4,7 @@ export const allProducts = [
         name: 'Pomidor (O\'zbekiston)',
         price: 15000,
         originalPrice: 18000,
-        image: 'https://images.unsplash.com/photo-1582284540020-8acbe03f4924?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://static.life.ru/publications/2021/9/24/476683648469.8461.png',
         category: 'Sabzavotlar',
         description: 'Quyoshli O\'zbekistonda yetishtirilgan sersuv va shirin pomidorlar. Salatlar va taomlar uchun ajoyib tanlov. 1 kg narxi.'
     },
@@ -13,7 +13,7 @@ export const allProducts = [
         name: 'Bodring (Issiqxona)',
         price: 12000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1588622083423-e9b7a1c4e2e0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://inbusiness.kz/uploads/37/images/ihR7cfIL.jpg',
         category: 'Sabzavotlar',
         description: 'Karsillama va tetiklantiruvchi issiqxona bodringlari. Har qanday dasturxonga ko\'rk bag\'ishlaydi. 1 kg narxi.'
     },
@@ -22,7 +22,7 @@ export const allProducts = [
         name: 'Yosh kartoshka',
         price: 8000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://avatars.mds.yandex.net/i?id=0682df2ac42d033a08001f6139608ac3_l-12982376-images-thumbs&n=13',
         category: 'Sabzavotlar',
         description: 'Yangi kavlab olingan, po\'sti yupqa yosh kartoshkalar. Qovurish va qaynatish uchun juda mos keladi. 1 kg narxi.'
     },
@@ -31,7 +31,7 @@ export const allProducts = [
         name: 'Qizil piyoz',
         price: 5000,
         originalPrice: 6000,
-        image: 'https://images.unsplash.com/photo-1587496679742-5a245a8d344a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://i.pinimg.com/originals/f7/23/ba/f723baea8301149c6fcd6b06bb9154bf.jpg',
         category: 'Sabzavotlar',
         description: 'Salatlar uchun maxsus, achchig\'i past va yoqimli ta\'mga ega qizil piyoz. 1 kg narxi.'
     },
@@ -40,7 +40,7 @@ export const allProducts = [
         name: 'Banan (Ekvador)',
         price: 25000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=1915&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://live.staticflickr.com/5561/14950280215_023791f23b_b.jpg',
         category: 'Mevalar',
         description: 'Ekvadordan keltirilgan, tabiiy shirin va to\'yimli bananlar. Kletchatka va kaliy manbai. 1 kg narxi.'
     },
@@ -49,7 +49,7 @@ export const allProducts = [
         name: 'Qulupnay (Tog\'li)',
         price: 35000,
         originalPrice: 40000,
-        image: 'https://images.unsplash.com/photo-1587393855524-087f83d95bc9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://frankfurt.apollo.olxcdn.com/v1/files/oxxdpgxlth451-UZ/image;s=1280x720',
         category: 'Mavsumiy',
         description: 'Tog\' yonbag\'irlarida pishib yetilgan, xushbo\'y va mazali qulupnay. Ajoyib desert. 1 kg narxi.'
     },
@@ -58,7 +58,7 @@ export const allProducts = [
         name: 'Gilos',
         price: 30000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1528821128474-27f963b062bf?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://storage.kun.uz/source/10/mb8_PtSMH3ihMr1BwstevCao-RDSTWqc.jpg',
         category: 'Mavsumiy',
         description: 'Mavsumning eng shirin mevasi - sersuv gilos. Vitaminlarga boy va tetiklantiruvchi. 1 kg narxi.'
     },
@@ -67,7 +67,7 @@ export const allProducts = [
         name: 'Tarvuz (Vobkent)',
         price: 4000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1582281298055-e25e0545f512?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://i.ytimg.com/vi/o7_pqclH4oQ/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGFAgZSg3MA8=&rs=AOn4CLAka1qgeTa7VbmYeWS8mHsGhRs-Ew',
         category: 'Poliz ekinlari',
         description: 'Vobkentning mashhur, qip-qizil va shakar kabi shirin tarvuzlari. Jaziramada chanqog\'ingizni bosadi. 1 kg narxi.'
     },
@@ -76,7 +76,7 @@ export const allProducts = [
         name: 'Ukrop bog\'i',
         price: 2000,
         originalPrice: null,
-        image: 'https://images.unsplash.com/photo-1620702628313-83513558f24b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://cdn.am.sputniknews.ru/img/1633/40/16334041_0:170:1601:1070_1920x0_80_0_0_15864446ec8fa2f8b365a490dbfc67a3.jpg',
         category: 'Ko\'katlar',
         description: 'Yangi uzilgan, xushbo\'y ukrop. Taomlaringizga o\'zgacha ta\'m va ifor baxsh etadi. 1 bog\' narxi.'
     },
@@ -85,7 +85,7 @@ export const allProducts = [
         name: 'Olma (Semerenko)',
         price: 14000,
         originalPrice: 16000,
-        image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        image: 'https://plodovyisad.ru/assets/images/products/697/post-59b38e49eb8f4-800x516.jpg',
         category: 'Mevalar',
         description: 'Semerenko navli, nordon-shirin va karsillama olmalar. Vitamin C ga boy. 1 kg narxi.'
     }
