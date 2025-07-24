@@ -1,63 +1,72 @@
+
+
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import Meta from '../components/Meta';
 
 const OrdersPage = () => {
+    const { t } = useTranslation();
+
+    // Dummy data should eventually come from a context or API
     const dummyOrders = [
-        { id: 1, date: '2023-01-15', total: '4,700,000 UZS', status: 'Yetkazib berildi', items: ['Smartfon X1', 'Aqlli soat'] },
-        { id: 2, date: '2023-02-20', total: '8,000,000 UZS', status: 'Kutilmoqda', items: ['Noutbuk Pro'] },
-        { id: 3, date: '2023-03-10', total: '750,000 UZS', status: 'Bekor qilindi', items: ['Simsiz quloqchin'] },
-        { id: 4, date: '2023-04-01', total: '6,000,000 UZS', status: 'Yetkazib berildi', items: ['Televizor 4K', 'O\'yin konsoli'] },
+        { id: 1, date: '2023-01-15', total: '4,700,000 UZS', status: 'delivered', items: ['Smartfon X1', 'Aqlli soat'] },
+        { id: 2, date: '2023-02-20', total: '8,000,000 UZS', status: 'pending', items: ['Noutbuk Pro'] },
+        { id: 3, date: '2023-03-10', total: '750,000 UZS', status: 'cancelled', items: ['Simsiz quloqchin'] },
+        { id: 4, date: '2023-04-01', total: '6,000,000 UZS', status: 'delivered', items: ['Televizor 4K', 'O\'yin konsoli'] },
     ];
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'Yetkazib berildi': return 'var(--success-color)';
-            case 'Kutilmoqda': return 'var(--warning-color)';
-            case 'Bekor qilindi': return 'var(--danger-color)';
+            case 'delivered': return 'var(--success-color)';
+            case 'pending': return 'var(--warning-color)';
+            case 'cancelled': return 'var(--danger-color)';
             default: return 'var(--gray-600)';
         }
     };
 
     const getStatusIcon = (status) => {
         switch (status) {
-            case 'Yetkazib berildi': return 'fa-check-circle';
-            case 'Kutilmoqda': return 'fa-clock';
-            case 'Bekor qilindi': return 'fa-times-circle';
+            case 'delivered': return 'fa-check-circle';
+            case 'pending': return 'fa-clock';
+            case 'cancelled': return 'fa-times-circle';
             default: return 'fa-info-circle';
         }
     };
 
     return (
         <div id="ordersPage">
-            <h2 style={{ marginBottom: '1rem' }}>Buyurtmalarim</h2>
+            <Meta title={t('my_orders')} />
+            <h2 style={{ marginBottom: '1rem' }}>{t('my_orders')}</h2>
             {dummyOrders.length === 0 ? (
                 <div className="orders-empty cart-empty">
                     <i className="fas fa-clipboard-list cart-empty-icon"></i>
-                    <div className="cart-empty-title">Sizda hali buyurtmalar yo'q</div>
-                    <p className="cart-empty-message">Mahsulotlarni xarid qilib, birinchi buyurtmangizni bering.</p>
-                    <button className="btn btn-primary">Mahsulotlarga o'tish</button>
+                    <div className="cart-empty-title">{t('no_orders_yet')}</div>
+                    <p className="cart-empty-message">{t('no_orders_message')}</p>
+                    <Link to="/products" className="btn btn-primary">{t('go_to_products')}</Link>
                 </div>
             ) : (
                 <div id="ordersList">
                     {dummyOrders.map(order => (
                         <div className="order-card" key={order.id} style={{ borderLeftColor: getStatusColor(order.status) }}>
                             <div className="order-card-header">
-                                <span className="order-id">Buyurtma #{order.id}</span>
+                                <span className="order-id">{t('order')} #{order.id}</span>
                                 <span className="order-date">{order.date}</span>
                             </div>
                             <div className="order-card-body">
                                 <div className="order-detail-item">
-                                    <span className="order-detail-label">Holati</span>
+                                    <span className="order-detail-label">{t('status')}</span>
                                     <span className="order-detail-value" style={{ color: getStatusColor(order.status) }}>
-                                        <i className={`fas ${getStatusIcon(order.status)}`}></i> {order.status}
+                                        <i className={`fas ${getStatusIcon(order.status)}`}></i> {t(`status_${order.status}`)}
                                     </span>
                                 </div>
                                 <div className="order-detail-item">
-                                    <span className="order-detail-label">Umumiy summa</span>
+                                    <span className="order-detail-label">{t('total_amount')}</span>
                                     <span className="order-detail-value total-price">{order.total}</span>
                                 </div>
                             </div>
                             <div className="order-card-footer">
-                                <h4 className="order-items-title">Mahsulotlar:</h4>
+                                <h4 className="order-items-title">{t('products')}:</h4>
                                 <ul className="order-items-list">
                                     {order.items.map((item, index) => (
                                         <li key={index}>{item}</li>

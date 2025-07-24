@@ -160,6 +160,10 @@
     flex-shrink: 0; /* Prevent logo from shrinking */
 }
 
+.logo-image {
+    height: 40px; /* Adjusted height for better visibility */
+}
+
 .search-container {
     flex: 1;
     position: relative;
@@ -239,6 +243,70 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Language Switcher */
+.language-switcher {
+    position: relative;
+}
+
+.language-btn {
+    font-size: 1.5rem; /* Increased size for better visibility */
+}
+
+.language-flag {
+    font-size: 1.2rem; /* Adjust flag size */
+    margin-right: 0.5rem;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    background-color: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    width: 180px; /* Increased width */
+    z-index: var(--z-dropdown);
+    border: 1px solid var(--gray-200);
+    overflow: hidden;
+}
+
+.dropdown-header {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--gray-200);
+    margin: 0;
+}
+
+.dropdown-item {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--gray-800);
+    transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background-color: var(--gray-100);
+}
+
+.dropdown-item.active {
+    color: var(--primary-color);
+    font-weight: 600;
+    background-color: var(--primary-light-color);
+}
+
+.language-name {
+    flex-grow: 1; /* Allow name to take up space */
+}
+
 /* Bottom navigation */
 .bottom-nav {
     position: fixed;
@@ -263,7 +331,8 @@
     cursor: pointer;
     transition: var(--transition-fast);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.75rem; /* Adjusted font size for text */
+    position: relative; /* For badge positioning */
 }
 
 .nav-item:hover {
@@ -278,7 +347,20 @@
 
 .nav-icon {
     font-size: 1.35rem;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.2rem; /* Reduced margin */
+}
+
+.nav-text {
+    display: block;
+    transition: var(--transition-fast);
+}
+
+/* Cart badge in bottom nav */
+.cart-nav-item .badge {
+    top: -5px; /* Adjusted position */
+    right: 15px; /* Adjusted position */
+    box-shadow: none;
+    border: 2px solid white;
 }
 
 /* Modal styles */
@@ -378,6 +460,71 @@
     font-size: 2.8rem;
     margin-bottom: 0.8rem;
     color: var(--primary-color);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin: 0;
+}
+
+.see-all-link {
+    font-size: 1rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-fast);
+}
+
+.see-all-link:hover {
+    text-decoration: underline;
+}
+
+/* Category Grid Full for CategoriesPage */
+.category-grid-full {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card-full {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--gray-800);
+}
+
+.category-card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    color: var(--primary-color);
+}
+
+.category-card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.category-card-name {
+    font-weight: 600;
 }
 
 /* Product grid */
@@ -1201,7 +1348,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #11be49; /* Primary color */
+    background-color: var(--splash-bg-color); /* Primary color */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1209,8 +1356,8 @@
 }
 
 .splash-icon {
-    width: 100px;
-    height: 100px;
+    width: 240px;
+    height: 240px;
     animation: pulse-fade 2s infinite ease-in-out;
 }
 

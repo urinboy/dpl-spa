@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const SearchOverlay = ({ onClose, onSearch }) => {
+    const { t } = useTranslation();
     const [query, setQuery] = useState('');
     const inputRef = useRef(null);
 
     useEffect(() => {
-        // Komponent ochilganda inputga fokus qilish
         inputRef.current?.focus();
     }, []);
 
@@ -28,7 +29,7 @@ const SearchOverlay = ({ onClose, onSearch }) => {
                         type="text"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Mahsulotlarni qidiring..."
+                        placeholder={t('search_products_placeholder')}
                         className="search-input-overlay"
                     />
                     <button type="submit" className="search-btn-overlay">

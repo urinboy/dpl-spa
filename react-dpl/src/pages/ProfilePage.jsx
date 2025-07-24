@@ -1,14 +1,17 @@
 
 
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { useModal } from '../contexts/ModalContext';
 import { useToast } from '../components/Toast';
 import LoginModalContent from '../components/LoginModal';
 import ConfirmModal from '../components/ConfirmModal';
+import Meta from '../components/Meta';
 
 const ProfilePage = () => {
+    const { t } = useTranslation();
     const { isLoggedIn, user, logout } = useAuth();
     const { openModal, closeModal } = useModal();
     const { showToast } = useToast();
@@ -17,14 +20,14 @@ const ProfilePage = () => {
     const handleLogout = () => {
         openModal(
             <ConfirmModal 
-                title="Tizimdan chiqish"
-                message="Rostdan ham profilingizdan chiqmoqchimisiz?"
-                confirmText="Chiqish"
-                cancelText="Bekor qilish"
-                confirmButtonClass="btn-primary" /* btn-danger dan btn-primary ga o'zgartirildi */
+                title={t('logout_title')}
+                message={t('logout_message')}
+                confirmText={t('logout')}
+                cancelText={t('cancel')}
+                confirmButtonClass="btn-primary"
                 onConfirm={() => {
                     logout();
-                    showToast('Tizimdan muvaffaqiyatli chiqdingiz', 'info');
+                    showToast(t('logout_success'), 'info');
                     closeModal();
                 }}
                 onCancel={closeModal}
@@ -33,19 +36,20 @@ const ProfilePage = () => {
     };
 
     const handleComingSoon = () => {
-        showToast('Bu bo\'lim tez orada qo\'shiladi', 'warning');
+        showToast(t('coming_soon'), 'warning');
     };
 
     return (
         <div id="profilePage">
-            <h2 style={{ marginBottom: '1rem' }}>Profil</h2>
+            <Meta title={t('my_profile')} />
+            <h2 style={{ marginBottom: '1rem' }}>{t('profile')}</h2>
             {!isLoggedIn ? (
                 <div className="profile-guest-card">
                     <i className="fas fa-user-circle cart-empty-icon"></i>
-                    <div className="cart-empty-title">Profilga kirish</div>
-                    <p className="cart-empty-message">Buyurtmalaringizni va sevimlilar ro\'yxatini ko\'rish uchun tizimga kiring.</p>
+                    <div className="cart-empty-title">{t('login_to_profile')}</div>
+                    <p className="cart-empty-message">{t('login_to_profile_message')}</p>
                     <div className="profile-actions">
-                        <button className="btn btn-primary" onClick={() => openModal(<LoginModalContent />)}>Kirish</button>
+                        <button className="btn btn-primary" onClick={() => openModal(<LoginModalContent />)}>{t('login')}</button>
                     </div>
                 </div>
             ) : (
@@ -57,22 +61,22 @@ const ProfilePage = () => {
                     <div className="profile-menu">
                         <button className="profile-menu-item" onClick={handleComingSoon}>
                             <i className="fas fa-cog profile-menu-icon"></i>
-                            <span>Sozlamalar</span>
+                            <span>{t('settings')}</span>
                             <i className="fas fa-chevron-right"></i>
                         </button>
                         <button className="profile-menu-item" onClick={() => navigate('/orders')}>
                             <i className="fas fa-clipboard-list profile-menu-icon"></i>
-                            <span>Buyurtmalarim</span>
+                            <span>{t('my_orders')}</span>
                             <i className="fas fa-chevron-right"></i>
                         </button>
                         <button className="profile-menu-item" onClick={() => navigate('/wishlist')}>
                             <i className="fas fa-heart profile-menu-icon"></i>
-                            <span>Sevimlilar</span>
+                            <span>{t('my_wishlist')}</span>
                             <i className="fas fa-chevron-right"></i>
                         </button>
                         <button className="profile-menu-item danger" onClick={handleLogout}>
                             <i className="fas fa-sign-out-alt profile-menu-icon"></i>
-                            <span>Chiqish</span>
+                            <span>{t('logout')}</span>
                             <i className="fas fa-chevron-right"></i>
                         </button>
                     </div>

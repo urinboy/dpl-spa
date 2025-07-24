@@ -1,11 +1,13 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToast } from './Toast';
 import { useModal } from '../contexts/ModalContext';
 import { useAuth } from '../contexts/AuthContext';
-import RegisterModalContent from './RegisterModal'; // Import RegisterModal
+import RegisterModalContent from './RegisterModal';
 
 const LoginModalContent = () => {
+    const { t } = useTranslation();
     const { showToast } = useToast();
     const { openModal, closeModal } = useModal();
     const { login } = useAuth();
@@ -13,7 +15,7 @@ const LoginModalContent = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         login();
-        showToast('Muvaffaqiyatli kirdingiz!', 'success');
+        showToast(t('login_success'), 'success');
         closeModal();
     };
 
@@ -24,20 +26,20 @@ const LoginModalContent = () => {
 
     return (
         <>
-            <h3 style={{ marginBottom: '1rem' }}>Kirish</h3>
+            <h3 style={{ marginBottom: '1rem' }}>{t('login')}</h3>
             <form id="loginForm" onSubmit={handleLogin}>
                 <div className="form-group">
-                    <label className="form-label">Email yoki Telefon</label>
+                    <label className="form-label">{t('email_or_phone')}</label>
                     <input type="text" className="form-input" id="loginInput" required defaultValue="test@user.com" />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Parol</label>
+                    <label className="form-label">{t('password')}</label>
                     <input type="password" className="form-input" id="passwordInput" required defaultValue="12345" />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">Kirish</button>
+                <button type="submit" className="btn btn-primary btn-block">{t('login')}</button>
             </form>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-                Akkount yo'qmi? <a href="#" onClick={showRegister}>Ro'yxatdan o'ting</a>
+                {t('no_account')} <a href="#" onClick={showRegister}>{t('register_now')}</a>
             </p>
         </>
     );

@@ -5,7 +5,7 @@ const SplashScreen = () => {
         <div className="splash-screen">
             <div className="splash-icon-container">
                 {/* Agar public papkada favicon.png bo'lsa, avtomatik ishlatiladi */}
-                <img src="/favicon.png" alt="Loading Logo" className="splash-icon" />
+                <img src="/loadings/light-splash.gif" alt="Loading Light Splash" className="splash-icon" />
             </div>
         </div>
     );

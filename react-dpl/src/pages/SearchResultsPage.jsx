@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { allProducts } from '../data/products';
 import Meta from '../components/Meta';
 
 const SearchResultsPage = () => {
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q')?.toLowerCase() || '';
 
@@ -16,9 +18,9 @@ const SearchResultsPage = () => {
 
     return (
         <div className="products-page">
-            <Meta title={`Qidiruv natijalari: ${query}`} description={`"${query}" uchun topilgan mahsulotlar.`} />
+            <Meta title={`${t('search_results')}: ${query}`} description={`${t('products_found_for')} "${query}".`} />
             <h1 className="page-title">
-                Qidiruv natijalari: "{query}"
+                {t('search_results')}: "{query}"
             </h1>
 
             {filteredProducts.length > 0 ? (
@@ -31,17 +33,17 @@ const SearchResultsPage = () => {
                                 </div>
                             </Link>
                             <div className="product-info">
-                                <div className="product-title">{product.name}</div>
+                                <div className="product-title">{t(product.name)}</div>
                                 <div className="product-price">
                                     <span className="current-price">{product.price.toLocaleString('uz-UZ')} UZS</span>
                                 </div>
-                                <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">Batafsil</Link>
+                                <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">{t('details')}</Link>
                             </div>
                         </div>
                     ))}
                 </div>
             ) : (
-                <p className="empty-message">Hech narsa topilmadi.</p>
+                <p className="empty-message">{t('no_results_found')}</p>
             )}
         </div>
     );

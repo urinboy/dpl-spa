@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
@@ -8,28 +9,27 @@ import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import WishlistPage from './pages/WishlistPage';
 import LoginModalContent from './components/LoginModal';
-import { useModal } from './contexts/ModalContext';
 import { useLoading } from './components/Loading';
 import { useCart } from './contexts/CartContext';
-import { useAuth } from './contexts/AuthContext';
 import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
-import SplashScreen from './components/SplashScreen'; // SplashScreen komponentini import qilish
+import SplashScreen from './components/SplashScreen';
+import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
+
+import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
 
 function App() {
+    const { t } = useTranslation(); // Initialize translation hook
     const navigate = useNavigate();
     const location = useLocation();
-    const { openModal } = useModal();
     const { showLoading, hideLoading } = useLoading();
     const { cartItems } = useCart();
-    const { isLoggedIn } = useAuth();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [isAppLoading, setIsAppLoading] = useState(true); // Boshlang'ich yuklanish holati
+    const [isAppLoading, setIsAppLoading] = useState(true);
 
     useEffect(() => {
-        // Faqat birinchi yuklanishda SplashScreen ko'rsatish
-        const timer = setTimeout(() => setIsAppLoading(false), 2000); // 2 soniyadan so'ng yopish
+        const timer = setTimeout(() => setIsAppLoading(false), 2000);
         return () => clearTimeout(timer);
     }, []);
 
@@ -40,18 +40,6 @@ function App() {
             return () => clearTimeout(timer);
         }
     }, [location.pathname, showLoading, hideLoading, isAppLoading]);
-
-    const handleProfileClick = () => {
-        if (isLoggedIn) {
-            navigate('/profile');
-        } else {
-            openModal(<LoginModalContent />);
-        }
-    };
-
-    const handleCartClick = () => {
-        navigate('/cart');
-    };
 
     const handleSearch = (query) => {
         setIsSearchOpen(false);
@@ -73,22 +61,24 @@ function App() {
             {!isDetailPage && (
                 <header className="header">
                     <div className="header-content">
-                        <h1 className="logo"><i className="fas fa-shopping-cart"></i> Dom Product 🛍️</h1>
+                        <h1 className="logo">
+                            <img src="/logos/white.png" alt="White Logo" className='logo-image'/>
+                            {/* <i className="fas fa-shopping-cart"></i> Dom Product 🛍️ */}
+                        </h1>
                         <div className="search-container desktop-search">
                             <i className="fas fa-search search-icon"></i>
-                            <input type="text" className="search-input" placeholder="Mahsulotlarni qidiring..." onKeyDown={(e) => e.key === 'Enter' && handleSearch(e.target.value)} />
+                            <input 
+                                type="text" 
+                                className="search-input" 
+                                placeholder={t('search_placeholder')} 
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch(e.target.value)} 
+                            />
                         </div>
                         <div className="header-actions">
                             <button className="icon-btn mobile-search-btn" onClick={() => setIsSearchOpen(true)}>
                                 <i className="fas fa-search"></i>
                             </button>
-                            <button className="icon-btn" onClick={handleProfileClick}>
-                                <i className="fas fa-user"></i>
-                            </button>
-                            <button className="icon-btn" onClick={handleCartClick}>
-                                <i className="fas fa-shopping-cart"></i>
-                                {totalCartItems > 0 && <span className="badge" id="cartBadge">{totalCartItems}</span>}
-                            </button>
+                            <LanguageSwitcher /> 
                         </div>
                     </div>
                 </header>
@@ -104,6 +94,7 @@ function App() {
                     <Route path="/wishlist" element={<WishlistPage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/search" element={<SearchResultsPage />} />
+                    <Route path="/categories" element={<CategoriesPage />} />
                 </Routes>
             </main>
 
@@ -111,18 +102,24 @@ function App() {
                 <nav className="bottom-nav">
                     <NavLink to="/" className="nav-item">
                         <i className="fas fa-home nav-icon"></i>
+                        <span className="nav-text">{t('home')}</span>
                     </NavLink>
                     <NavLink to="/products" className="nav-item">
                         <i className="fas fa-cubes nav-icon"></i>
+                        <span className="nav-text">{t('products')}</span>
                     </NavLink>
                     <NavLink to="/wishlist" className="nav-item">
                         <i className="fas fa-heart nav-icon"></i>
+                        <span className="nav-text">{t('wishlist')}</span>
                     </NavLink>
-                    <NavLink to="/cart" className="nav-item">
+                    <NavLink to="/cart" className="nav-item cart-nav-item">
                         <i className="fas fa-shopping-cart nav-icon"></i>
+                        {totalCartItems > 0 && <span className="badge" id="cartBadge">{totalCartItems}</span>}
+                        <span className="nav-text">{t('cart')}</span>
                     </NavLink>
                     <NavLink to="/profile" className="nav-item">
                         <i className="fas fa-user nav-icon"></i>
+                        <span className="nav-text">{t('profile')}</span>
                     </NavLink>
                 </nav>
             )}

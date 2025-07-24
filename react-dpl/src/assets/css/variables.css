@@ -14,12 +14,22 @@
     --z-toast: 9999;
 
     /* Brand Colors */
-    --primary-color: #11be49;
-    --secondary-color: #02ab38;
-    --success-color: #11be49;
+    --primary-color: #087c36;
+    --secondary-color: #116128;
+    --success-color: #087c36;
     --danger-color: #e53e3e; /* Slightly softer red */
     --warning-color: #dd6b20; /* Slightly softer orange */
     --info-color: #3b82f6;
+    --light-color: #f8f9fa; /* Slightly different light gray */
+    --dark-color: #343a40; /* Slightly different dark gray */
+    --splash-bg-color: #ebf2ee; /* Slightly different light gray for splash screens */
+    
+    /* --primary-color: #11be49;
+    --secondary-color: #02ab38;
+    --success-color: #11be49;
+    --danger-color: #e53e3e; 
+    --warning-color: #dd6b20; 
+    --info-color: #3b82f6; */
 
     /* Grays & Whites */
     --gray-50: #f8f9fa; /* Slightly different light gray */

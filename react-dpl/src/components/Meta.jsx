@@ -1,19 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Meta = ({ title, description, keywords }) => {
+  const { t } = useTranslation();
+
+  const defaultTitle = t('default_meta_title');
+  const defaultDescription = t('default_meta_description');
+  const defaultKeywords = t('default_meta_keywords');
+
   return (
     <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      <title>{title || defaultTitle}</title>
+      <meta name="description" content={description || defaultDescription} />
+      <meta name="keywords" content={keywords || defaultKeywords} />
     </>
   );
-};
-
-Meta.defaultProps = {
-  title: 'Dom Product - Onlayn Do`kon',
-  description: 'O`zbekistondagi eng yaxshi onlayn do`kon. Mahsulotlarni arzon narxlarda toping.',
-  keywords: 'onlayn do`kon, e-commerce, o`zbekiston, arzon narxlar, dom product',
 };
 
 export default Meta;

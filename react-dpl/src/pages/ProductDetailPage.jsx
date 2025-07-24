@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { allProducts } from '../data/products';
 import { useToast } from '../components/Toast';
 import { useCart } from '../contexts/CartContext';
@@ -7,14 +8,15 @@ import { useWishlist } from '../contexts/WishlistContext';
 import Meta from '../components/Meta';
 
 const ProductDetailPage = () => {
+    const { t } = useTranslation();
     const { id } = useParams();
     const navigate = useNavigate();
     const { showToast } = useToast();
     const { addToCart } = useCart();
-    const { toggleWishlist, isItemInWishlist } = useWishlist(); // toggleWishlist va isItemInWishlist ishlatiladi
+    const { toggleWishlist, isItemInWishlist } = useWishlist();
 
     const product = allProducts.find(p => p.id === parseInt(id));
-    const isLiked = product && isItemInWishlist(product.id); // isItemInWishlist ishlatiladi
+    const isLiked = product && isItemInWishlist(product.id);
 
     const handleGoBack = () => {
         if (window.history.length > 2) {
@@ -26,19 +28,19 @@ const ProductDetailPage = () => {
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
-        showToast('Havola nusxalandi', 'info');
+        showToast(t('link_copied'), 'info');
     };
 
     const handleLike = () => {
         if (!product) return;
-        toggleWishlist(product); // toggleWishlist chaqiriladi
+        toggleWishlist(product);
     };
 
     if (!product) {
         return (
             <div className="product-detail-container">
-                <Meta title="Mahsulot topilmadi" />
-                <div className="error">Mahsulot topilmadi</div>
+                <Meta title={t('product_not_found')} />
+                <div className="error">{t('product_not_found')}</div>
             </div>
         );
     }
@@ -46,7 +48,7 @@ const ProductDetailPage = () => {
     return (
         <div className="product-detail-page">
             <Meta 
-                title={`${product.name} - Dom Product`}
+                title={`${product.name} - ${t('app_name')}`}
                 description={product.description}
             />
             <header className="detail-header">
@@ -68,7 +70,7 @@ const ProductDetailPage = () => {
                     <img src={product.image} alt={product.name} className="main-product-image" />
                 </div>
                 <div className="product-info-section">
-                    <h1 className="product-detail-title">{product.name}</h1>
+                    <h1 className="product-detail-title">{t(product.name)}</h1>
                     <div className="product-detail-price">
                         <span className="current-price">{product.price.toLocaleString('uz-UZ')} UZS</span>
                         {product.originalPrice && (
@@ -76,15 +78,15 @@ const ProductDetailPage = () => {
                         )}
                     </div>
                     <div className="product-description">
-                        <h3 className="description-title">Mahsulot haqida</h3>
-                        <p>{product.description}</p>
+                        <h3 className="description-title">{t('product_description')}</h3>
+                        <p>{t(product.description)}</p>
                     </div>
                 </div>
             </main>
 
             <footer className="detail-footer">
                 <button className="btn btn-primary btn-block add-to-cart-btn" onClick={() => addToCart(product)}>
-                    <i className="fas fa-shopping-cart"></i> Savatga qo'shish
+                    <i className="fas fa-shopping-cart"></i> {t('add_to_cart')}
                 </button>
             </footer>
         </div>

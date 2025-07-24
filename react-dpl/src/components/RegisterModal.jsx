@@ -1,9 +1,11 @@
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useModal } from '../contexts/ModalContext';
-import LoginModalContent from './LoginModal'; // Import LoginModal
+import LoginModalContent from './LoginModal';
 
 const RegisterModalContent = () => {
+    const { t } = useTranslation();
     const { openModal } = useModal();
 
     const showLogin = (e) => {
@@ -13,32 +15,32 @@ const RegisterModalContent = () => {
 
     return (
         <>
-            <h3 style={{ marginBottom: '1rem' }}>Ro'yxatdan o'tish</h3>
+            <h3 style={{ marginBottom: '1rem' }}>{t('register')}</h3>
             <form id="registerForm">
                 <div className="form-group">
-                    <label className="form-label">Ism</label>
+                    <label className="form-label">{t('name')}</label>
                     <input type="text" className="form-input" id="nameInput" required />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Email</label>
+                    <label className="form-label">{t('email')}</label>
                     <input type="email" className="form-input" id="emailInput" required />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Telefon</label>
+                    <label className="form-label">{t('phone')}</label>
                     <input type="tel" className="form-input" id="phoneInput" required />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Parol</label>
+                    <label className="form-label">{t('password')}</label>
                     <input type="password" className="form-input" id="newPasswordInput" required />
                 </div>
                 <div className="form-group">
-                    <label className="form-label">Parolni tasdiqlang</label>
+                    <label className="form-label">{t('confirm_password')}</label>
                     <input type="password" className="form-input" id="confirmPasswordInput" required />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">Ro'yxatdan o'tish</button>
+                <button type="submit" className="btn btn-primary btn-block">{t('register')}</button>
             </form>
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>
-                Akkountingiz bormi? <a href="#" onClick={showLogin}>Kirish</a>
+                {t('have_account')} <a href="#" onClick={showLogin}>{t('login_now')}</a>
             </p>
         </>
     );
