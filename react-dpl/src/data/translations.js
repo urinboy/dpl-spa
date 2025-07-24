@@ -162,6 +162,12 @@ export const resources = {
       "slider_description_2": "Eng sara va shirin mevalar.",
       "slider_title_3": "Organik mahsulotlar",
       "slider_description_3": "Tabiiy va foydali.",
+
+      // Toasts
+      "added_to_cart": "'{{product}}' savatga qo'shildi!",
+      "removed_from_cart": "Mahsulot savatdan o'chirildi",
+      "added_to_wishlist": "'{{product}}' sevimlilarga qo'shildi",
+      "removed_from_wishlist": "'{{product}}' sevimlilardan olib tashlandi",
     }
   },
   ru: {
@@ -327,6 +333,12 @@ export const resources = {
       "slider_description_2": "Самые отборные и сладкие фрукты.",
       "slider_title_3": "Органические продукты",
       "slider_description_3": "Натурально и полезно.",
+
+      // Toasts
+      "added_to_cart": "'{{product}}' добавлен в корзину!",
+      "removed_from_cart": "Товар удален из корзины",
+      "added_to_wishlist": "'{{product}}' добавлен в избранное",
+      "removed_from_wishlist": "'{{product}}' удален из избранного",
     }
   }
 };

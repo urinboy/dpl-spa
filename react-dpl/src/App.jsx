@@ -8,7 +8,7 @@ import CartPage from './pages/CartPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import WishlistPage from './pages/WishlistPage';
-import LoginModalContent from './components/LoginModal';
+// import LoginModalContent from './components/LoginModal';
 import { useLoading } from './components/Loading';
 import { useCart } from './contexts/CartContext';
 import ProductDetailPage from './pages/ProductDetailPage';

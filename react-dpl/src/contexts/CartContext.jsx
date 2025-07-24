@@ -1,11 +1,13 @@
 
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useToast } from '../components/Toast';
 
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
+    const { t } = useTranslation();
     const [cartItems, setCartItems] = useState(() => {
         const savedCart = localStorage.getItem('cartItems');
         return savedCart ? JSON.parse(savedCart) : [];
@@ -32,7 +34,7 @@ export const CartProvider = ({ children }) => {
 
     const removeFromCart = (productId) => {
         setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
-        showToast('Mahsulot savatdan o\'chirildi', 'info');
+        showToast(t('removed_from_cart'), 'info');
     };
 
     const incrementQuantity = (productId) => {
