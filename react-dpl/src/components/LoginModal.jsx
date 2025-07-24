@@ -25,7 +25,7 @@ const LoginModalContent = () => {
     };
 
     return (
-        <>
+        <div style={{ padding: '2.5rem' }}>
             <h3 style={{ marginBottom: '1rem' }}>{t('login')}</h3>
             <form id="loginForm" onSubmit={handleLogin}>
                 <div className="form-group">
@@ -41,7 +41,7 @@ const LoginModalContent = () => {
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>
                 {t('no_account')} <a href="#" onClick={showRegister}>{t('register_now')}</a>
             </p>
-        </>
+        </div>
     );
 };
 

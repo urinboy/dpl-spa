@@ -14,7 +14,7 @@ const RegisterModalContent = () => {
     };
 
     return (
-        <>
+        <div style={{ padding: '2.5rem' }}>
             <h3 style={{ marginBottom: '1rem' }}>{t('register')}</h3>
             <form id="registerForm">
                 <div className="form-group">
@@ -42,7 +42,7 @@ const RegisterModalContent = () => {
             <p style={{ textAlign: 'center', marginTop: '1rem' }}>
                 {t('have_account')} <a href="#" onClick={showLogin}>{t('login_now')}</a>
             </p>
-        </>
+        </div>
     );
 };
 

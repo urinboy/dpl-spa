@@ -95,7 +95,7 @@ const ProductsPage = () => {
                                     <span className="current-price">{product.price.toLocaleString('uz-UZ')} UZS</span>
                                 </div>
                                 <div className="product-card-actions">
-                                    <Link to={`/products/${product.id}`} className="btn btn-secondary btn-sm">{t('details')}</Link>
+                                    <Link to={`/products/${product.id}`} className="btn btn-primary btn-sm">{t('details')}</Link>
                                     <button className="btn-icon" onClick={() => addToCart(product)}>
                                         <i className="fas fa-shopping-cart"></i>
                                     </button>
