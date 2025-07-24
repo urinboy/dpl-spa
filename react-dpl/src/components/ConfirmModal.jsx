@@ -6,14 +6,10 @@ const ConfirmModal = ({ title, message, onConfirm, onCancel, confirmText, cancel
     const { t } = useTranslation();
 
     return (
-        <div className="confirm-modal-container modal-content">
-            <div className="confirm-modal-header">
-                <h3 className="confirm-modal-title">{title}</h3>
-            </div>
-            <div className="confirm-modal-body">
-                <p className="confirm-modal-message">{message}</p>
-            </div>
-            <div className="confirm-modal-footer">
+        <div className="confirm-modal-container modal-content" style={{ padding: '1.5rem', textAlign: 'center' }}>
+            <h3 className="confirm-modal-title" style={{ marginBottom: '1rem' }}>{title}</h3>
+            <p className="confirm-modal-message" style={{ marginBottom: '1.5rem' }}>{message}</p>
+            <div className="confirm-modal-footer" style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
                 <button onClick={onCancel} className="btn btn-secondary">
                     {cancelText || t('cancel')}
                 </button>

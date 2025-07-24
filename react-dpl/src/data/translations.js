@@ -6,7 +6,7 @@ export const resources = {
       "cart": "Savat",
       "orders": "Buyurtmalar",
       "profile": "Profil",
-      "wishlist": "Istaklar",
+      "wishlist": "Sevimlilar",
 
       // Header
       "search_placeholder": "Mahsulotlarni qidirish...",

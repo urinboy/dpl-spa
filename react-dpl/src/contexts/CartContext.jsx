@@ -27,7 +27,7 @@ export const CartProvider = ({ children }) => {
                 return [...prevItems, { ...product, quantity: 1 }];
             }
         });
-        showToast(`'${product.name}' savatga qo'shildi!`, 'success');
+        showToast(t('added_to_cart', { product: t(product.name) }), 'success');
     };
 
     const removeFromCart = (productId) => {

@@ -18,11 +18,10 @@ export const WishlistProvider = ({ children }) => {
     const toggleWishlist = (product) => {
         setWishlistItems(prevItems => {
             const exist = prevItems.find(item => item.id === product.id);
-            if (exist) {
-                showToast(`'${product.name}' sevimlilardan olib tashlandi`, 'info');
+            showToast(t('removed_from_wishlist', { product: t(product.name) }), 'info');
                 return prevItems.filter(item => item.id !== product.id);
             } else {
-                showToast(`'${product.name}' sevimlilarga qo'shildi`, 'success');
+                showToast(t('added_to_wishlist', { product: t(product.name) }), 'success');
                 return [...prevItems, product];
             }
         });
