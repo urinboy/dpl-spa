@@ -98,3 +98,22 @@
         gap: 0.25rem;
     }
 }
+
+@media (max-width: 360px) {
+    .logo {
+        font-size: 1.3rem; /* Even smaller logo */
+    }
+
+    .icon-btn {
+        font-size: 1.1rem;
+        padding: 0.4rem;
+    }
+}
+
+/* Pastki navigatsiya uchun qo'shimcha stil */
+@media (max-width: 400px) {
+  .nav-text {
+    font-size: 0.7rem; /* Kichikroq shrift */
+    line-height: 1.1;   /* Qator balandligini moslashtirish */
+  }
+}
