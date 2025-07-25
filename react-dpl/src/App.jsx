@@ -36,10 +36,14 @@ function App() {
     useEffect(() => {
         if (!isAppLoading) {
             showLoading();
-            const timer = setTimeout(() => hideLoading(), 300);
-            return () => clearTimeout(timer);
         }
-    }, [location.pathname, showLoading, hideLoading, isAppLoading]);
+    }, [location.pathname, showLoading, isAppLoading]);
+
+    useEffect(() => {
+        if (!isAppLoading) {
+            hideLoading();
+        }
+    }, [location.pathname, hideLoading, isAppLoading]);
 
     const handleSearch = (query) => {
         setIsSearchOpen(false);
