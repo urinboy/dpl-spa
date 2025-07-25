@@ -1,3 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Дом Продукт</string>
+    <string name="no_internet_icon_description">Иконка отсутствия интернета</string>
+    <string name="no_internet_message">Нет подключения к интернету</string>
+    <string name="check_internet_message">Пожалуйста, проверьте подключение к интернету и попробуйте снова.</string>
+    <string name="retry_button">Попробовать снова</string>
 </resources>

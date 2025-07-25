@@ -1,3 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Dom Product</string>
+    <string name="no_internet_icon_description">Internet yo‘q ikona</string>
+    <string name="no_internet_message">Internet ulanishi mavjud emas</string>
+    <string name="check_internet_message">Iltimos, internet ulanishini tekshiring va qayta urinib ko‘ring.</string>
+    <string name="retry_button">Qayta urinish</string>
 </resources>
