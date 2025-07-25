@@ -44,7 +44,7 @@ const ProfilePage = () => {
         <div id="profilePage">
             <Meta title={t('my_profile')} />
             <h2 style={{ marginBottom: '1rem' }}>{t('profile')}</h2>
-            {!isLoggedIn ? (
+            {!isLoggedIn || !user ? (
                 <div className="profile-guest-card">
                     <i className="fas fa-user-circle cart-empty-icon"></i>
                     <div className="cart-empty-title">{t('login_to_profile')}</div>
@@ -56,7 +56,7 @@ const ProfilePage = () => {
             ) : (
                 <div className="profile-container">
                     <div className="profile-user-card">
-                        <div className="profile-avatar">{user.firstName.charAt(0)}</div>
+                        <div className="profile-avatar">{user.firstName && user.firstName.charAt(0)}</div>
                         <h3 className="profile-name">{`${user.firstName} ${user.lastName}`}</h3>
                     </div>
                     <div className="profile-menu">
