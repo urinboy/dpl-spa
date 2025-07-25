@@ -105,7 +105,7 @@
     }
 
     .icon-btn {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         padding: 0.4rem;
     }
 }
@@ -113,7 +113,7 @@
 /* Pastki navigatsiya uchun qo'shimcha stil */
 @media (max-width: 400px) {
   .nav-text {
-    font-size: 0.7rem; /* Kichikroq shrift */
+    font-size: 0.6rem; /* Kichikroq shrift */
     line-height: 1.1;   /* Qator balandligini moslashtirish */
   }
 }
