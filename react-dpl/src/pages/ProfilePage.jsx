@@ -9,6 +9,7 @@ import { useToast } from '../components/Toast';
 import LoginModalContent from '../components/LoginModal';
 import ConfirmModal from '../components/ConfirmModal';
 import Meta from '../components/Meta';
+import EditProfileModal from '../components/EditProfileModal';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
@@ -35,8 +36,8 @@ const ProfilePage = () => {
         );
     };
 
-    const handleComingSoon = () => {
-        showToast(t('coming_soon'), 'warning');
+    const handleEditProfile = () => {
+        openModal(<EditProfileModal />);
     };
 
     return (
@@ -55,11 +56,11 @@ const ProfilePage = () => {
             ) : (
                 <div className="profile-container">
                     <div className="profile-user-card">
-                        <div className="profile-avatar">{user.name.charAt(0)}</div>
-                        <h3 className="profile-name">{user.name}</h3>
+                        <div className="profile-avatar">{user.firstName.charAt(0)}</div>
+                        <h3 className="profile-name">{`${user.firstName} ${user.lastName}`}</h3>
                     </div>
                     <div className="profile-menu">
-                        <button className="profile-menu-item" onClick={handleComingSoon}>
+                        <button className="profile-menu-item" onClick={handleEditProfile}>
                             <i className="fas fa-cog profile-menu-icon"></i>
                             <span>{t('settings')}</span>
                             <i className="fas fa-chevron-right"></i>

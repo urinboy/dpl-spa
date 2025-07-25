@@ -168,6 +168,13 @@ export const resources = {
       "removed_from_cart": "Mahsulot savatdan o'chirildi",
       "added_to_wishlist": "'{{product}}' sevimlilarga qo'shildi",
       "removed_from_wishlist": "'{{product}}' sevimlilardan olib tashlandi",
+
+      // Edit Profile Modal
+      "edit_profile": "Profilni tahrirlash",
+      "save_changes": "O'zgarishlarni saqlash",
+      "first_name": "Ism",
+      "last_name": "Familiya",
+      "profile_updated_success": "Profil muvaffaqiyatli yangilandi!"
     }
   },
   ru: {
@@ -339,6 +346,13 @@ export const resources = {
       "removed_from_cart": "Товар удален из корзины",
       "added_to_wishlist": "'{{product}}' добавлен в избранное",
       "removed_from_wishlist": "'{{product}}' удален из избранного",
+
+      // Edit Profile Modal
+      "edit_profile": "Редактировать профиль",
+      "save_changes": "Сохранить изменения",
+      "first_name": "Имя",
+      "last_name": "Фамилия",
+      "profile_updated_success": "Профиль успешно обновлен!"
     }
   }
 };
