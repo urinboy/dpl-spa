@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { allProducts } from '../../data/products';
 import { categories } from '../../data/categories';
 import { users } from '../../data/users';
+import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
     const { t } = useTranslation();
@@ -46,8 +47,10 @@ const AdminDashboard = () => {
     return (
         <div className="admin-dashboard">
             <div className="admin-page-header">
-                <h1>{t('admin_dashboard')}</h1>
-                <p>{t('admin_dashboard_subtitle')}</p>
+                <div>
+                    <h1>{t('admin_dashboard')}</h1>
+                    <p>{t('admin_dashboard_subtitle')}</p>
+                </div>
             </div>
 
             {/* Stats Cards */}
@@ -69,7 +72,7 @@ const AdminDashboard = () => {
             <div className="admin-section">
                 <div className="admin-section-header">
                     <h2>{t('recent_products')}</h2>
-                    <a href="/admin/products" className="admin-link">{t('view_all')}</a>
+                    <Link to="/admin/products" className="admin-link">{t('view_all')}</Link>
                 </div>
                 <div className="admin-table-container">
                     <table className="admin-table">

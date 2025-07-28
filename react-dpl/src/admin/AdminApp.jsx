@@ -8,6 +8,8 @@ import ProductsManagement from './pages/ProductsManagement';
 import CategoriesManagement from './pages/CategoriesManagement';
 import UsersManagement from './pages/UsersManagement';
 import OrdersManagement from './pages/OrdersManagement';
+import LanguagesManagement from './pages/LanguagesManagement';
+import TranslationsManagement from './pages/TranslationsManagement';
 import './admin.css';
 
 const AdminApp = () => {
@@ -21,12 +23,14 @@ const AdminApp = () => {
                 <AdminHeader onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
                 <main className="admin-content">
                     <Routes>
-                        <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-                        <Route path="/dashboard" element={<AdminDashboard />} />
-                        <Route path="/products" element={<ProductsManagement />} />
-                        <Route path="/categories" element={<CategoriesManagement />} />
-                        <Route path="/users" element={<UsersManagement />} />
-                        <Route path="/orders" element={<OrdersManagement />} />
+                        <Route path="/" element={<Navigate to="dashboard" replace />} />
+                        <Route path="dashboard" element={<AdminDashboard />} />
+                        <Route path="products" element={<ProductsManagement />} />
+                        <Route path="categories" element={<CategoriesManagement />} />
+                        <Route path="users" element={<UsersManagement />} />
+                        <Route path="orders" element={<OrdersManagement />} />
+                        <Route path="languages" element={<LanguagesManagement />} />
+                        <Route path="translations" element={<TranslationsManagement />} />
                     </Routes>
                 </main>
             </div>

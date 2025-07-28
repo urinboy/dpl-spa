@@ -37,13 +37,31 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             icon: 'fas fa-shopping-cart',
             label: t('admin_orders'),
             key: 'orders'
+        },
+        {
+            path: '/admin/languages',
+            icon: 'fas fa-language',
+            label: t('admin_languages'),
+            key: 'languages'
+        },
+        {
+            path: '/admin/translations',
+            icon: 'fas fa-globe',
+            label: t('admin_translations'),
+            key: 'translations'
+        },
+        {
+            path: '/',
+            icon: 'fas fa-arrow-left',
+            label: t('back_to_site'),
+            key: 'translations'
         }
     ];
 
-    const handleBackToSite = () => {
-        navigate('/');
-        onClose();
-    };
+    // const handleBackToSite = () => {
+    //     navigate('/');
+    //     onClose();
+    // };
 
     return (
         <>
@@ -59,6 +77,13 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                     </button>
                 </div>
                 <nav className="admin-sidebar-nav">
+                    {/* <button className="admin-nav-item admin-back-to-site" onClick={handleBackToSite}>
+                        <i className="fas fa-arrow-left"></i>
+                        <span>{t('back_to_site')}</span>
+                    </button> */}
+                    
+                    {/* <div className="admin-nav-divider"></div> */}
+                    
                     {menuItems.map(item => (
                         <Link
                             key={item.key}
@@ -71,12 +96,6 @@ const AdminSidebar = ({ isOpen, onClose }) => {
                         </Link>
                     ))}
                 </nav>
-                <div className="admin-sidebar-footer">
-                    <button className="admin-nav-item admin-back-to-site" onClick={handleBackToSite}>
-                        <i className="fas fa-arrow-left"></i>
-                        <span>{t('back_to_site')}</span>
-                    </button>
-                </div>
             </aside>
         </>
     );
