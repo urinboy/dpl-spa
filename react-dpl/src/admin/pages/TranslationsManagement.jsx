@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { resources } from '../../data/translations';
 import { languages } from '../../data/languages';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 const TranslationsManagement = () => {
     const { t } = useTranslation();
@@ -17,6 +18,8 @@ const TranslationsManagement = () => {
     const [editingKey, setEditingKey] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedLanguage, setSelectedLanguage] = useState('uz');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingKey, setDeletingKey] = useState(null);
     const [formData, setFormData] = useState({
         key: '',
         translations: {}
@@ -108,15 +111,25 @@ const TranslationsManagement = () => {
     };
 
     const handleDelete = (key) => {
-        if (window.confirm(t('confirm_delete_translation'))) {
-            const newTranslationsData = { ...translationsData };
-            languages.forEach(lang => {
-                if (newTranslationsData[lang.code]) {
-                    delete newTranslationsData[lang.code][key];
-                }
-            });
-            setTranslationsData(newTranslationsData);
-        }
+        setDeletingKey(key);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        const newTranslationsData = { ...translationsData };
+        languages.forEach(lang => {
+            if (newTranslationsData[lang.code]) {
+                delete newTranslationsData[lang.code][deletingKey];
+            }
+        });
+        setTranslationsData(newTranslationsData);
+        setShowDeleteModal(false);
+        setDeletingKey(null);
+    };
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setDeletingKey(null);
     };
 
     const exportTranslations = () => {
@@ -313,9 +326,11 @@ const TranslationsManagement = () => {
                             
                             <div className="admin-form-actions">
                                 <button type="button" className="admin-btn admin-btn-secondary" onClick={closeModal}>
+                                    <i className="fas fa-times"></i>
                                     {t('cancel')}
                                 </button>
                                 <button type="submit" className="admin-btn admin-btn-primary">
+                                    <i className={`fas ${editingKey ? 'fa-save' : 'fa-plus'}`}></i>
                                     {editingKey ? t('update') : t('add')}
                                 </button>
                             </div>
@@ -323,6 +338,16 @@ const TranslationsManagement = () => {
                     </div>
                 </div>
             )}
+
+            {/* Confirm Delete Modal */}
+            <ConfirmDeleteModal
+                isOpen={showDeleteModal}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title={t('confirm_delete_translation')}
+                message={t('delete_translation_message')}
+                itemName={deletingKey}
+            />
         </div>
     );
 };

@@ -200,6 +200,29 @@ export const resources = {
       "translation_key_help": "Noyob kalit nomi (masalan: welcome_message)",
       "export_translations": "Tarjimalarni eksport qilish",
       "no_translations_found": "Tarjimalar topilmadi",
+      
+      // Common Actions
+      "save": "Saqlash",
+      "edit": "Tahrirlash", 
+      "delete": "O'chirish",
+      "confirm": "Tasdiqlash",
+      "yes": "Ha",
+      "no": "Yo'q",
+      "close": "Yopish",
+      "all_categories": "Barcha kategoriyalar",
+      "all_statuses": "Barcha holatlar",
+      "email": "Email",
+      "phone": "Telefon",
+      
+      // Confirm Messages
+      "confirm_delete": "O'chirishni tasdiqlang",
+      "delete_category_message": "Bu kategoriyani o'chirishni rostdan ham xohlaysizmi?",
+      "delete_product_message": "Bu mahsulotni o'chirishni rostdan ham xohlaysizmi?",
+      "delete_user_message": "Bu foydalanuvchini o'chirishni rostdan ham xohlaysizmi?", 
+      "delete_order_message": "Bu buyurtmani o'chirishni rostdan ham xohlaysizmi?",
+      "delete_language_message": "Bu tilni o'chirishni rostdan ham xohlaysizmi?",
+      "delete_translation_message": "Bu tarjimani o'chirishni rostdan ham xohlaysizmi?",
+      "delete_warning_message": "Bu amal bekor qilib bo'lmaydi!",
       "logout_success": "Tizimdan muvaffaqiyatli chiqdingiz",
       "coming_soon": "Bu bo'lim tez orada qo'shiladi",
       "login_to_profile": "Profilga kirish",
@@ -543,7 +566,30 @@ export const resources = {
       "translation_for": "Перевод для:",
       "translation_key_help": "Уникальное имя ключа (например: welcome_message)",
       "export_translations": "Экспорт переводов",
-      "no_translations_found": "Переводы не найдены"
+      "no_translations_found": "Переводы не найдены",
+      
+      // Common Actions  
+      "save": "Сохранить",
+      "edit": "Редактировать",
+      "delete": "Удалить", 
+      "confirm": "Подтвердить",
+      "yes": "Да",
+      "no": "Нет",
+      "close": "Закрыть",
+      "all_categories": "Все категории",
+      "all_statuses": "Все статусы",
+      "email": "Email",
+      "phone": "Телефон",
+      
+      // Confirm Messages
+      "confirm_delete": "Подтвердите удаление",
+      "delete_category_message": "Вы действительно хотите удалить эту категорию?",
+      "delete_product_message": "Вы действительно хотите удалить этот товар?",
+      "delete_user_message": "Вы действительно хотите удалить этого пользователя?",
+      "delete_order_message": "Вы действительно хотите удалить этот заказ?", 
+      "delete_language_message": "Вы действительно хотите удалить этот язык?",
+      "delete_translation_message": "Вы действительно хотите удалить этот перевод?",
+      "delete_warning_message": "Это действие нельзя отменить!",
     }
   }
 };

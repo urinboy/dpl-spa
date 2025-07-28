@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 const OrdersManagement = () => {
     const { t } = useTranslation();
@@ -28,14 +29,16 @@ const OrdersManagement = () => {
             id: 3,
             orderNumber: 'ORD-003',
             customerName: 'Bobur Toshev',
-            total: 200000,
+            total: 95000,
             status: 'processing',
             date: '2025-01-25',
-            items: 5
+            items: 1
         }
     ]);
 
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingOrder, setDeletingOrder] = useState(null);
 
     const statusOptions = [
         { value: 'pending', label: t('pending'), color: 'warning' },
@@ -57,9 +60,22 @@ const OrdersManagement = () => {
     };
 
     const deleteOrder = (orderId) => {
-        if (window.confirm(t('confirm_delete_order'))) {
-            setOrders(orders.filter(order => order.id !== orderId));
+        const order = orders.find(o => o.id === orderId);
+        setDeletingOrder(order);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        if (deletingOrder) {
+            setOrders(orders.filter(order => order.id !== deletingOrder.id));
         }
+        setShowDeleteModal(false);
+        setDeletingOrder(null);
+    };
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setDeletingOrder(null);
     };
 
     const getStatusBadge = (status) => {
@@ -147,6 +163,16 @@ const OrdersManagement = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Confirm Delete Modal */}
+            <ConfirmDeleteModal
+                isOpen={showDeleteModal}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title={t('confirm_delete_order')}
+                message={t('delete_order_message')}
+                itemName={deletingOrder?.orderNumber}
+            />
         </div>
     );
 };

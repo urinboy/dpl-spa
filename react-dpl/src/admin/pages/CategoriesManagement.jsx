@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { categories } from '../../data/categories';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 const CategoriesManagement = () => {
     const { t } = useTranslation();
     const [categoriesList, setCategoriesList] = useState(categories);
     const [showModal, setShowModal] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingCategory, setDeletingCategory] = useState(null);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -68,10 +71,20 @@ const CategoriesManagement = () => {
         closeModal();
     };
 
-    const deleteCategory = (id) => {
-        if (window.confirm(t('confirm_delete_category'))) {
-            setCategoriesList(categoriesList.filter(c => c.id !== id));
-        }
+    const deleteCategory = (category) => {
+        setDeletingCategory(category);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        setCategoriesList(categoriesList.filter(c => c.id !== deletingCategory.id));
+        setShowDeleteModal(false);
+        setDeletingCategory(null);
+    };
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setDeletingCategory(null);
     };
 
     const handleInputChange = (e) => {
@@ -127,7 +140,7 @@ const CategoriesManagement = () => {
                             </button>
                             <button
                                 className="admin-btn admin-btn-sm admin-btn-danger"
-                                onClick={() => deleteCategory(category.id)}
+                                onClick={() => deleteCategory(category)}
                             >
                                 <i className="fas fa-trash"></i>
                             </button>
@@ -190,9 +203,11 @@ const CategoriesManagement = () => {
                             </div>
                             <div className="admin-form-actions">
                                 <button type="button" className="admin-btn admin-btn-secondary" onClick={closeModal}>
+                                    <i className="fas fa-times"></i>
                                     {t('cancel')}
                                 </button>
                                 <button type="submit" className="admin-btn admin-btn-primary">
+                                    <i className={`fas ${editingCategory ? 'fa-save' : 'fa-plus'}`}></i>
                                     {editingCategory ? t('update') : t('add')}
                                 </button>
                             </div>
@@ -200,6 +215,16 @@ const CategoriesManagement = () => {
                     </div>
                 </div>
             )}
+
+            {/* Confirm Delete Modal */}
+            <ConfirmDeleteModal
+                isOpen={showDeleteModal}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title={t('confirm_delete_category')}
+                message={t('delete_category_message')}
+                itemName={deletingCategory?.name}
+            />
         </div>
     );
 };

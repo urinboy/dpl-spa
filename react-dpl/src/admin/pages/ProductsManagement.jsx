@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { allProducts } from '../../data/products';
 import { categories } from '../../data/categories';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 const ProductsManagement = () => {
     const { t } = useTranslation();
@@ -10,6 +11,8 @@ const ProductsManagement = () => {
     const [editingProduct, setEditingProduct] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingProduct, setDeletingProduct] = useState(null);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -80,10 +83,20 @@ const ProductsManagement = () => {
         closeModal();
     };
 
-    const deleteProduct = (id) => {
-        if (window.confirm(t('confirm_delete_product'))) {
-            setProducts(products.filter(p => p.id !== id));
-        }
+    const deleteProduct = (product) => {
+        setDeletingProduct(product);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDelete = () => {
+        setProducts(products.filter(p => p.id !== deletingProduct.id));
+        setShowDeleteModal(false);
+        setDeletingProduct(null);
+    };
+
+    const cancelDelete = () => {
+        setShowDeleteModal(false);
+        setDeletingProduct(null);
     };
 
     const handleInputChange = (e) => {
@@ -175,7 +188,7 @@ const ProductsManagement = () => {
                                         </button>
                                         <button
                                             className="admin-btn admin-btn-sm admin-btn-danger"
-                                            onClick={() => deleteProduct(product.id)}
+                                            onClick={() => deleteProduct(product)}
                                         >
                                             <i className="fas fa-trash"></i>
                                         </button>
@@ -268,9 +281,11 @@ const ProductsManagement = () => {
                             </div>
                             <div className="admin-form-actions">
                                 <button type="button" className="admin-btn admin-btn-secondary" onClick={closeModal}>
+                                    <i className="fas fa-times"></i>
                                     {t('cancel')}
                                 </button>
                                 <button type="submit" className="admin-btn admin-btn-primary">
+                                    <i className={`fas ${editingProduct ? 'fa-save' : 'fa-plus'}`}></i>
                                     {editingProduct ? t('update') : t('add')}
                                 </button>
                             </div>
@@ -278,6 +293,16 @@ const ProductsManagement = () => {
                     </div>
                 </div>
             )}
+
+            {/* Confirm Delete Modal */}
+            <ConfirmDeleteModal
+                isOpen={showDeleteModal}
+                onClose={cancelDelete}
+                onConfirm={confirmDelete}
+                title={t('confirm_delete_product')}
+                message={t('delete_product_message')}
+                itemName={deletingProduct?.name}
+            />
         </div>
     );
 };

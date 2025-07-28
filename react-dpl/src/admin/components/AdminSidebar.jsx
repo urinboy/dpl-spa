@@ -15,30 +15,6 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             key: 'dashboard'
         },
         {
-            path: '/admin/products',
-            icon: 'fas fa-box',
-            label: t('admin_products'),
-            key: 'products'
-        },
-        {
-            path: '/admin/categories',
-            icon: 'fas fa-tags',
-            label: t('admin_categories'),
-            key: 'categories'
-        },
-        {
-            path: '/admin/users',
-            icon: 'fas fa-users',
-            label: t('admin_users'),
-            key: 'users'
-        },
-        {
-            path: '/admin/orders',
-            icon: 'fas fa-shopping-cart',
-            label: t('admin_orders'),
-            key: 'orders'
-        },
-        {
             path: '/admin/languages',
             icon: 'fas fa-language',
             label: t('admin_languages'),
@@ -49,6 +25,30 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             icon: 'fas fa-globe',
             label: t('admin_translations'),
             key: 'translations'
+        },
+        {
+            path: '/admin/users',
+            icon: 'fas fa-users',
+            label: t('admin_users'),
+            key: 'users'
+        },
+        {
+            path: '/admin/categories',
+            icon: 'fas fa-tags',
+            label: t('admin_categories'),
+            key: 'categories'
+        },
+        {
+            path: '/admin/products',
+            icon: 'fas fa-box',
+            label: t('admin_products'),
+            key: 'products'
+        },
+        {
+            path: '/admin/orders',
+            icon: 'fas fa-shopping-cart',
+            label: t('admin_orders'),
+            key: 'orders'
         },
         {
             path: '/',
