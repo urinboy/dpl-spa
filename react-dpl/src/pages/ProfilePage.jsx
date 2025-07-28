@@ -75,6 +75,11 @@ const ProfilePage = () => {
                             <span>{t('my_wishlist')}</span>
                             <i className="fas fa-chevron-right"></i>
                         </button>
+                        <button className="profile-menu-item" onClick={() => navigate('/admin')}>
+                            <i className="fas fa-crown profile-menu-icon"></i>
+                            <span>{t('admin_panel')}</span>
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
                         <button className="profile-menu-item danger" onClick={handleLogout}>
                             <i className="fas fa-sign-out-alt profile-menu-icon"></i>
                             <span>{t('logout')}</span>

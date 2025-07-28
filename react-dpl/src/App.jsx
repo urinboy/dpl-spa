@@ -16,6 +16,7 @@ import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
 import SplashScreen from './components/SplashScreen';
 import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
+import AdminApp from './admin/AdminApp'; // Import AdminApp
 
 import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
 
@@ -57,6 +58,12 @@ function App() {
     }
 
     const isDetailPage = location.pathname.startsWith('/products/') && location.pathname.split('/').length === 3;
+    const isAdminPage = location.pathname.startsWith('/admin');
+
+    // If it's admin page, render only admin app without main layout
+    if (isAdminPage) {
+        return <AdminApp />;
+    }
 
     return (
         <div className="app-container" id="app">
