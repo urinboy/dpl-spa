@@ -54,7 +54,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
             path: '/',
             icon: 'fas fa-arrow-left',
             label: t('back_to_site'),
-            key: 'translations'
+            key: 'back_to_site'
         }
     ];
 

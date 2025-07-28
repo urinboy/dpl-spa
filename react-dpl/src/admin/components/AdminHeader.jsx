@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/ThemeContext';
 import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 const AdminHeader = ({ onMenuClick }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { isDarkMode, toggleTheme } = useTheme();
     const [searchQuery, setSearchQuery] = useState('');
-    const [isDarkMode, setIsDarkMode] = useState(false);
 
     const handleBackToSite = () => {
         navigate('/');
@@ -19,12 +20,6 @@ const AdminHeader = ({ onMenuClick }) => {
             console.log('Admin search:', searchQuery);
             // Add search functionality later
         }
-    };
-
-    const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
-        // Add dark mode functionality later
-        document.documentElement.classList.toggle('dark-mode');
     };
 
     return (
@@ -50,8 +45,8 @@ const AdminHeader = ({ onMenuClick }) => {
             
             <div className="admin-header-right">
                 <button 
-                    className="admin-header-icon-btn" 
-                    onClick={toggleDarkMode}
+                    className="admin-header-icon-btn admin-theme-toggle"
+                    onClick={toggleTheme}
                     title={isDarkMode ? t('light_mode') : t('dark_mode')}
                 >
                     <i className={`fas ${isDarkMode ? 'fa-sun' : 'fa-moon'}`}></i>
@@ -61,6 +56,13 @@ const AdminHeader = ({ onMenuClick }) => {
                     <LanguageSwitcher />
                 </div>
                 
+                <button 
+                    className="admin-header-icon-btn admin-back-btn"
+                    onClick={handleBackToSite}
+                    title={t('back_to_site')}
+                >
+                    <i className="fas fa-external-link-alt"></i>
+                </button>
                 
                 <div className="admin-user-menu">
                     <button className="admin-user-btn">
