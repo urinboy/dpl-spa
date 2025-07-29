@@ -84,14 +84,14 @@ class MainActivity : AppCompatActivity() {
                     settings.domStorageEnabled = true
                     settings.loadWithOverviewMode = true
                     settings.useWideViewPort = true
-                    loadUrl("https://dp.urinboydev.uz/")
+                    loadUrl("https://domproduct.uz/")
                 }
             } catch (e: Exception) {
                 binding.webView.visibility = View.GONE
                 binding.errorLayout.visibility = View.VISIBLE
                 Toast.makeText(
                     this,
-                    "WebView yuklashda xato: ${e.message}",
+                    "Ilovani yuklashda xato: ${e.message}",
                     Toast.LENGTH_LONG
                 ).show()
             }
