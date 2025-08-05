@@ -1546,3 +1546,170 @@ body.admin-dark-theme {
         transition: none !important;
     }
 }
+
+/* Translations Management Styles */
+.admin-coverage-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.admin-coverage-card {
+    background: var(--admin-bg-secondary);
+    padding: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--admin-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-coverage-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.admin-coverage-header .admin-flag {
+    font-size: 1.25rem;
+}
+
+.admin-lang-name {
+    font-weight: 600;
+    color: var(--admin-text-primary);
+}
+
+.admin-coverage-progress {
+    background: var(--admin-bg-primary);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.admin-coverage-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), var(--primary-color));
+    transition: width 0.3s ease;
+}
+
+.admin-coverage-text {
+    font-size: 0.875rem;
+    color: var(--admin-text-secondary);
+    text-align: center;
+}
+
+.admin-language-select {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-language-select label {
+    font-weight: 500;
+    color: var(--admin-text-primary);
+    white-space: nowrap;
+}
+
+.admin-language-select select {
+    padding: 0.5rem;
+    border: 1px solid var(--admin-border);
+    border-radius: var(--radius-sm);
+    background: var(--admin-bg-secondary);
+    color: var(--admin-text-primary);
+    font-size: 0.875rem;
+    min-width: 150px;
+}
+
+.admin-translation-key {
+    background: var(--admin-bg-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: var(--primary-color);
+    border: 1px solid var(--admin-border);
+}
+
+.admin-translation-value {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-no-translation {
+    color: var(--admin-text-secondary);
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.admin-coverage-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.admin-coverage-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid;
+}
+
+.admin-coverage-badge.complete {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-color: #10b981;
+}
+
+.admin-coverage-badge.partial {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border-color: #f59e0b;
+}
+
+.admin-coverage-badge.empty {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: #ef4444;
+}
+
+.admin-coverage-percent {
+    font-size: 0.875rem;
+    color: var(--admin-text-secondary);
+}
+
+/* Translation form specific styles */
+.admin-translations .admin-form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.admin-translations .admin-flag {
+    font-size: 1.125rem;
+    margin-right: 0.25rem;
+}
+
+/* Loading state for translations */
+.admin-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    color: var(--admin-text-secondary);
+}
+
+.admin-loading i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.admin-loading p {
+    font-size: 1.125rem;
+    margin: 0;
+}

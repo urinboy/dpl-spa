@@ -18,23 +18,26 @@ import { ModalProvider } from './contexts/ModalContext';
 import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext'; // Import WishlistProvider
+import { LanguageProvider } from './contexts/LanguageContext'; // Import LanguageProvider
 import ScrollToTop from './components/ScrollToTop';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
-        <AuthProvider>
-            <ToastProvider>
-                <CartProvider>
-                    <WishlistProvider>
-                        <LoadingProvider>
-                            <ModalProvider>
-                                <ScrollToTop />
-                                <App />
-                            </ModalProvider>
-                        </LoadingProvider>
-                    </WishlistProvider>
-                </CartProvider>
-            </ToastProvider>
-        </AuthProvider>
+        <LanguageProvider>
+            <AuthProvider>
+                <ToastProvider>
+                    <CartProvider>
+                        <WishlistProvider>
+                            <LoadingProvider>
+                                <ModalProvider>
+                                    <ScrollToTop />
+                                    <App />
+                                </ModalProvider>
+                            </LoadingProvider>
+                        </WishlistProvider>
+                    </CartProvider>
+                </ToastProvider>
+            </AuthProvider>
+        </LanguageProvider>
     </BrowserRouter>
 );

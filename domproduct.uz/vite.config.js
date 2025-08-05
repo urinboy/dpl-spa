@@ -42,4 +42,13 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    proxy: {
+      '/v1': {
+        target: 'https://api.domproduct.uz',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 });

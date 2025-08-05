@@ -1,40 +1,106 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { languages } from '../../data/languages';
+import { useLanguage } from '../../contexts/LanguageContext';
 import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
 
 const LanguagesManagement = () => {
     const { t } = useTranslation();
-    const [languagesList, setLanguagesList] = useState(languages);
+    const { languages, loading, fetchLanguages } = useLanguage();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingLanguage, setEditingLanguage] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deletingLanguage, setDeletingLanguage] = useState(null);
+    const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({
         code: '',
         name: '',
-        nativeName: '',
         flag: '',
-        direction: 'ltr',
-        isActive: true
+        is_active: true,
+        is_default: false,
+        sort_order: 1
     });
 
-    const filteredLanguages = languagesList.filter(lang =>
+    const filteredLanguages = languages.filter(lang =>
         lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        lang.nativeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         lang.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Tilni saqlash (yaratish yoki yangilash)
+    const saveLanguage = async () => {
+        try {
+            setSaving(true);
+            const url = editingLanguage 
+                ? `https://api.domproduct.uz/v1/languages/${editingLanguage.id}`
+                : 'https://api.domproduct.uz/v1/languages';
+            
+            const method = editingLanguage ? 'PUT' : 'POST';
+            
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Admin autentifikatsiya uchun token qo'shish kerak
+                    // 'Authorization': `Bearer ${getAdminToken()}`
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                // Tillar ro'yxatini yangilash
+                await fetchLanguages();
+                closeModal();
+                alert(editingLanguage ? t('language_updated') : t('language_created'));
+            } else {
+                alert(result.message || t('error_occurred'));
+            }
+        } catch (error) {
+            console.error('Tilni saqlashda xatolik:', error);
+            alert(t('error_occurred'));
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    // Tilni o'chirish
+    const deleteLanguage = async (language) => {
+        try {
+            const response = await fetch(`https://api.domproduct.uz/v1/languages/${language.id}`, {
+                method: 'DELETE',
+                headers: {
+                    // Admin autentifikatsiya uchun token qo'shish kerak
+                    // 'Authorization': `Bearer ${getAdminToken()}`
+                }
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                // Tillar ro'yxatini yangilash
+                await fetchLanguages();
+                setShowDeleteModal(false);
+                setDeletingLanguage(null);
+                alert(t('language_deleted'));
+            } else {
+                alert(result.message || t('error_occurred'));
+            }
+        } catch (error) {
+            console.error('Tilni o\'chirishda xatolik:', error);
+            alert(t('error_occurred'));
+        }
+    };
 
     const openModal = (language = null) => {
         setEditingLanguage(language);
         setFormData(language || {
             code: '',
             name: '',
-            nativeName: '',
             flag: '',
-            direction: 'ltr',
-            isActive: true
+            is_active: true,
+            is_default: false,
+            sort_order: languages.length + 1
         });
         setIsModalOpen(true);
     };
@@ -45,31 +111,16 @@ const LanguagesManagement = () => {
         setFormData({
             code: '',
             name: '',
-            nativeName: '',
             flag: '',
-            direction: 'ltr',
-            isActive: true
+            is_active: true,
+            is_default: false,
+            sort_order: 1
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        if (editingLanguage) {
-            // Update existing language
-            setLanguagesList(languagesList.map(lang =>
-                lang.code === editingLanguage.code ? { ...formData } : lang
-            ));
-        } else {
-            // Add new language
-            if (languagesList.find(lang => lang.code === formData.code)) {
-                alert('Bu til kodi allaqachon mavjud!');
-                return;
-            }
-            setLanguagesList([...languagesList, formData]);
-        }
-        
-        closeModal();
+        saveLanguage();
     };
 
     const handleDelete = (language) => {
@@ -78,9 +129,7 @@ const LanguagesManagement = () => {
     };
 
     const confirmDelete = () => {
-        setLanguagesList(languagesList.filter(lang => lang.code !== deletingLanguage.code));
-        setShowDeleteModal(false);
-        setDeletingLanguage(null);
+        deleteLanguage(deletingLanguage);
     };
 
     const cancelDelete = () => {
@@ -88,14 +137,41 @@ const LanguagesManagement = () => {
         setDeletingLanguage(null);
     };
 
-    const toggleStatus = (langCode) => {
-        setLanguagesList(languagesList.map(lang =>
-            lang.code === langCode ? { 
-                ...lang, 
-                isActive: !(lang.isActive !== undefined ? lang.isActive : true) 
-            } : lang
-        ));
+    const toggleStatus = async (language) => {
+        try {
+            const response = await fetch(`https://api.domproduct.uz/v1/languages/${language.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Admin autentifikatsiya uchun token qo'shish kerak
+                },
+                body: JSON.stringify({
+                    ...language,
+                    is_active: !language.is_active
+                })
+            });
+
+            const result = await response.json();
+            
+            if (result.success) {
+                await fetchLanguages();
+            } else {
+                alert(result.message || t('error_occurred'));
+            }
+        } catch (error) {
+            console.error('Til holatini o\'zgartirishda xatolik:', error);
+            alert(t('error_occurred'));
+        }
     };
+
+    if (loading) {
+        return (
+            <div className="admin-loading">
+                <i className="fas fa-spinner fa-spin"></i>
+                <p>{t('loading')}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="admin-languages">
@@ -132,15 +208,15 @@ const LanguagesManagement = () => {
                             <th>{t('flag')}</th>
                             <th>{t('code')}</th>
                             <th>{t('name')}</th>
-                            <th>{t('native_name')}</th>
-                            <th>{t('direction')}</th>
+                            <th>{t('is_default')}</th>
+                            <th>{t('sort_order')}</th>
                             <th>{t('status')}</th>
                             <th>{t('actions')}</th>
                         </tr>
                     </thead>
                     <tbody>
                         {filteredLanguages.map(language => (
-                            <tr key={language.code}>
+                            <tr key={language.id}>
                                 <td className="admin-flag-cell">
                                     <span className="admin-flag">{language.flag}</span>
                                 </td>
@@ -148,19 +224,19 @@ const LanguagesManagement = () => {
                                     <code className="admin-code">{language.code}</code>
                                 </td>
                                 <td>{language.name}</td>
-                                <td>{language.nativeName}</td>
                                 <td>
-                                    <span className={`admin-direction ${language.direction || 'ltr'}`}>
-                                        {(language.direction || 'ltr').toUpperCase()}
+                                    <span className={`admin-badge ${language.is_default ? 'admin-badge-success' : 'admin-badge-secondary'}`}>
+                                        {language.is_default ? t('default') : t('not_default')}
                                     </span>
                                 </td>
+                                <td>{language.sort_order}</td>
                                 <td>
                                     <button
-                                        className={`admin-status-toggle ${(language.isActive !== undefined ? language.isActive : true) ? 'active' : 'inactive'}`}
-                                        onClick={() => toggleStatus(language.code)}
+                                        className={`admin-status-toggle ${language.is_active ? 'active' : 'inactive'}`}
+                                        onClick={() => toggleStatus(language)}
                                     >
                                         <span className="admin-status-indicator"></span>
-                                        {(language.isActive !== undefined ? language.isActive : true) ? t('active') : t('inactive')}
+                                        {language.is_active ? t('active') : t('inactive')}
                                     </button>
                                 </td>
                                 <td>
@@ -176,6 +252,7 @@ const LanguagesManagement = () => {
                                             className="admin-btn admin-btn-sm admin-btn-danger"
                                             onClick={() => handleDelete(language)}
                                             title={t('delete_language')}
+                                            disabled={language.is_default}
                                         >
                                             <i className="fas fa-trash"></i>
                                         </button>
@@ -231,17 +308,6 @@ const LanguagesManagement = () => {
                             </div>
 
                             <div className="admin-form-group">
-                                <label>{t('native_name')}</label>
-                                <input
-                                    type="text"
-                                    value={formData.nativeName}
-                                    onChange={(e) => setFormData({...formData, nativeName: e.target.value})}
-                                    placeholder="O'zbekcha, Русский, English"
-                                    required
-                                />
-                            </div>
-
-                            <div className="admin-form-group">
                                 <label>{t('flag_emoji')}</label>
                                 <input
                                     type="text"
@@ -253,25 +319,35 @@ const LanguagesManagement = () => {
                             </div>
 
                             <div className="admin-form-group">
-                                <label>{t('text_direction')}</label>
-                                <select
-                                    value={formData.direction}
-                                    onChange={(e) => setFormData({...formData, direction: e.target.value})}
+                                <label>{t('sort_order')}</label>
+                                <input
+                                    type="number"
+                                    value={formData.sort_order}
+                                    onChange={(e) => setFormData({...formData, sort_order: parseInt(e.target.value)})}
+                                    min="1"
                                     required
-                                >
-                                    <option value="ltr">{t('left_to_right')}</option>
-                                    <option value="rtl">{t('right_to_left')}</option>
-                                </select>
+                                />
                             </div>
 
                             <div className="admin-form-group">
                                 <label className="admin-checkbox-label">
                                     <input
                                         type="checkbox"
-                                        checked={formData.isActive}
-                                        onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
+                                        checked={formData.is_active}
+                                        onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
                                     />
                                     {t('language_active')}
+                                </label>
+                            </div>
+
+                            <div className="admin-form-group">
+                                <label className="admin-checkbox-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.is_default}
+                                        onChange={(e) => setFormData({...formData, is_default: e.target.checked})}
+                                    />
+                                    {t('default_language')}
                                 </label>
                             </div>
                             
@@ -280,9 +356,13 @@ const LanguagesManagement = () => {
                                     <i className="fas fa-times"></i>
                                     {t('cancel')}
                                 </button>
-                                <button type="submit" className="admin-btn admin-btn-primary">
-                                    <i className={`fas ${editingLanguage ? 'fa-save' : 'fa-plus'}`}></i>
-                                    {editingLanguage ? t('update') : t('add')}
+                                <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>
+                                    {saving ? (
+                                        <i className="fas fa-spinner fa-spin"></i>
+                                    ) : (
+                                        <i className={`fas ${editingLanguage ? 'fa-save' : 'fa-plus'}`}></i>
+                                    )}
+                                    {saving ? t('saving') : (editingLanguage ? t('update') : t('add'))}
                                 </button>
                             </div>
                         </form>
