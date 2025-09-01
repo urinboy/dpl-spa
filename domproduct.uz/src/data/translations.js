@@ -48,6 +48,52 @@ export const resources = {
       "category_books": "Kitoblar",
       "category_furniture": "Mebel",
       "category_construction": "Qurilish mollari",
+
+      // Filters
+      "filters": "Filtrlar",
+      "filter": "Filtr",
+      "brands": "Brendlar",
+      "price_range": "Narx oralig'i",
+      "min_price": "Eng kam narx",
+      "max_price": "Eng yuqori narx",
+      "rating": "Reyting",
+      "additional_filters": "Qo'shimcha filtrlar",
+      "in_stock_only": "Faqat mavjud",
+      "on_sale_only": "Faqat chegirmada",
+      "apply": "Qo'llash",
+      "reset_filters": "Filtrlarni tozalash",
+      "apply_filters": "Filtrlarni qo'llash",
+      "clear_filters": "Filtrlarni tozalash",
+      "and_up": "va undan yuqori",
+      
+      // Price Ranges
+      "all_prices": "Barcha narxlar",
+      "under_100k": "100 mingdan kam",
+      "100k_to_500k": "100-500 ming",
+      "500k_to_1m": "500 ming-1 mln",
+      "over_1m": "1 mlndan ortiq",
+      
+      // Sort Options
+      "sort_by": "Saralash",
+      "sort_default": "Standart",
+      "sort_price_low_high": "Narxi: kam-ko'p",
+      "sort_price_high_low": "Narxi: ko'p-kam",
+      "sort_name_a_z": "Nomi: A-Z",
+      "sort_name_z_a": "Nomi: Z-A", 
+      "sort_rating": "Reytingi bo'yicha",
+      "sort_newest": "Eng yangi",
+      
+      // Rating Options
+      "all_ratings": "Barcha reytinglar",
+      "4_stars_plus": "4 yulduz va undan yuqori",
+      "3_stars_plus": "3 yulduz va undan yuqori",
+      "2_stars_plus": "2 yulduz va undan yuqori",
+      "1_star_plus": "1 yulduz va undan yuqori",
+      
+      // Products
+      "products_found": "ta mahsulot topildi",
+      "no_products_found_title": "Hech qanday mahsulot topilmadi",
+      "no_products_found_message": "Qidiruvingizga mos mahsulot yo'q. Filtrlarni o'zgartirib ko'ring.",
       "category_auto": "Avto tovarlar",
       "category_vegetables": "Sabzavotlar",
       "category_fruits": "Mevalar",
@@ -260,6 +306,54 @@ export const resources = {
       "subtotal": "Mahsulotlar narxi",
       "shipping": "Yetkazib berish",
       "checkout": "Rasmiylashtirish",
+
+      // Checkout Process
+      "cart_review": "Savat ko'rish",
+      "delivery_info": "Yetkazib berish ma'lumotlari",
+      "payment_info": "To'lov ma'lumotlari", 
+      "order_confirmation": "Buyurtmani tasdiqlash",
+      "review_your_order": "Buyurtmangizni ko'rib chiqing",
+      "continue_to_delivery": "Yetkazib berish ma'lumotlariga o'tish",
+      "continue_to_payment": "To'lov ma'lumotlariga o'tish",
+      "review_order": "Buyurtmani ko'rish",
+      "place_order": "Buyurtma berish",
+      "processing": "Ishlanmoqda...",
+      "back": "Orqaga",
+      
+      // Delivery Information
+      "delivery_information": "Yetkazib berish ma'lumotlari",
+      "delivery_address": "Yetkazib berish manzili",
+      "enter_full_address": "To'liq manzilni kiriting...",
+      "delivery_method": "Yetkazib berish usuli",
+      "standard_delivery": "Oddiy yetkazib berish",
+      "express_delivery": "Tezkor yetkazib berish",
+      "same_day_delivery": "Shu kunning o'zida",
+      "store_pickup": "Do'kondan olish",
+      "3_5_business_days": "3-5 ish kuni",
+      "1_2_business_days": "1-2 ish kuni",
+      "order_before_2pm": "Soat 14:00 gacha buyurtma bering",
+      "pickup_from_store": "Do'kondan olib ketish",
+      
+      // Payment Methods
+      "payment_information": "To'lov ma'lumotlari",
+      "payment_method": "To'lov usuli",
+      "cash_on_delivery": "Yetkazganda to'lash",
+      "bank_card": "Bank kartasi",
+      "card_payment": "Karta orqali to'lash",
+      "click": "Click",
+      "payme": "Payme",
+      "uzcard": "UzCard",
+      "pay_when_delivered": "Mahsulot yetkazilganda to'lang",
+      "visa_mastercard": "Visa, MasterCard",
+      "click_description": "Click mobil ilovasi orqali",
+      "payme_description": "Payme mobil ilovasi orqali",
+      "uzcard_description": "UzCard plastik kartasi orqali",
+      
+      // Order Confirmation
+      "delivery_to": "Yetkazib berish manzili",
+      "items": "Mahsulotlar",
+      "delivery": "Yetkazib berish",
+      "discount": "Chegirma",
 
       // Orders Page
       "no_orders_yet": "Sizda hali buyurtmalar yo'q",

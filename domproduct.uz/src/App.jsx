@@ -5,12 +5,14 @@ import { useTranslation } from 'react-i18next'; // Import useTranslation
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import WishlistPage from './pages/WishlistPage';
 // import LoginModalContent from './components/LoginModal';
 import { useLoading } from './components/Loading';
 import { useCart } from './contexts/CartContext';
+import { CheckoutProvider } from './contexts/CheckoutContext';
 import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
@@ -99,6 +101,11 @@ function App() {
                                 <Route path="/products" element={<ProductsPage />} />
                                 <Route path="/products/:id" element={<ProductDetailPage />} />
                                 <Route path="/cart" element={<CartPage />} />
+                                <Route path="/checkout" element={
+                                    <CheckoutProvider>
+                                        <CheckoutPage />
+                                    </CheckoutProvider>
+                                } />
                                 <Route path="/orders" element={<OrdersPage />} />
                                 <Route path="/wishlist" element={<WishlistPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
