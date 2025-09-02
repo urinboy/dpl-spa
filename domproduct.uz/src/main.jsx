@@ -20,28 +20,31 @@ import { AuthProvider } from './contexts/AuthContext'; // Import AuthProvider
 import { CartProvider } from './contexts/CartContext';
 import { WishlistProvider } from './contexts/WishlistContext'; // Import WishlistProvider
 import { LanguageProvider } from './contexts/LanguageContext'; // Import LanguageProvider
-import { ProductFilterProvider } from './contexts/ProductFilterContext'; // Import ProductFilterProvider
+import { ProductFilterProvider } from './contexts/ProductFilterContext'; // Import ProductFilterProvider  
+import { LocationProvider } from './contexts/LocationContext'; // Import LocationProvider
 import ScrollToTop from './components/ScrollToTop';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <LanguageProvider>
-            <AuthProvider>
-                <ToastProvider>
-                    <CartProvider>
-                        <WishlistProvider>
-                            <ProductFilterProvider>
-                                <LoadingProvider>
-                                    <ModalProvider>
-                                        <ScrollToTop />
-                                        <App />
-                                    </ModalProvider>
-                                </LoadingProvider>
-                            </ProductFilterProvider>
-                        </WishlistProvider>
-                    </CartProvider>
-                </ToastProvider>
-            </AuthProvider>
+            <LocationProvider>
+                <AuthProvider>
+                    <ToastProvider>
+                        <CartProvider>
+                            <WishlistProvider>
+                                <ProductFilterProvider>
+                                    <LoadingProvider>
+                                        <ModalProvider>
+                                            <ScrollToTop />
+                                            <App />
+                                        </ModalProvider>
+                                    </LoadingProvider>
+                                </ProductFilterProvider>
+                            </WishlistProvider>
+                        </CartProvider>
+                    </ToastProvider>
+                </AuthProvider>
+            </LocationProvider>
         </LanguageProvider>
     </BrowserRouter>
 );
