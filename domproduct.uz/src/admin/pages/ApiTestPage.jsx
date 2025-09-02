@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import YandexMapsTest from '../../components/YandexMapsTest';
+import LocationStorageService from '../../services/LocationStorageService';
+import LocationAPIService from '../../services/LocationAPIService';
 
 const ApiTestPage = () => {
   const [testResults, setTestResults] = useState([]);
@@ -181,9 +183,78 @@ const ApiTestPage = () => {
     await testIPGeolocation();
     await testGoogleAPI();
     await testYandexAPI();
+    await testLocationStorage();
+    await testLocationAPI();
     
     addResult('Comprehensive API Test', 'success', 'All tests completed!');
     setIsTestingAll(false);
+  };
+
+  // LocalStorage Service Test
+  const testLocationStorage = async () => {
+    try {
+      const testLocation = {
+        latitude: 41.2995,
+        longitude: 69.2401,
+        city: 'Toshkent',
+        district: 'Yunusobod',
+        country: 'O\'zbekiston',
+        formatted_address: 'Yunusobod tumani, Toshkent, O\'zbekiston',
+        provider: 'test'
+      };
+
+      // Lokatsiyani saqlash
+      await LocationStorageService.saveUserLocation(testLocation);
+      const savedLocation = LocationStorageService.getUserLocation();
+      
+      // Tarixga qo'shish
+      LocationStorageService.addToLocationHistory(testLocation);
+      const history = LocationStorageService.getLocationHistory();
+      
+      // Delivery zone keshi
+      const deliveryZone = {
+        city: 'Toshkent',
+        zones: ['Yunusobod', 'Chilonzor', 'Shayxontoxur'],
+        isDeliveryAvailable: true
+      };
+      LocationStorageService.cacheDeliveryZone('Toshkent', deliveryZone);
+      const cachedZone = LocationStorageService.getCachedDeliveryZone('Toshkent');
+
+      addResult('LocalStorage Service', 'success', {
+        location: savedLocation?.city,
+        historyCount: history.length,
+        deliveryAvailable: cachedZone?.isDeliveryAvailable
+      });
+    } catch (error) {
+      addResult('LocalStorage Service', 'error', null, error.message);
+    }
+  };
+
+  // Location API Service Test
+  const testLocationAPI = async () => {
+    try {
+      const testLocation = {
+        latitude: 41.2995,
+        longitude: 69.2401,
+        city: 'Toshkent',
+        district: 'Yunusobod'
+      };
+
+      // API testlari (demo rejimda)
+      const saveResult = await LocationAPIService.saveUserLocation(testLocation, 'demo-user');
+      const nearbyUsers = await LocationAPIService.findNearbyUsers(41.2995, 69.2401, 5);
+      const regionalProducts = await LocationAPIService.getRegionalProducts('Toshkent');
+      const deliveryCheck = await LocationAPIService.checkDeliveryZone('Toshkent', 'Yunusobod');
+
+      addResult('Location API Service', 'success', {
+        saveResult: saveResult?.message,
+        nearbyUsersCount: nearbyUsers?.length,
+        regionalProductsCount: regionalProducts?.length,
+        deliveryAvailable: deliveryCheck?.available
+      });
+    } catch (error) {
+      addResult('Location API Service', 'error', null, error.message);
+    }
   };
 
   const clearResults = () => setTestResults([]);
@@ -312,6 +383,14 @@ const ApiTestPage = () => {
         
         <button onClick={testYandexAPI} style={buttonStyle}>
           🔧 Test Yandex
+        </button>
+        
+        <button onClick={testLocationStorage} style={buttonStyle}>
+          💾 Test Storage
+        </button>
+        
+        <button onClick={testLocationAPI} style={buttonStyle}>
+          🔗 Test Location API
         </button>
         
         <button onClick={testEnvironment} style={buttonStyle}>

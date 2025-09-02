@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import OpenStreetMapUtils from '../utils/OpenStreetMapUtils';
+import LocationAPIService from '../services/LocationAPIService';
+import LocationStorageService from '../services/LocationStorageService';
 
 const LocationContext = createContext();
 
@@ -51,15 +53,44 @@ export const LocationProvider = ({ children }) => {
     }, 2000); // 2 soniyadan keyin so'rash
   }, []);
 
-  // Joylashuvni localStorage ga saqlash
-  const saveLocationToStorage = (locationData) => {
+  // Joylashuvni localStorage va API ga saqlash
+  const saveLocationToStorage = async (locationData) => {
     try {
-      localStorage.setItem('user_location', JSON.stringify({
-        ...locationData,
-        timestamp: Date.now()
-      }));
+      // 1. LocalStorage ga saqlash
+      const saved = LocationStorageService.saveUserLocation(locationData);
+      
+      if (saved) {
+        console.log('✅ Location saved to localStorage');
+        
+        // Detection time ni yangilash
+        LocationStorageService.saveLastDetectionTime(locationData.method);
+      }
+
+      // 2. API ga jo'natish (background da)
+      try {
+        const response = await LocationAPIService.saveUserLocation(locationData);
+        console.log('📡 Location saved to API:', response.success);
+        
+        // Analytics jo'natish
+        LocationAPIService.sendLocationAnalytics({
+          action: 'location_saved',
+          method: locationData.method,
+          city: locationData.city,
+          success: true
+        });
+      } catch (error) {
+        console.warn('⚠️ Failed to save to API:', error.message);
+        
+        // API error analytics
+        LocationAPIService.sendLocationAnalytics({
+          action: 'location_save_failed',
+          method: locationData.method,
+          error: error.message,
+          success: false
+        });
+      }
     } catch (error) {
-      console.error('Joylashuvni saqlashda xatolik:', error);
+      console.error('❌ Failed to save location:', error);
     }
   };
 
