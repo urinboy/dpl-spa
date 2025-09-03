@@ -1,5 +1,13 @@
 /* Enhanced Mobile Responsive */
 
+/* Desktop/Tablet - No bottom navigation padding */
+@media (min-width: 769px) {
+    .main-content {
+        padding: var(--space-4);
+        padding-bottom: var(--space-4); /* Normal bottom padding */
+    }
+}
+
 /* Mobil qidiruv tugmasi (boshida ko'rinmaydi) */
 .mobile-search-btn {
     display: none;

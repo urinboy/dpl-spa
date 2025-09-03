@@ -4,8 +4,8 @@ const SplashScreen = () => {
     return (
         <div className="splash-screen">
             <div className="splash-icon-container">
-                {/* Agar public papkada favicon.png bo'lsa, avtomatik ishlatiladi */}
-                <img src="/loadings/light-splash.gif" alt="Loading Light Splash" className="splash-icon" />
+                {/* DPL loading gif ishlatiladi */}
+                <img src="/dpl-loading.gif" alt="DPL Loading" className="splash-icon" />
             </div>
         </div>
     );

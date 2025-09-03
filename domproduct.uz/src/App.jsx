@@ -38,6 +38,41 @@ function App() {
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isAppLoading, setIsAppLoading] = useState(true);
     const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
+    const [userLocation, setUserLocation] = useState(null);
+
+    // Load location from localStorage
+    useEffect(() => {
+        const loadUserLocation = () => {
+            try {
+                const savedLocation = localStorage.getItem('dpl_user_location');
+                if (savedLocation) {
+                    const locationData = JSON.parse(savedLocation);
+                    setUserLocation(locationData);
+                }
+            } catch (error) {
+                console.error('Error loading user location:', error);
+            }
+        };
+
+        loadUserLocation();
+
+        // Listen for location changes from onboarding
+        const handleStorageChange = (e) => {
+            if (e.key === 'dpl_user_location') {
+                loadUserLocation();
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        
+        // Also check for changes every 2 seconds (for same-tab changes)
+        const intervalId = setInterval(loadUserLocation, 2000);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            clearInterval(intervalId);
+        };
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsAppLoading(false), 2000);
@@ -94,8 +129,12 @@ function App() {
                                                 <div className="location-dot"></div>
                                             </div>
                                             <div className="location-text">
-                                                <span className="location-city">Tashkent</span>
-                                                <span className="location-district">Shahar markazi</span>
+                                                <span className="location-city">
+                                                    {userLocation?.address?.city || 'Tashkent'}
+                                                </span>
+                                                <span className="location-district">
+                                                    {userLocation?.address?.district || 'Shahar markazi'}
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -108,6 +147,47 @@ function App() {
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch(e.target.value)} 
                                         />
                                     </div>
+                                    
+                                    {/* Header Navigation Menu - Desktop/Tablet only */}
+                                    <nav className="header-nav-menu">
+                                        <NavLink 
+                                            to="/" 
+                                            className={({ isActive }) => `header-nav-item ${isActive ? 'active' : ''}`}
+                                        >
+                                            <i className="fas fa-home header-nav-icon"></i>
+                                            <span className="header-nav-text">{t('home')}</span>
+                                        </NavLink>
+                                        <NavLink 
+                                            to="/products" 
+                                            className={({ isActive }) => `header-nav-item ${isActive ? 'active' : ''}`}
+                                        >
+                                            <i className="fas fa-cubes header-nav-icon"></i>
+                                            <span className="header-nav-text">{t('products')}</span>
+                                        </NavLink>
+                                        <NavLink 
+                                            to="/wishlist" 
+                                            className={({ isActive }) => `header-nav-item ${isActive ? 'active' : ''}`}
+                                        >
+                                            <i className="fas fa-heart header-nav-icon"></i>
+                                            <span className="header-nav-text">{t('wishlist')}</span>
+                                        </NavLink>
+                                        <NavLink 
+                                            to="/cart" 
+                                            className={({ isActive }) => `header-nav-item cart-nav-item ${isActive ? 'active' : ''}`}
+                                        >
+                                            <i className="fas fa-shopping-cart header-nav-icon"></i>
+                                            {cartItems.length > 0 && <span className="badge">{cartItems.length}</span>}
+                                            <span className="header-nav-text">{t('cart')}</span>
+                                        </NavLink>
+                                        <NavLink 
+                                            to="/profile" 
+                                            className={({ isActive }) => `header-nav-item ${isActive ? 'active' : ''}`}
+                                        >
+                                            <i className="fas fa-user header-nav-icon"></i>
+                                            <span className="header-nav-text">{t('profile')}</span>
+                                        </NavLink>
+                                    </nav>
+                                    
                                     <div className="header-actions">
                                         <button className="icon-btn mobile-search-btn" onClick={() => setIsSearchOpen(true)}>
                                             <i className="fas fa-search"></i>

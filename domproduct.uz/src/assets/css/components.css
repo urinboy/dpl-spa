@@ -290,9 +290,71 @@
     justify-content: space-between;
     align-items: center;
     gap: 1.5rem;
-    max-width: 1200px;
+    width: 100%;
+    max-width: none;
     margin: 0 auto;
     padding: 1rem;
+    overflow-x: auto; /* Horizontal scroll if needed */
+    min-height: 60px;
+}
+
+/* Large screens - All elements visible */
+@media (min-width: 1400px) {
+    .header-content {
+        gap: 2rem;
+        padding: 1rem 2rem;
+    }
+}
+
+/* Desktop - Reduce gaps and paddings */
+@media (max-width: 1399px) and (min-width: 1200px) {
+    .header-content {
+        gap: 1.5rem;
+        padding: 1rem 1.5rem;
+    }
+}
+
+/* Medium Desktop - Tighter spacing */
+@media (max-width: 1199px) and (min-width: 1024px) {
+    .header-content {
+        gap: 1.2rem;
+        padding: 1rem;
+    }
+    
+    .header-left {
+        gap: 0.8rem;
+    }
+    
+    .header-left .location-display {
+        min-width: 180px;
+        max-width: 220px;
+        padding: 0.6rem 0.8rem;
+    }
+}
+
+/* Small Desktop/Large Tablet */
+@media (max-width: 1023px) and (min-width: 896px) {
+    .header-content {
+        gap: 1rem;
+        padding: 0.8rem;
+    }
+    
+    .header-left {
+        gap: 0.6rem;
+    }
+    
+    .header-left .location-display {
+        min-width: 160px;
+        max-width: 180px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .search-container.desktop-search {
+        margin: 0 0.5rem;
+        max-width: 250px;
+        min-width: 180px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -313,7 +375,30 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    flex-shrink: 0;
+    flex-shrink: 1; /* Allow shrinking to prevent overflow */
+    min-width: 0; /* Allow flex items to shrink below their content size */
+}
+
+/* Large screens - Normal spacing */
+@media (min-width: 1200px) {
+    .header-left {
+        gap: 1.2rem;
+        flex-shrink: 0;
+    }
+}
+
+/* Medium screens - Compact spacing */
+@media (max-width: 1199px) and (min-width: 896px) {
+    .header-left {
+        gap: 0.9rem;
+    }
+}
+
+/* Small screens - Tight spacing */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-left {
+        gap: 0.7rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -404,6 +489,42 @@
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 1; /* Allow shrinking when needed */
+}
+
+/* Large screens - Normal location display */
+@media (min-width: 1200px) {
+    .header-left .location-display {
+        max-width: 300px;
+        min-width: 220px;
+    }
+}
+
+/* Medium screens - Compact location display */
+@media (max-width: 1199px) and (min-width: 896px) {
+    .header-left .location-display {
+        max-width: 250px;
+        min-width: 180px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Small screens - Very compact */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-left .location-display {
+        max-width: 200px;
+        min-width: 150px;
+        padding: 0.5rem 0.7rem;
+        font-size: 0.9rem;
+        gap: 0.5rem;
+    }
+    
+    .header-left .location-display .location-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .header-left .location-display:hover {
@@ -614,6 +735,33 @@
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* Large screens - Normal spacing */
+@media (min-width: 1200px) {
+    .header-actions {
+        gap: 1rem;
+    }
+}
+
+/* Medium screens - Tighter spacing */
+@media (max-width: 1199px) and (min-width: 896px) {
+    .header-actions {
+        gap: 0.6rem;
+    }
+}
+
+/* Small screens - Minimal spacing */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-actions {
+        gap: 0.4rem;
+    }
+    
+    .icon-btn {
+        padding: 0.5rem;
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -772,7 +920,7 @@
     flex-grow: 1; /* Allow name to take up space */
 }
 
-/* Bottom navigation */
+/* Bottom navigation - Mobile only */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -784,6 +932,173 @@
     padding: 0.6rem 0;
     z-index: var(--z-fixed);
     box-shadow: 0 -4px 8px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Hide bottom nav on tablet and larger screens */
+@media (min-width: 768px) {
+    .bottom-nav {
+        display: none;
+    }
+}
+
+/* Header navigation menu - Desktop/Tablet only */
+.header-nav-menu {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .header-nav-menu {
+        display: flex;
+    }
+}
+
+/* Large desktop - Full navigation with text */
+@media (min-width: 1400px) {
+    .header-nav-menu {
+        gap: 1.5rem;
+    }
+    
+    .header-nav-item {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Medium desktop - Reduced text size */
+@media (max-width: 1399px) and (min-width: 1200px) {
+    .header-nav-menu {
+        gap: 1.2rem;
+    }
+    
+    .header-nav-item {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Small desktop - Hide text, icon only */
+@media (max-width: 1199px) and (min-width: 896px) {
+    .header-nav-menu {
+        gap: 1rem;
+    }
+    
+    .header-nav-item {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    .header-nav-text {
+        display: none;
+    }
+    
+    .header-nav-icon {
+        font-size: 1.2rem;
+    }
+}
+
+/* Tablet - Compact icons */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-nav-menu {
+        gap: 0.6rem;
+    }
+    
+    .header-nav-item {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    .header-nav-text {
+        display: none;
+    }
+    
+    .header-nav-icon {
+        font-size: 1.1rem;
+    }
+}
+
+/* Overflow protection for nav menu */
+@media (max-width: 1023px) and (min-width: 768px) {
+    .header-nav-menu {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .header-nav-menu::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.header-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-lg);
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.header-nav-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.header-nav-item.active {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 600;
+}
+
+.header-nav-item.active .header-nav-icon {
+    transform: scale(1.1);
+}
+
+.header-nav-icon {
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+
+.header-nav-text {
+    white-space: nowrap;
+}
+
+/* Cart badge in header nav */
+.header-nav-item.cart-nav-item {
+    position: relative;
+}
+
+.header-nav-item.cart-nav-item .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--danger-color);
+    color: white;
+    border-radius: var(--radius-full);
+    min-width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .nav-item {
@@ -2016,10 +2331,42 @@
     z-index: 99999;
 }
 
+.splash-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
 .splash-icon {
-    width: 240px;
-    height: 240px;
+    width: 200px;
+    height: 200px;
     animation: pulse-fade 2s infinite ease-in-out;
+    object-fit: contain; /* Gif proportional qolishi uchun */
+    border-radius: var(--radius-xl); /* Chiroyli border radius */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* Nozik soya */
+    background: rgba(255, 255, 255, 0.9); /* Orqa fon */
+    padding: 0; /* Padding none */
+}
+
+/* Responsive splash icon sizes */
+@media (max-width: 768px) {
+    .splash-icon {
+        width: 160px;
+        height: 160px;
+        border-radius: var(--radius-lg); /* Kichikroq radius */
+        padding: 0; /* Padding none */
+    }
+}
+
+@media (max-width: 480px) {
+    .splash-icon {
+        width: 120px;
+        height: 120px;
+        border-radius: var(--radius-md); /* Eng kichik radius */
+        padding: 0; /* Padding none */
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* Kichikroq soya */
+    }
 }
 
 /* Universal anchor focus styles */

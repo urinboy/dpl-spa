@@ -53,7 +53,7 @@
     
     --light-color: #f8fafc;
     --dark-color: #1e293b;
-    --splash-bg-color: #f0f9f4;
+    --splash-bg-color: #ffffff; /* dpl-loading.gif orqa foni bilan moslashtirish uchun */
 
     /* Enhanced Gray Scale */
     --gray-50: #f8fafc;
