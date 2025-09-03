@@ -1,0 +1,313 @@
+function resetAuthForms() {
+            const loginForm = document.querySelector('#login-form form');
+            const registerForm = document.querySelector('#register-form form');
+
+            if (loginForm) loginForm.reset();
+            if (registerForm) registerForm.reset();
+
+            // Reset button states
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+
+            if (loginBtn) {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Kirish';
+            }
+
+            if (registerBtn) {
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Ro\'yxatdan o\'tish';
+            }
+        }
+
+        // Form Handlers
+        async function handleLogin(event) {
+            event.preventDefault();
+
+            const loginBtn = document.getElementById('login-btn');
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Validate inputs
+            if (!email || !password) {
+                showNotification('Barcha maydonlarni to\'ldiring!', 'error');
+                return;
+            }
+
+            // Set loading state
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Kirilyapti...
+            `;
+
+            try {
+                const response = await apiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+
+                authToken = response.data.token;
+                localStorage.setItem('authToken', authToken);
+                currentUser = response.data.user;
+
+                closeAuthModal();
+                showNotification('Muvaffaqiyatli kirdingiz!', 'success');
+                updateUIForAuthenticatedUser();
+
+                // Update cart from server
+                if (authToken) {
+                    await updateCartFromAPI();
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification(error.message || 'Login xatoligi!', 'error');
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Kirish';
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+
+            const registerBtn = document.getElementById('register-btn');
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const language = document.getElementById('register-language').value;
+            const password = document.getElementById('register-password').value;
+            const passwordConfirm = document.getElementById('register-password-confirm').value;
+            const termsAccepted = document.getElementById('register-terms').checked;
+
+            // Validate inputs
+            if (!name || !email || !password || !passwordConfirm) {
+                showNotification('Majburiy maydonlarni to\'ldiring!', 'error');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                showNotification('Parollar mos kelmaydi!', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('Parol kamida 6 ta belgidan iborat bo\'lishi kerak!', 'error');
+                return;
+            }
+
+            if (!termsAccepted) {
+                showNotification('Foydalanish shartlarini qabul qiling!', 'error');
+                return;
+            }
+
+            // Set loading state
+            registerBtn.disabled = true;
+            registerBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Ro'yxatdan o'tilyapti...
+            `;
+
+            try {
+                const userData = {
+                    name,
+                    email,
+                    password,
+                    password_confirmation: passwordConfirm,
+                    preferred_language: language
+                };
+
+                // Add phone if provided
+                if (phone.trim()) {
+                    userData.phone = phone.replace(/\D/g, ''); // Remove non-digits
+                }
+
+                const response = await apiRequest('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify(userData)
+                });
+
+                authToken = response.data.token;
+                localStorage.setItem('authToken', authToken);
+                currentUser = response.data.user;
+
+                closeAuthModal();
+                showNotification('Muvaffaqiyatli ro\'yxatdan o\'tdingiz!', 'success');
+                updateUIForAuthenticatedUser();
+
+                // Update cart from server
+                if (authToken) {
+                    await updateCartFromAPI();
+                }
+
+            } catch (error) {
+                console.error('Register error:', error);
+                showNotification(error.message || 'Ro\'yxatdan o\'tishda xatolik!', 'error');
+            } finally {
+                registerBtn.disabled = false;
+                registerBtn.textContent = 'Ro\'yxatdan o\'tish';
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                if (authToken) {
+                    await apiRequest('/auth/logout', { method: 'POST' });
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                authToken = null;
+                currentUser = null;
+                localStorage.removeItem('authToken');
+                cartItems = [];
+                updateCartCount();
+                updateCartUI();
+                closeAuthModal();
+                showNotification('Muvaffaqiyatli chiqib ketdingiz!', 'info');
+                updateUIForLoggedOutUser();
+            }
+        }
+
+        function updateUIForAuthenticatedUser() {
+            // Update profile button to show user is logged in
+            const profileButtons = document.querySelectorAll('button[onclick*="toggleAuth"]');
+            profileButtons.forEach(button => {
+                button.classList.add('bg-primary/20');
+                const svg = button.querySelector('svg');
+                if (svg) {
+                    svg.classList.add('text-primary');
+                }
+            });
+
+            // You can add more UI updates here like showing user name, etc.
+        }
+
+        function updateUIForLoggedOutUser() {
+            // Reset profile button appearance
+            const profileButtons = document.querySelectorAll('button[onclick*="toggleAuth"]');
+            profileButtons.forEach(button => {
+                button.classList.remove('bg-primary/20');
+                const svg = button.querySelector('svg');
+                if (svg) {
+                    svg.classList.remove('text-primary');
+                }
+            });
+        }
+
+        // Profile Management Functions
+        function viewOrders() {
+            closeAuthModal();
+            showNotification('Buyurtmalar sahifasi ochilmoqda...', 'info');
+            // Implement orders page navigation
+        }
+
+        function viewAddresses() {
+            closeAuthModal();
+            showNotification('Manzillar sahifasi ochilmoqda...', 'info');
+            // Implement addresses page navigation
+        }
+
+        function editProfile() {
+            closeAuthModal();
+            showNotification('Profil tahrirlash sahifasi ochilmoqda...', 'info');
+            // Implement profile editing
+        }
+
+        // Phone number formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            const phoneInput = document.getElementById('register-phone');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+
+                    if (value.startsWith('998')) {
+                        value = value.substring(3);
+                    }
+
+                    if (value.length >= 9) {
+                        value = value.substring(0, 9);
+                        const formatted = `+998 ${value.substring(0, 2)} ${value.substring(2, 5)} ${value.substring(5, 7)} ${value.substring(7, 9)}`;
+                        e.target.value = formatted;
+                    } else if (value.length > 0) {
+                        e.target.value = '+998 ' + value;
+                    } else {
+                        e.target.value = '';
+                    }
+                });
+            }
+        });
+
+        // Password strength indicator
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]+/)) strength++;
+            if (password.match(/[A-Z]+/)) strength++;
+            if (password.match(/[0-9]+/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]+/)) strength++;
+
+            return strength;
+        }
+
+        // Add password strength indicator
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('register-password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function(e) {
+                    const strength = checkPasswordStrength(e.target.value);
+                    let strengthText = '';
+                    let strengthColor = '';
+
+                    switch (strength) {
+                        case 0:
+                        case 1:
+                            strengthText = 'Zaif';
+                            strengthColor = 'text-red-500';
+                            break;
+                        case 2:
+                        case 3:
+                            strengthText = 'O\'rta';
+                            strengthColor = 'text-yellow-500';
+                            break;
+                        case 4:
+                        case 5:
+                            strengthText = 'Kuchli';
+                            strengthColor = 'text-green-500';
+                            break;
+                    }
+
+                    let strengthIndicator = document.getElementById('password-strength');
+                    if (!strengthIndicator) {
+                        strengthIndicator = document.createElement('p');
+                        strengthIndicator.id = 'password-strength';
+                        strengthIndicator.className = 'text-xs mt-1';
+                        passwordInput.parentNode.appendChild(strengthIndicator);
+                    }
+
+                    if (e.target.value.length > 0) {
+                        strengthIndicator.textContent = `Parol kuchi: ${strengthText}`;
+                        strengthIndicator.className = `text-xs mt-1 ${strengthColor}`;
+                    } else {
+                        strengthIndicator.textContent = '';
+                    }
+                });
+            }
+        });
+
+        // Update the original functions to use new auth modal
+        function toggleProfile() {
+            toggleAuth();
+        }
+
+        function closeAllModals() {
+            cartSidebar.classList.add('translate-x-full');
+            closeAuthModal();
+        }

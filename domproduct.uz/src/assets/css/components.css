@@ -150,6 +150,13 @@
     margin: 0 auto;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
 .logo {
     font-family: var(--font-logo);
     font-size: 1.8rem; /* Increased base size */

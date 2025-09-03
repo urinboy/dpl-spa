@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM PRODUCT - To'lov</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        'primary-dark': '#059669',
+                        secondary: '#1f2937',
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <header class="gradient-bg text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button & Title -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="goBack()" class="p-2 hover:bg-white/20 rounded-lg transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold">To'lov</h1>
+                        <p class="text-xs text-green-200">Xavfsiz to'lov tizimi</p>
+                    </div>
+                </div>
+
+                <!-- Security Badge -->
+                <div class="flex items-center space-x-2 text-xs">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <span>Xavfsiz</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 pb-32">
+        <div class="max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Payment Form -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Payment Method Selection -->
+                    <div class="bg-white rounded-2xl shadow-sm">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">To'lov usulini tanlang</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4" id="payment-methods">
+                                <!-- Payment methods will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Payment Form -->
+                    <div id="card-payment-form" class="bg-white rounded-2xl shadow-sm hidden">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Karta ma'lumotlari</h3>
+                            <p class="text-sm text-gray-600 mt-1">Ma'lumotlaringiz xavfsiz va shifrlangan</p>
+                        </div>
+                        <div class="p-6">
+                            <form id="card-form" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Karta raqami</label>
+                                    <div class="relative">
+                                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456"
+                                               class="form-input pl-12" maxlength="19" required>
+                                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                            <div id="card-brand-icon" class="w-6 h-6 bg-gray-200 rounded flex items-center justify-center text-xs">
+                                                💳
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="card-number-error" class="text-red-500 text-xs mt-1 hidden"></div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Amal qilish muddati</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select id="card-month" class="form-input" required>
+                                                <option value="">Oy</option>
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                            <select id="card-year" class="form-input" required>
+                                                <option value="">Yil</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">CVV</label>
+                                        <div class="relative">
+                                            <input type="text" id="card-cvv" placeholder="123"
+                                                   class="form-input pr-10" maxlength="4" required>
+                                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Karta egasining ismi</label>
+                                    <input type="text" id="card-holder" placeholder="JOHN DOE"
+                                           class="form-input uppercase" required>
+                                </div>
+
+                                <div class="flex items-center space-x-2">
+                                    <input type="checkbox" id="save-card" class="rounded border-gray-300 text-primary focus:ring-primary">
+                                    <label for="save-card" class="text-sm text-gray-600">
+                                        Keyingi to'lovlar uchun kartani saqlash
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Online Payment Options -->
+                    <div id="online-payment-form" class="bg-white rounded-2xl shadow-sm hidden">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Onlayn to'lov</h3>
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="online-payment-options">
+                                <!-- Online payment options will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="bg-white rounded-2xl shadow-sm">
+                        <div class="p-6 border-b border-gray-100">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-lg font-semibold text-gray-800">Yetkazib berish manzili</h3>
+                                <button onclick="changeAddress()" class="text-primary text-sm hover:underline">
+                                    O'zgartirish
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div id="selected-address" class="flex items-start space-x-3">
+                                <!-- Selected address will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Instructions -->
+                    <div class="bg-white rounded-2xl shadow-sm">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Maxsus ko'rsatmalar</h3>
+                        </div>
+                        <div class="p-6">
+                            <textarea id="order-notes" rows="3"
+                                      class="form-input"
+                                      placeholder="Kuryer uchun qo'shimcha ma'lumotlar (ixtiyoriy)"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl shadow-sm sticky top-24">
+                        <div class="p-6 border-b border-gray-100">
+                            <h3 class="text-lg font-semibold text-gray-800">Buyurtma xulosasi</h3>
+                        </div>
+                        <div class="p-6">
+                            <!-- Order Items -->
+                            <div class="space-y-3 mb-6" id="order-summary-items">
+                                <!-- Order items will be loaded here -->
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Mahsulotlar:</span>
+                                    <span id="subtotal-amount">0 so'm</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Yetkazib berish:</span>
+                                    <span id="delivery-amount">15,000 so'm</span>
+                                </div>
+                                <div class="flex justify-between" id="discount-row" style="display: none;">
+                                    <span class="text-gray-600">Chegirma:</span>
+                                    <span class="text-green-600" id="discount-amount">-0 so'm</span>
+                                </div>
+                                <div class="flex justify-between" id="coupon-row" style="display: none;">
+                                    <span class="text-gray-600">Kupon:</span>
+                                    <span class="text-green-600" id="coupon-amount">-0 so'm</span>
+                                </div>
+                                <hr class="my-3">
+                                <div class="flex justify-between text-lg font-semibold">
+                                    <span>Jami:</span>
+                                    <span class="text-primary" id="total-amount">0 so'm</span>
+                                </div>
+                            </div>
+
+                            <!-- Coupon Code -->
+                            <div class="mt-6">
+                                <div class="flex space-x-2">
+                                    <input type="text" id="coupon-code" placeholder="Kupon kodi" class="form-input flex-1">
+                                    <button onclick="applyCoupon()" class="btn btn-outline px-4">
+                                        Qo'llash
+                                    </button>
+                                </div>
+                                <div id="coupon-message" class="text-xs mt-2 hidden"></div>
+                            </div>
+
+                            <!-- Payment Button -->
+                            <div class="mt-6">
+                                <button id="pay-button" onclick="processPayment()"
+                                        class="w-full btn btn-primary py-4 text-lg font-semibold" disabled>
+                                    <span id="pay-button-text">To'lov usulini tanlang</span>
+                                </button>
+                            </div>
+
+                            <!-- Security Info -->
+                            <div class="mt-4 text-xs text-gray-500 text-center">
+                                <div class="flex items-center justify-center space-x-2 mb-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    <span>256-bit SSL shifrlash</span>
+                                </div>
+                                <p>Sizning ma'lumotlaringiz xavfsiz va himoyalangan</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Processing Modal -->
+    <div id="payment-processing-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl w-full max-w-md p-8 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">To'lov qayta ishlanmoqda</h3>
+            <p class="text-gray-600 mb-4">Iltimos, kuting...</p>
+            <div class="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span>Xavfsiz to'lov</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Success Modal -->
+    <div id="payment-success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl w-full max-w-md p-8 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">To'lov muvaffaqiyatli!</h3>
+            <p class="text-gray-600 mb-6">Buyurtmangiz qabul qilindi va tez orada tayyorlanadi</p>
+
+            <div class="space-y-3">
+                <button onclick="goToOrderDetails()" class="w-full btn btn-primary">
+                    Buyurtmani ko'rish
+                </button>
+                <button onclick="continueShopping()" class="w-full btn btn-outline">
+                    Xarid qilishni davom ettirish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Error Modal -->
+    <div id="payment-error-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl w-full max-w-md p-8 text-center">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">To'lov xatosi</h3>
+            <p class="text-gray-600 mb-6" id="payment-error-message">To'lovni qayta ishlashda xatolik yuz berdi</p>
+
+            <div class="space-y-3">
+                <button onclick="retryPayment()" class="w-full btn btn-primary">
+                    Qayta urinib ko'rish
+                </button>
+                <button onclick="closeErrorModal()" class="w-full btn btn-outline">
+                    Bekor qilish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Demo data
+        const cartData = {
+            items: [
+                {
+                    id: 1,
+                    name: 'Toza olma',
+                    price: 8000,
+                    quantity: 2,
+                    image: '🍎'
+                },
+                {
+                    id: 2,
+                    name: 'Yangi pomidor',
+                    price: 12000,
+                    quantity: 1,
+                    image: '🍅'
+                },
+                {
+                    id: 3,
+                    name: 'Toza sut',
+                    price: 8500,
+                    quantity: 2,
+                    image: '🥛'
+                }
+            ],
+            subtotal: 42000,
+            deliveryFee: 15000,
+            discount: 0,
+            couponDiscount: 0,
+            total: 57000
+        };
+
+        const addressData = {
+            title: 'Uy',
+            address: 'Toshkent, Yunusobod tumani, Amir Temur ko\'chasi 15-uy',
+            phone: '+998 90 123 45 67'
+        };
+
+        const paymentMethods = [
+            {
+                id: 'card',
+                name: 'Plastik karta',
+                description: 'Visa, MasterCard, UzCard',
+                icon: '💳',
+                enabled: true
+            },
+            {
+                id: 'cash',
+                name: 'Naqd pul',
+                description: 'Yetkazib berishda to\'lash',
+                icon: '💵',
+                enabled: true
+            },
+            {
+                id: 'online',
+                name: 'Onlayn to\'lov',
+                description: 'Click, Payme, UzCard Online',
+                icon: '🌐',
+                enabled: true
+            }
+        ];
+
+        const onlinePaymentOptions = [
+            { id: 'click', name: 'Click', icon: '📱', color: 'bg-blue-500' },
+            { id: 'payme', name: 'Payme', icon: '💙', color: 'bg-purple-500' },
+            { id: 'uzcard', name: 'UzCard', icon: '💳', color: 'bg-green-500' }
+        ];
+
+        let selectedPaymentMethod = null;
+        let selectedOnlineMethod = null;
+        let orderData = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPaymentMethods();
+            loadOrderSummary();
+            loadSelectedAddress();
+            populateCardYears();
+            setupCardNumberFormatting();
+            setupFormValidation();
+        });
+
+        function loadPaymentMethods() {
+            const container = document.getElementById('payment-methods');
+            container.innerHTML = '';
+
+            paymentMethods.forEach(method => {
+                const methodElement = document.createElement('div');
+                methodElement.className = `payment-method-option p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                    method.enabled ? 'hover:border-primary' : 'opacity-50 cursor-not-allowed'
+                }`;
+                methodElement.dataset.method = method.id;
+
+                methodElement.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="text-2xl">${method.icon}</div>
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-800">${method.name}</h4>
+                            <p class="text-sm text-gray-600">${method.description}</p>
+                        </div>
+                        <div class="payment-method-radio w-5 h-5 border-2 border-gray-300 rounded-full"></div>
+                    </div>
+                `;
+
+                if (method.enabled) {
+                    methodElement.addEventListener('click', () => selectPaymentMethod(method.id));
+                }
+
+                container.appendChild(methodElement);
+            });
+        }
+
+        function selectPaymentMethod(methodId) {
+            selectedPaymentMethod = methodId;
+
+            // Update UI
+            document.querySelectorAll('.payment-method-option').forEach(el => {
+                el.classList.remove('border-primary', 'bg-primary/5');
+                el.querySelector('.payment-method-radio').classList.remove('border-primary', 'bg-primary');
+            });
+
+            const selectedElement = document.querySelector(`[data-method="${methodId}"]`);
+            selectedElement.classList.add('border-primary', 'bg-primary/5');
+            selectedElement.querySelector('.payment-method-radio').classList.add('border-primary', 'bg-primary');
+
+            // Show/hide relevant forms
+            hideAllPaymentForms();
+
+            if (methodId === 'card') {
+                document.getElementById('card-payment-form').classList.remove('hidden');
+            } else if (methodId === 'online') {
+                document.getElementById('online-payment-form').classList.remove('hidden');
+                loadOnlinePaymentOptions();
+            }
+
+            updatePayButton();
+        }
+
+        function hideAllPaymentForms() {
+            document.getElementById('card-payment-form').classList.add('hidden');
+            document.getElementById('online-payment-form').classList.add('hidden');
+        }
+
+        function loadOnlinePaymentOptions() {
+            const container = document.getElementById('online-payment-options');
+            container.innerHTML = '';
+
+            onlinePaymentOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = `online-payment-option p-4 border-2 border-gray-200 rounded-lg cursor-pointer transition-all hover:border-primary`;
+                optionElement.dataset.option = option.id;
+
+                optionElement.innerHTML = `
+                    <div class="text-center">
+                        <div class="w-12 h-12 ${option.color} rounded-lg flex items-center justify-center mx-auto mb-2">
+                            <span class="text-white text-xl">${option.icon}</span>
+                        </div>
+                        <p class="font-medium text-gray-800">${option.name}</p>
+                    </div>
+                `;
+
+                optionElement.addEventListener('click', () => selectOnlineMethod(option.id));
+                container.appendChild(optionElement);
+            });
+        }
+
+        function selectOnlineMethod(optionId) {
+            selectedOnlineMethod = optionId;
+
+            document.querySelectorAll('.online-payment-option').forEach(el => {
+                el.classList.remove('border-primary', 'bg-primary/5');
+            });
+
+            const selectedElement = document.querySelector(`[data-option="${optionId}"]`);
+            selectedElement.classList.add('border-primary', 'bg-primary/5');
+
+            updatePayButton();
+        }
+
+        function loadOrderSummary() {
+            const container = document.getElementById('order-summary-items');
+            container.innerHTML = '';
+
+            cartData.items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex items-center space-x-3';
+
+                itemElement.innerHTML = `
+                    <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-lg">
+                        ${item.image}
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium text-gray-800 text-sm">${item.name}</h4>
+                        <p class="text-xs text-gray-600">${item.quantity} x ${formatPrice(item.price)}</p>
+                    </div>
+                    <div class="text-sm font-medium">${formatPrice(item.price * item.quantity)}</div>
+                `;
+
+                container.appendChild(itemElement);
+            });
+
+            updatePricingSummary();
+        }
+
+        function updatePricingSummary() {
+            document.getElementById('subtotal-amount').textContent = formatPrice(cartData.subtotal);
+            document.getElementById('delivery-amount').textContent = formatPrice(cartData.deliveryFee);
+
+            if (cartData.discount > 0) {
+                document.getElementById('discount-row').style.display = 'flex';
+                document.getElementById('discount-amount').textContent = `-${formatPrice(cartData.discount)}`;
+            }
+
+            if (cartData.couponDiscount > 0) {
+                document.getElementById('coupon-row').style.display = 'flex';
+                document.getElementById('coupon-amount').textContent = `-${formatPrice(cartData.couponDiscount)}`;
+            }
+
+            const total = cartData.subtotal + cartData.deliveryFee - cartData.discount - cartData.couponDiscount;
+            cartData.total = total;
+            document.getElementById('total-amount').textContent = formatPrice(total);
+        }
+
+        function loadSelectedAddress() {
+            const container = document.getElementById('selected-address');
+            container.innerHTML = `
+                <svg class="w-5 h-5 text-primary mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <div>
+                    <p class="font-medium text-gray-800">${addressData.title}</p>
+                    <p class="text-gray-600">${addressData.address}</p>
+                    <p class="text-sm text-gray-500">${addressData.phone}</p>
+                </div>
+            `;
+        }
+
+        function populateCardYears() {
+            const yearSelect = document.getElementById('card-year');
+            const currentYear = new Date().getFullYear();
+
+            for (let i = 0; i < 20; i++) {
+                const year = currentYear + i;
+                const option = document.createElement('option');
+                option.value = year.toString().slice(-2);
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            }
+        }
+
+        function setupCardNumberFormatting() {
+            const cardNumberInput = document.getElementById('card-number');
+            const cardBrandIcon = document.getElementById('card-brand-icon');
+
+            cardNumberInput.addEventListener('input', function() {
+                let value = this.value.replace(/\s/g, '');
+                let formattedValue = '';
+
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+
+                this.value = formattedValue;
+
+                // Detect card brand
+                const cardBrand = detectCardBrand(value);
+                updateCardBrandIcon(cardBrand);
+            });
+
+            cardNumberInput.addEventListener('keypress', function(e) {
+                if (!/\d/.test(e.key) && !['Backspace', 'Delete', 'Tab', 'Escape', 'Enter'].includes(e.key)) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        function detectCardBrand(number) {
+            const patterns = {
+                visa: /^4/,
+                mastercard: /^5[1-5]/,
+                uzcard: /^8600/
+            };
+
+            for (const [brand, pattern] of Object.entries(patterns)) {
+                if (pattern.test(number)) {
+                    return brand;
+                }
+            }
+
+            return 'unknown';
+        }
+
+        function updateCardBrandIcon(brand) {
+            const icon = document.getElementById('card-brand-icon');
+            const icons = {
+                visa: '💳',
+                mastercard: '💳',
+                uzcard: '🇺🇿',
+                unknown: '💳'
+            };
+
+            icon.textContent = icons[brand] || '💳';
+        }
+
+        function setupFormValidation() {
+            const cardForm = document.getElementById('card-form');
+            const inputs = cardForm.querySelectorAll('input, select');
+
+            inputs.forEach(input => {
+                input.addEventListener('input', validateForm);
+                input.addEventListener('blur', validateForm);
+            });
+        }
+
+        function validateForm() {
+            if (selectedPaymentMethod === 'card') {
+                return validateCardForm();
+            } else if (selectedPaymentMethod === 'online') {
+                return selectedOnlineMethod !== null;
+            } else if (selectedPaymentMethod === 'cash') {
+                return true;
+            }
+            return false;
+        }
+
+        function validateCardForm() {
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+            const cardMonth = document.getElementById('card-month').value;
+            const cardYear = document.getElementById('card-year').value;
+            const cardCvv = document.getElementById('card-cvv').value;
+            const cardHolder = document.getElementById('card-holder').value;
+
+            const isValidCardNumber = cardNumber.length >= 13 && cardNumber.length <= 19;
+            const isValidExpiry = cardMonth && cardYear;
+            const isValidCvv = cardCvv.length >= 3;
+            const isValidHolder = cardHolder.trim().length >= 2;
+
+            // Update card number error
+            const cardNumberError = document.getElementById('card-number-error');
+            if (cardNumber.length > 0 && !isValidCardNumber) {
+                cardNumberError.textContent = 'Karta raqami noto\'g\'ri';
+                cardNumberError.classList.remove('hidden');
+            } else {
+                cardNumberError.classList.add('hidden');
+            }
+
+            return isValidCardNumber && isValidExpiry && isValidCvv && isValidHolder;
+        }
+
+        function updatePayButton() {
+            const payButton = document.getElementById('pay-button');
+            const payButtonText = document.getElementById('pay-button-text');
+
+            const isFormValid = validateForm();
+
+            if (!selectedPaymentMethod) {
+                payButton.disabled = true;
+                payButtonText.textContent = 'To\'lov usulini tanlang';
+            } else if (!isFormValid) {
+                payButton.disabled = true;
+                payButtonText.textContent = 'Ma\'lumotlarni to\'ldiring';
+            } else {
+                payButton.disabled = false;
+                payButtonText.textContent = `${formatPrice(cartData.total)} to'lash`;
+            }
+        }
+
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-code').value.trim();
+            const couponMessage = document.getElementById('coupon-message');
+
+            if (!couponCode) {
+                showCouponMessage('Kupon kodini kiriting', 'error');
+                return;
+            }
+
+            // Simulate API call
+            showCouponMessage('Kupon tekshirilmoqda...', 'info');
+
+            setTimeout(() => {
+                // Demo coupon codes
+                const coupons = {
+                    'WELCOME10': { discount: 5000, type: 'fixed' },
+                    'SAVE20': { discount: 20, type: 'percent' }
+                };
+
+                if (coupons[couponCode.toUpperCase()]) {
+                    const coupon = coupons[couponCode.toUpperCase()];
+                    let discount = 0;
+
+                    if (coupon.type === 'fixed') {
+                        discount = coupon.discount;
+                    } else if (coupon.type === 'percent') {
+                        discount = Math.round(cartData.subtotal * coupon.discount / 100);
+                    }
+
+                    cartData.couponDiscount = discount;
+                    updatePricingSummary();
+                    showCouponMessage(`Kupon muvaffaqiyatli qo'llandi! ${formatPrice(discount)} chegirma`, 'success');
+                    document.getElementById('coupon-code').disabled = true;
+                } else {
+                    showCouponMessage('Kupon kodi noto\'g\'ri', 'error');
+                }
+            }, 1000);
+        }
+
+        function showCouponMessage(message, type) {
+            const couponMessage = document.getElementById('coupon-message');
+            couponMessage.textContent = message;
+            couponMessage.className = `text-xs mt-2 ${
+                type === 'success' ? 'text-green-600' :
+                type === 'error' ? 'text-red-600' : 'text-gray-600'
+            }`;
+            couponMessage.classList.remove('hidden');
+        }
+
+        function processPayment() {
+            if (!validateForm()) {
+                showNotification('Iltimos, barcha ma\'lumotlarni to\'g\'ri kiriting', 'error');
+                return;
+            }
+
+            // Prepare order data
+            orderData = {
+                items: cartData.items,
+                subtotal: cartData.subtotal,
+                deliveryFee: cartData.deliveryFee,
+                discount: cartData.discount,
+                couponDiscount: cartData.couponDiscount,
+                total: cartData.total,
+                paymentMethod: selectedPaymentMethod,
+                onlineMethod: selectedOnlineMethod,
+                address: addressData,
+                notes: document.getElementById('order-notes').value.trim()
+            };
+
+            if (selectedPaymentMethod === 'card') {
+                orderData.cardData = {
+                    number: document.getElementById('card-number').value.replace(/\s/g, ''),
+                    month: document.getElementById('card-month').value,
+                    year: document.getElementById('card-year').value,
+                    cvv: document.getElementById('card-cvv').value,
+                    holder: document.getElementById('card-holder').value
+                };
+            }
+
+            // Show processing modal
+            document.getElementById('payment-processing-modal').classList.remove('hidden');
+
+            // Simulate payment processing
+            setTimeout(() => {
+                document.getElementById('payment-processing-modal').classList.add('hidden');
+
+                // Simulate random success/failure
+                const isSuccess = Math.random() > 0.1; // 90% success rate
+
+                if (isSuccess) {
+                    showPaymentSuccess();
+                } else {
+                    showPaymentError('Karta ma\'lumotlari noto\'g\'ri yoki karta blokda');
+                }
+            }, 3000);
+        }
+
+        function showPaymentSuccess() {
+            document.getElementById('payment-success-modal').classList.remove('hidden');
+
+            // Clear cart
+            localStorage.removeItem('cart');
+
+            // Store order for order details page
+            const orderId = Date.now();
+            localStorage.setItem('lastOrder', JSON.stringify({
+                id: orderId,
+                ...orderData,
+                status: 'pending',
+                date: new Date().toISOString()
+            }));
+        }
+
+        function showPaymentError(message) {
+            document.getElementById('payment-error-message').textContent = message;
+            document.getElementById('payment-error-modal').classList.remove('hidden');
+        }
+
+        function retryPayment() {
+            document.getElementById('payment-error-modal').classList.add('hidden');
+            // Allow user to try again
+        }
+
+        function closeErrorModal() {
+            document.getElementById('payment-error-modal').classList.add('hidden');
+        }
+
+        function goToOrderDetails() {
+            const lastOrder = JSON.parse(localStorage.getItem('lastOrder'));
+            if (lastOrder) {
+                window.location.href = `order-detail.html?id=${lastOrder.id}`;
+            } else {
+                window.location.href = 'orders.html';
+            }
+        }
+
+        function continueShopping() {
+            window.location.href = 'index.html';
+        }
+
+        function changeAddress() {
+            // In real app, this would open address selection modal
+            showNotification('Manzil o\'zgartirish funktsiyasi ishlab chiqilmoqda', 'info');
+        }
+
+        function goBack() {
+            if (document.referrer) {
+                window.history.back();
+            } else {
+                window.location.href = 'cart.html';
+            }
+        }
+
+        // Utility functions
+        function formatPrice(price) {
+            return new Intl.NumberFormat('uz-UZ').format(price) + ' so\'m';
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type} show`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Event listeners
+        document.addEventListener('input', updatePayButton);
+        document.addEventListener('change', updatePayButton);
+
+        // CVV input formatting
+        document.getElementById('card-cvv').addEventListener('input', function() {
+            this.value = this.value.replace(/\D/g, '');
+        });
+
+        // Card holder formatting
+        document.getElementById('card-holder').addEventListener('input', function() {
+            this.value = this.value.toUpperCase().replace(/[^A-Z\s]/g, '');
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('fixed') && e.target.classList.contains('inset-0')) {
+                e.target.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

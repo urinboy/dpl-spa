@@ -5,19 +5,27 @@ import { useTranslation } from 'react-i18next'; // Import useTranslation
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import WishlistPage from './pages/WishlistPage';
 // import LoginModalContent from './components/LoginModal';
 import { useLoading } from './components/Loading';
 import { useCart } from './contexts/CartContext';
+import { CheckoutProvider } from './contexts/CheckoutContext';
 import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
 import SplashScreen from './components/SplashScreen';
 import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
+import LocationHeader from './components/LocationHeader'; // Import LocationHeader
+import LocationModal from './components/LocationModal'; // Import LocationModal
+// import LocationSuccessNotification from './components/LocationSuccessNotification'; // Import LocationSuccessNotification - DISABLED
+import ApiTestPage from './admin/pages/ApiTestPage'
+import YandexMapsTest from './components/YandexMapsTest'
+import LocationTest from './components/LocationTest'
+import OpenStreetMapTest from './components/OpenStreetMapTest'
 import AdminApp from './admin/AdminApp'; // Import AdminApp
-
 import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
 
 function App() {
@@ -70,10 +78,12 @@ function App() {
                         {!isDetailPage && (
                             <header className="header">
                                 <div className="header-content">
-                                    <h1 className="logo">
-                                        <img src="/logos/white.png" alt="White Logo" className='logo-image'/>
-                                        {/* <i className="fas fa-shopping-cart"></i> Dom Product 🛍️ */}
-                                    </h1>
+                                    <div className="header-left">
+                                        <h1 className="logo">
+                                            <img src="/logos/white.png" alt="White Logo" className='logo-image'/>
+                                        </h1>
+                                        <LocationHeader />
+                                    </div>
                                     <div className="search-container desktop-search">
                                         <i className="fas fa-search search-icon"></i>
                                         <input 
@@ -99,11 +109,20 @@ function App() {
                                 <Route path="/products" element={<ProductsPage />} />
                                 <Route path="/products/:id" element={<ProductDetailPage />} />
                                 <Route path="/cart" element={<CartPage />} />
+                                <Route path="/checkout" element={
+                                    <CheckoutProvider>
+                                        <CheckoutPage />
+                                    </CheckoutProvider>
+                                } />
                                 <Route path="/orders" element={<OrdersPage />} />
                                 <Route path="/wishlist" element={<WishlistPage />} />
                                 <Route path="/profile" element={<ProfilePage />} />
                                 <Route path="/search" element={<SearchResultsPage />} />
                                 <Route path="/categories" element={<CategoriesPage />} />
+                                <Route path="/api-test" element={<ApiTestPage />} />
+                                <Route path="/yandex-test" element={<YandexMapsTest />} />
+                                <Route path="/location-test" element={<LocationTest />} />
+                                <Route path="/osm-test" element={<OpenStreetMapTest />} />
                             </Routes>
                         </main>
 
@@ -132,6 +151,12 @@ function App() {
                                 </NavLink>
                             </nav>
                         )}
+
+                        {/* Location Modal */}
+                        <LocationModal />
+                        
+                        {/* Location Success Notification - DISABLED */}
+                        {/* <LocationSuccessNotification /> */}
                     </>
                 } />
             </Routes>

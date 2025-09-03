@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM PRODUCT - Kirish</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        'primary-dark': '#059669',
+                        secondary: '#1f2937',
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <!-- Login Container -->
+    <div class="w-full max-w-md">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center space-x-3 mb-6">
+                <div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+                    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">DOM PRODUCT</h1>
+                    <p class="text-sm text-gray-500">Onlayn Market</p>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Xush kelibsiz!</h2>
+            <p class="text-gray-600">Hisobingizga kiring va xarid qilishni boshlang</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="bg-white rounded-2xl shadow-lg p-8 mb-6">
+            <form id="login-form" class="space-y-6">
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email manzil</label>
+                    <div class="relative">
+                        <input type="email"
+                               id="email"
+                               name="email"
+                               required
+                               placeholder="email@example.com"
+                               class="form-input pl-12">
+                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"/>
+                        </svg>
+                    </div>
+                    <div id="email-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password" class="form-label">Parol</label>
+                    <div class="relative">
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               required
+                               placeholder="••••••••"
+                               class="form-input pl-12 pr-12">
+                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                        <button type="button"
+                                id="toggle-password"
+                                class="absolute right-3 top-4 text-gray-400 hover:text-gray-600">
+                            <svg id="eye-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <svg id="eye-closed" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="password-error" class="text-red-500 text-sm mt-1 hidden"></div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox"
+                               id="remember"
+                               name="remember"
+                               class="rounded border-gray-300 text-primary focus:ring-primary/20">
+                        <span class="ml-2 text-sm text-gray-600">Eslab qolish</span>
+                    </label>
+                    <a href="#" class="text-sm text-primary hover:text-primary-dark font-medium">
+                        Parolni unutdingizmi?
+                    </a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        id="login-btn"
+                        class="w-full btn btn-primary">
+                    Kirish
+                </button>
+
+                <!-- Error Message -->
+                <div id="form-error" class="text-red-500 text-sm text-center hidden"></div>
+            </form>
+        </div>
+
+        <!-- Register Link -->
+        <div class="text-center">
+            <p class="text-gray-600">
+                Hisobingiz yo'qmi?
+                <a href="register.html" class="text-primary hover:text-primary-dark font-semibold">
+                    Ro'yxatdan o'ting
+                </a>
+            </p>
+        </div>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+            <a href="index.html" class="text-gray-500 hover:text-gray-700 text-sm">
+                ← Bosh sahifaga qaytish
+            </a>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Muvaffaqiyat!</h3>
+            <p class="text-gray-600 mb-6">Siz muvaffaqiyatli tizimga kirdingiz</p>
+            <button onclick="redirectToHome()" class="btn btn-primary w-full">
+                Bosh sahifaga o'tish
+            </button>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('toggle-password');
+        const eyeOpen = document.getElementById('eye-open');
+        const eyeClosed = document.getElementById('eye-closed');
+        const successModal = document.getElementById('success-modal');
+
+        // Toggle password visibility
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+
+            eyeOpen.classList.toggle('hidden');
+            eyeClosed.classList.toggle('hidden');
+        });
+
+        // Form submission
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(loginForm);
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const remember = formData.get('remember');
+
+            // Clear previous errors
+            clearErrors();
+
+            // Validate
+            if (!validateForm(email, password)) {
+                return;
+            }
+
+            // Set loading state
+            setLoadingState(true);
+
+            try {
+                const response = await apiRequest('/auth/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ email, password })
+                });
+
+                // Store token
+                localStorage.setItem('authToken', response.data.token);
+                localStorage.setItem('currentUser', JSON.stringify(response.data.user));
+
+                if (remember) {
+                    localStorage.setItem('rememberLogin', 'true');
+                }
+
+                // Show success modal
+                showSuccessModal();
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('form-error', error.message || 'Kirish jarayonida xatolik yuz berdi');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        function validateForm(email, password) {
+            let isValid = true;
+
+            // Email validation
+            if (!email) {
+                showError('email-error', 'Email manzilni kiriting');
+                isValid = false;
+            } else if (!isValidEmail(email)) {
+                showError('email-error', 'Noto\'g\'ri email format');
+                isValid = false;
+            }
+
+            // Password validation
+            if (!password) {
+                showError('password-error', 'Parolni kiriting');
+                isValid = false;
+            } else if (password.length < 6) {
+                showError('password-error', 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+
+            // Add error style to input
+            const inputId = elementId.replace('-error', '');
+            const inputElement = document.getElementById(inputId);
+            if (inputElement) {
+                inputElement.classList.add('error');
+            }
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('[id$="-error"]');
+            errorElements.forEach(element => {
+                element.classList.add('hidden');
+                element.textContent = '';
+            });
+
+            // Remove error styles from inputs
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        function setLoadingState(loading) {
+            if (loading) {
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = `
+                    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Kirilyapti...
+                `;
+            } else {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Kirish';
+            }
+        }
+
+        function showSuccessModal() {
+            successModal.classList.remove('hidden');
+        }
+
+        function redirectToHome() {
+            const returnUrl = new URLSearchParams(window.location.search).get('return') || 'index.html';
+            window.location.href = returnUrl;
+        }
+
+        // Auto-redirect if already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                // Verify token is still valid
+                apiRequest('/auth/user')
+                    .then(() => {
+                        redirectToHome();
+                    })
+                    .catch(() => {
+                        // Token is invalid, remove it
+                        localStorage.removeItem('authToken');
+                        localStorage.removeItem('currentUser');
+                    });
+            }
+        });
+
+        // API Request function
+        async function apiRequest(endpoint, options = {}) {
+            const API_URL = 'https://api.domproduct.uz/api';
+            const url = `${API_BASE_URL}${endpoint}`;
+
+            const config = {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                ...options
+            };
+
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const response = await fetch(url, config);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'API Error');
+            }
+
+            return data;
+        }
+
+        // Focus management
+        emailInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                passwordInput.focus();
+            }
+        });
+
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Clear errors on input
+        emailInput.addEventListener('input', function() {
+            if (this.classList.contains('error')) {
+                this.classList.remove('error');
+                document.getElementById('email-error').classList.add('hidden');
+            }
+        });
+
+        passwordInput.addEventListener('input', function() {
+            if (this.classList.contains('error')) {
+                this.classList.remove('error');
+                document.getElementById('password-error').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

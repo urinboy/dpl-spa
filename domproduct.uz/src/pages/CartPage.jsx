@@ -4,17 +4,25 @@ import { useTranslation } from 'react-i18next';
 import { useCart } from '../contexts/CartContext';
 import { useModal } from '../contexts/ModalContext';
 import ConfirmModal from '../components/ConfirmModal';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Meta from '../components/Meta';
 
 const CartPage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { cartItems, incrementQuantity, decrementQuantity, removeFromCart } = useCart();
     const { openModal, closeModal } = useModal();
 
     const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shipping = subtotal > 0 ? 25000 : 0;
     const total = subtotal + shipping;
+
+    const handleCheckout = () => {
+        if (cartItems.length === 0) {
+            return; // Boş savatni tekshirish
+        }
+        navigate('/checkout');
+    };
 
     const handleDelete = (productId) => {
         openModal(
@@ -77,7 +85,12 @@ const CartPage = () => {
                             <span className="summary-label">{t('total')}:</span>
                             <span className="summary-total-value">{total.toLocaleString('uz-UZ')} UZS</span>
                         </div>
-                        <button className="btn btn-primary btn-block" style={{ marginTop: '1.5rem' }}>
+                        <button 
+                            className="btn btn-primary btn-block" 
+                            style={{ marginTop: '1.5rem' }}
+                            onClick={handleCheckout}
+                            disabled={cartItems.length === 0}
+                        >
                             <i className="fas fa-check-circle" style={{ marginRight: '0.5rem' }}></i>
                             {t('checkout')}
                         </button>

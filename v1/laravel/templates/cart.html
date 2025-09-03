@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM PRODUCT - Savat</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#10b981',
+                        'primary-dark': '#059669',
+                        secondary: '#1f2937',
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <header class="gradient-bg text-white sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Back Button & Title -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="goBack()" class="p-2 hover:bg-white/20 rounded-lg transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </button>
+                    <div>
+                        <h1 class="text-xl font-bold">Savat</h1>
+                        <p class="text-xs text-green-200" id="cart-items-count">0 ta mahsulot</p>
+                    </div>
+                </div>
+
+                <!-- Cart Actions -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="clearCart()"
+                            id="clear-cart-btn"
+                            class="p-2 hover:bg-white/20 rounded-lg transition-colors text-sm hidden">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 pb-32">
+        <!-- Cart Items -->
+        <div id="cart-content">
+            <!-- Empty Cart State -->
+            <div id="empty-cart" class="text-center py-16">
+                <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Savat bo'sh</h3>
+                <p class="text-gray-600 mb-8">Hozircha savatingizda hech qanday mahsulot yo'q</p>
+                <a href="index.html" class="btn btn-primary">
+                    Xarid qilishni boshlash
+                </a>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items" class="hidden">
+                <div class="space-y-4" id="items-list">
+                    <!-- Cart items will be loaded here -->
+                </div>
+
+                <!-- Promo Code -->
+                <div class="bg-white rounded-2xl p-6 mt-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Promo kod</h3>
+                    <div class="flex space-x-3">
+                        <input type="text"
+                               id="promo-input"
+                               placeholder="Promo kodni kiriting"
+                               class="flex-1 form-input">
+                        <button onclick="applyPromoCode()"
+                                id="apply-promo-btn"
+                                class="btn btn-outline">
+                            Qo'llash
+                        </button>
+                    </div>
+                    <div id="promo-message" class="mt-2 text-sm hidden"></div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-white rounded-2xl p-6 mt-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">Buyurtma xulosa</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Mahsulotlar narxi:</span>
+                            <span id="subtotal">0 so'm</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Yetkazib berish:</span>
+                            <span id="delivery-fee">0 so'm</span>
+                        </div>
+                        <div class="flex justify-between" id="discount-row" style="display: none;">
+                            <span class="text-gray-600">Chegirma:</span>
+                            <span class="text-green-600" id="discount-amount">-0 so'm</span>
+                        </div>
+                        <hr class="my-3">
+                        <div class="flex justify-between text-lg font-semibold">
+                            <span>Jami:</span>
+                            <span class="text-primary" id="total">0 so'm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delivery Address -->
+                <div class="bg-white rounded-2xl p-6 mt-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">Yetkazib berish manzili</h3>
+                        <button onclick="selectAddress()" class="text-primary hover:text-primary-dark text-sm font-medium">
+                            O'zgartirish
+                        </button>
+                    </div>
+                    <div id="selected-address">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-medium text-gray-800">Uy</p>
+                                <p class="text-sm text-gray-600">Toshkent, Yunusobod tumani, Amir Temur ko'chasi 15-uy</p>
+                                <p class="text-xs text-gray-500">+998 90 123 45 67</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Method -->
+                <div class="bg-white rounded-2xl p-6 mt-6">
+                    <h3 class="font-semibold text-gray-800 mb-4">To'lov usuli</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="payment" value="cash" checked class="text-primary">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-2xl">💵</span>
+                                <span>Naqd pul</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="payment" value="card" class="text-primary">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-2xl">💳</span>
+                                <span>Plastik karta</span>
+                            </div>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="payment" value="online" class="text-primary">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-2xl">📱</span>
+                                <span>Onlayn to'lov</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Checkout Button -->
+    <div id="checkout-section" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 hidden">
+        <div class="container mx-auto max-w-lg">
+            <div class="flex items-center justify-between mb-3">
+                <div>
+                    <p class="text-sm text-gray-600">Jami to'lov:</p>
+                    <p class="text-xl font-bold text-primary" id="checkout-total">0 so'm</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600" id="checkout-items">0 ta mahsulot</p>
+                    <p class="text-xs text-gray-500">Yetkazib berish: 30-45 daq</p>
+                </div>
+            </div>
+            <button onclick="proceedToCheckout()"
+                    id="checkout-btn"
+                    class="w-full btn btn-primary py-4 text-lg font-semibold">
+                Buyurtma berish
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40" id="bottom-nav">
+        <div class="flex items-center justify-around py-2">
+            <a href="index.html" class="flex flex-col items-center py-2 px-3 text-gray-500">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="text-xs mt-1">Bosh sahifa</span>
+            </a>
+            <a href="categories.html" class="flex flex-col items-center py-2 px-3 text-gray-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                </svg>
+                <span class="text-xs mt-1">Kategoriya</span>
+            </a>
+            <a href="cart.html" class="flex flex-col items-center py-2 px-3 text-primary">
+                <div class="relative">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5 6m0 0h9"/>
+                    </svg>
+                    <span class="absolute -top-2 -right-2 bg-accent text-xs text-white rounded-full w-4 h-4 flex items-center justify-center" id="nav-cart-count">0</span>
+                </div>
+                <span class="text-xs mt-1">Savat</span>
+            </a>
+            <a href="search.html" class="flex flex-col items-center py-2 px-3 text-gray-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span class="text-xs mt-1">Qidiruv</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center py-2 px-3 text-gray-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-xs mt-1">Profil</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Confirmation Modal -->
+    <div id="clear-confirm-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 text-center">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Savatni tozalash</h3>
+            <p class="text-gray-600 mb-6">Barcha mahsulotlar savatdan o'chiriladi. Davom etasizmi?</p>
+            <div class="flex space-x-3">
+                <button onclick="closeClearModal()" class="flex-1 btn btn-secondary">
+                    Bekor qilish
+                </button>
+                <button onclick="confirmClearCart()" class="flex-1 btn bg-red-500 text-white hover:bg-red-600">
+                    Ha, tozalash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cartItems = [];
+        let deliveryFee = 15000; // 15,000 so'm
+        let discountAmount = 0;
+        let promoCode = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCartItems();
+            updateCartDisplay();
+        });
+
+        function loadCartItems() {
+            const savedCart = localStorage.getItem('cart');
+            cartItems = savedCart ? JSON.parse(savedCart) : [];
+        }
+
+        function saveCartItems() {
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+
+        function updateCartDisplay() {
+            const emptyCart = document.getElementById('empty-cart');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const checkoutSection = document.getElementById('checkout-section');
+            const bottomNav = document.getElementById('bottom-nav');
+            const clearCartBtn = document.getElementById('clear-cart-btn');
+
+            if (cartItems.length === 0) {
+                emptyCart.classList.remove('hidden');
+                cartItemsContainer.classList.add('hidden');
+                checkoutSection.classList.add('hidden');
+                bottomNav.classList.remove('hidden');
+                clearCartBtn.classList.add('hidden');
+            } else {
+                emptyCart.classList.add('hidden');
+                cartItemsContainer.classList.remove('hidden');
+                checkoutSection.classList.remove('hidden');
+                bottomNav.classList.add('hidden');
+                clearCartBtn.classList.remove('hidden');
+
+                renderCartItems();
+                updateOrderSummary();
+            }
+
+            updateCartCounts();
+        }
+
+        function renderCartItems() {
+            const itemsList = document.getElementById('items-list');
+
+            itemsList.innerHTML = cartItems.map(item => `
+                <div class="bg-white rounded-2xl p-4">
+                    <div class="flex items-center space-x-4">
+                        <!-- Product Image -->
+                        <div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-3xl flex-shrink-0">
+                            ${item.image || '📦'}
+                        </div>
+
+                        <!-- Product Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="font-semibold text-gray-800 truncate">${item.name}</h3>
+                            <p class="text-sm text-gray-500">${item.category || 'Kategoriya'}</p>
+                            <p class="text-primary font-semibold">${item.price.toLocaleString()} so'm/${item.unit || 'dona'}</p>
+                        </div>
+
+                        <!-- Quantity Controls -->
+                        <div class="flex items-center space-x-3">
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})"
+                                    class="quantity-btn ${item.quantity <= 1 ? 'opacity-50' : ''}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+                                </svg>
+                            </button>
+                            <span class="font-semibold text-lg w-8 text-center">${item.quantity}</span>
+                            <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})" class="quantity-btn">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Remove Button -->
+                        <button onclick="removeItem(${item.id})"
+                                class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Item Total -->
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">${item.quantity} x ${item.price.toLocaleString()} so'm</span>
+                            <span class="font-semibold text-primary">${(item.quantity * item.price).toLocaleString()} so'm</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateQuantity(itemId, newQuantity) {
+            if (newQuantity <= 0) {
+                removeItem(itemId);
+                return;
+            }
+
+            const item = cartItems.find(item => item.id === itemId);
+            if (item) {
+                item.quantity = newQuantity;
+                saveCartItems();
+                updateCartDisplay();
+                showNotification('Miqdor yangilandi', 'success');
+            }
+        }
+
+        function removeItem(itemId) {
+            cartItems = cartItems.filter(item => item.id !== itemId);
+            saveCartItems();
+            updateCartDisplay();
+            showNotification('Mahsulot savatdan o\'chirildi', 'info');
+        }
+
+        function updateOrderSummary() {
+            const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const total = subtotal + deliveryFee - discountAmount;
+
+            document.getElementById('subtotal').textContent = subtotal.toLocaleString() + ' so\'m';
+            document.getElementById('delivery-fee').textContent = deliveryFee.toLocaleString() + ' so\'m';
+            document.getElementById('total').textContent = total.toLocaleString() + ' so\'m';
+            document.getElementById('checkout-total').textContent = total.toLocaleString() + ' so\'m';
+
+            if (discountAmount > 0) {
+                document.getElementById('discount-row').style.display = 'flex';
+                document.getElementById('discount-amount').textContent = '-' + discountAmount.toLocaleString() + ' so\'m';
+            } else {
+                document.getElementById('discount-row').style.display = 'none';
+            }
+        }
+
+        function updateCartCounts() {
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+            document.getElementById('cart-items-count').textContent = `${totalItems} ta mahsulot`;
+            document.getElementById('checkout-items').textContent = `${totalItems} ta mahsulot`;
+            document.getElementById('nav-cart-count').textContent = totalItems;
+        }
+
+        function applyPromoCode() {
+            const input = document.getElementById('promo-input');
+            const message = document.getElementById('promo-message');
+            const code = input.value.trim().toUpperCase();
+
+            if (!code) {
+                showPromoMessage('Promo kodni kiriting', 'error');
+                return;
+            }
+
+            // Demo promo codes
+            const promoCodes = {
+                'WELCOME10': { discount: 0.1, type: 'percentage', description: '10% chegirma' },
+                'SAVE5000': { discount: 5000, type: 'fixed', description: '5,000 so\'m chegirma' },
+                'FIRST20': { discount: 0.2, type: 'percentage', description: '20% chegirma yangi mijozlar uchun' }
+            };
+
+            if (promoCodes[code]) {
+                const promo = promoCodes[code];
+                const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                if (promo.type === 'percentage') {
+                    discountAmount = Math.floor(subtotal * promo.discount);
+                } else {
+                    discountAmount = promo.discount;
+                }
+
+                promoCode = code;
+                input.disabled = true;
+                document.getElementById('apply-promo-btn').textContent = 'Qo\'llanildi';
+                document.getElementById('apply-promo-btn').disabled = true;
+
+                showPromoMessage(`✅ ${promo.description} qo'llanildi!`, 'success');
+                updateOrderSummary();
+            } else {
+                showPromoMessage('Noto\'g\'ri promo kod', 'error');
+            }
+        }
+
+        function showPromoMessage(message, type) {
+            const messageElement = document.getElementById('promo-message');
+            messageElement.textContent = message;
+            messageElement.className = `mt-2 text-sm ${type === 'success' ? 'text-green-600' : 'text-red-600'}`;
+            messageElement.classList.remove('hidden');
+        }
+
+        function clearCart() {
+            document.getElementById('clear-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeClearModal() {
+            document.getElementById('clear-confirm-modal').classList.add('hidden');
+        }
+
+        function confirmClearCart() {
+            cartItems = [];
+            saveCartItems();
+            updateCartDisplay();
+            closeClearModal();
+            showNotification('Savat tozalandi', 'info');
+        }
+
+        function selectAddress() {
+            showNotification('Manzillar sahifasi ochilmoqda...', 'info');
+            // Navigate to addresses page
+        }
+
+        function proceedToCheckout() {
+            if (cartItems.length === 0) {
+                showNotification('Savat bo\'sh', 'error');
+                return;
+            }
+
+            // Get selected payment method
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            const orderData = {
+                items: cartItems,
+                subtotal: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                deliveryFee: deliveryFee,
+                discount: discountAmount,
+                promoCode: promoCode,
+                total: cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0) + deliveryFee - discountAmount,
+                paymentMethod: paymentMethod
+            };
+
+            // Store order data for payment page
+            localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+
+            // Navigate to payment page
+            window.location.href = 'payment.html';
+        }
+
+        function goBack() {
+            if (document.referrer) {
+                history.back();
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Promo code input enter key
+        document.getElementById('promo-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyPromoCode();
+            }
+        });
+    </script>
+</body>
+</html>
