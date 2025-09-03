@@ -1,23 +1,40 @@
 package uz.urinboydev.domproduct
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.webkit.GeolocationPermissions
+import android.webkit.WebChromeClient
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import uz.urinboydev.domproduct.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var geolocationCallback: GeolocationPermissions.Callback? = null
+    private var geolocationOrigin: String? = null
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                geolocationCallback?.invoke(geolocationOrigin, true, false)
+            } else {
+                geolocationCallback?.invoke(geolocationOrigin, false, false)
+            }
+        }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,13 +82,21 @@ class MainActivity : AppCompatActivity() {
                             error: WebResourceError?
                         ) {
                             super.onReceivedError(view, request, error)
-                            binding.webView.visibility = View.GONE
-                            binding.errorLayout.visibility = View.VISIBLE
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Sahifa yuklanmadi: ${error?.description}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            val failingUrl = request?.url.toString()
+                            Log.e("WebViewError", "Failed to load URL: $failingUrl")
+                            Log.e("WebViewError", "Error code: ${error?.errorCode}, Description: ${error?.description}")
+
+                            // Show a user-facing error only if the main page fails to load.
+                            if (request?.isForMainFrame == true) {
+                                binding.webView.visibility = View.GONE
+                                binding.errorLayout.visibility = View.VISIBLE
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Asosiy sahifa yuklanmadi: ${error?.description}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            // For sub-resource errors, we do nothing user-facing. They are logged above.
                         }
 
                         override fun onPageFinished(view: WebView?, url: String?) {
@@ -80,10 +105,22 @@ class MainActivity : AppCompatActivity() {
                             binding.errorLayout.visibility = View.GONE
                         }
                     }
+                    webChromeClient = object : WebChromeClient() {
+                        override fun onGeolocationPermissionsShowPrompt(
+                            origin: String?,
+                            callback: GeolocationPermissions.Callback?
+                        ) {
+                            geolocationOrigin = origin
+                            geolocationCallback = callback
+                            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                        }
+                    }
                     settings.javaScriptEnabled = true // Faqat kerak bo‘lsa yoqing
                     settings.domStorageEnabled = true
                     settings.loadWithOverviewMode = true
                     settings.useWideViewPort = true
+                    settings.setGeolocationEnabled(true)
+                    settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     loadUrl("https://domproduct.uz/")
                 }
             } catch (e: Exception) {
