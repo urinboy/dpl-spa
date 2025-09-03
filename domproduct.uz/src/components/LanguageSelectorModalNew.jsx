@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
 
 function LanguageSelectorModal({ isOpen, onClose }) {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const { languages, loading, changeLanguage } = useLanguage();
 
   const handleLanguageChange = (languageCode) => {
     changeLanguage(languageCode);
-    // Modal o'chmasligi uchun onClose() ni chaqirmayapmiz
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -17,14 +17,11 @@ function LanguageSelectorModal({ isOpen, onClose }) {
     <div className="onboarding-overlay" onClick={onClose}>
       <div className="onboarding-container" onClick={(e) => e.stopPropagation()}>
         <div className="onboarding-content">
-
+          
           {/* Header */}
           <div className="onboarding-header">
-            <div className="onboarding-icon">
-              <i className="fas fa-globe"></i>
-            </div>
-            <h1 className="onboarding-title">{t('select_language')}</h1>
-            <p className="onboarding-subtitle">{t('choose_your_preferred_language')}</p>
+            <h1 className="onboarding-title">Tilni tanlang</h1>
+            <p className="onboarding-subtitle">O'zingizga qulay tilni tanlang</p>
           </div>
 
           {/* Language Selection */}
@@ -33,7 +30,7 @@ function LanguageSelectorModal({ isOpen, onClose }) {
               {loading ? (
                 <div className="loading-state">
                   <div className="spinner"></div>
-                  <p>{t('loading')}...</p>
+                  <p>Tillar yuklanmoqda...</p>
                 </div>
               ) : languages && languages.length > 0 ? (
                 languages.map((language) => (
@@ -51,15 +48,10 @@ function LanguageSelectorModal({ isOpen, onClose }) {
                 ))
               ) : (
                 <div className="error-state">
-                  <p>{t('no_languages_found')}</p>
+                  <p>Tillar topilmadi</p>
                 </div>
               )}
             </div>
-          </div>
-
-          {/* Help Text */}
-          <div className="onboarding-help">
-            <p>{t('language_can_be_changed_later')}</p>
           </div>
 
           {/* Close Button */}
@@ -68,7 +60,7 @@ function LanguageSelectorModal({ isOpen, onClose }) {
               className="onboarding-btn secondary"
               onClick={onClose}
             >
-              {t('close')}
+              Yopish
             </button>
           </div>
 

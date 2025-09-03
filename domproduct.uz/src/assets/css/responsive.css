@@ -69,7 +69,6 @@
         gap: var(--space-4);
         margin: 0 var(--space-2);
     }
-    }
 
     .cart-item {
         flex-direction: column;

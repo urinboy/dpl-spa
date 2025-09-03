@@ -169,6 +169,7 @@ export const resources = {
       "continue": "Davom etish",
       "applying": "Qo'llanmoqda...",
       "language_can_be_changed_later": "Tilni keyinchalik sozlamalarda o'zgartirish mumkin",
+      "no_languages_found": "Tillar topilmadi",
       
       // Products
       "products_found": "ta mahsulot topildi",
@@ -598,6 +599,7 @@ export const resources = {
       "continue": "Продолжить",
       "applying": "Применяется...",
       "language_can_be_changed_later": "Язык можно изменить позже в настройках",
+      "no_languages_found": "Языки не найдены",
 
       // Location Detection
       "location_title": "Определите ваше местоположение",

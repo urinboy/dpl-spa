@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // Import useTranslation
+import { useLanguage } from './contexts/LanguageContext'; // Import useLanguage
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
 import CartPage from './pages/CartPage';
@@ -29,12 +30,14 @@ import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
 
 function App() {
     const { t } = useTranslation(); // Initialize translation hook
+    const { currentLanguage } = useLanguage(); // Get current language
     const navigate = useNavigate();
     const location = useLocation();
     const { showLoading, hideLoading } = useLoading();
     const { cartItems } = useCart();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [isAppLoading, setIsAppLoading] = useState(true);
+    const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => setIsAppLoading(false), 2000);
@@ -81,17 +84,27 @@ function App() {
                             <header className="header">
                                 <div className="header-content">
                                     <div className="header-left">
-                                        <h1 className="logo">
-                                            <img src="/logos/white.png" alt="White Logo" className='logo-image'/>
-                                        </h1>
-                                        <LocationDisplay />
+                                        <div className="header-logo">
+                                            <img src="/logos/white.png" alt="Logo" className="logo-desktop" />
+                                            <img src="/pwa-192x192.png" alt="Logo" className="logo-mobile" />
+                                        </div>
+                                        <div className="location-display">
+                                            <div className="location-icon">
+                                                <i className="fas fa-map-marker-alt"></i>
+                                                <div className="location-dot"></div>
+                                            </div>
+                                            <div className="location-text">
+                                                <span className="location-city">Tashkent</span>
+                                                <span className="location-district">Shahar markazi</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="search-container desktop-search">
                                         <i className="fas fa-search search-icon"></i>
                                         <input 
                                             type="text" 
                                             className="search-input" 
-                                            placeholder={t('search_placeholder')} 
+                                            placeholder="Mahsulotlarni qidirish..." 
                                             onKeyDown={(e) => e.key === 'Enter' && handleSearch(e.target.value)} 
                                         />
                                     </div>
@@ -99,7 +112,13 @@ function App() {
                                         <button className="icon-btn mobile-search-btn" onClick={() => setIsSearchOpen(true)}>
                                             <i className="fas fa-search"></i>
                                         </button>
-                                        <LanguageSwitcher /> 
+                                        <div className="language-switcher">
+                                            <button className="icon-btn language-btn" onClick={() => setIsLanguageModalOpen(true)}>
+                                                <span className="language-flag">
+                                                    {currentLanguage?.flag || <i className="fas fa-globe"></i>}
+                                                </span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </header>
@@ -156,6 +175,12 @@ function App() {
                         
                         {/* Onboarding Debug (only in development) */}
                         <OnboardingDebug />
+                        
+                        {/* Language Selector Modal */}
+                        <LanguageSelectorModal 
+                            isOpen={isLanguageModalOpen} 
+                            onClose={() => setIsLanguageModalOpen(false)} 
+                        />
                     </>
                 } />
             </Routes>
