@@ -67,7 +67,15 @@ const ProductDetailPage = () => {
 
             <main className="detail-content">
                 <div className="product-image-gallery">
-                    <img src={product.image} alt={product.name} className="main-product-image" />
+                    <img 
+                        src={product.image || '/placeholder-image.png'} 
+                        alt={product.name} 
+                        className="main-product-image"
+                        onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.parentElement.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 300px; background: var(--gray-100); border-radius: var(--radius-xl);"><i class="fas fa-image" style="font-size: 4rem; color: var(--gray-300);"></i></div>';
+                        }}
+                    />
                 </div>
                 <div className="product-info-section">
                     <h1 className="product-detail-title">{t(product.name)}</h1>

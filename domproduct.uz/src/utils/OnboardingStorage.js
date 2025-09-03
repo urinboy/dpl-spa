@@ -20,6 +20,12 @@ export const OnboardingStorage = {
     localStorage.setItem(ONBOARDING_VERSION_KEY, CURRENT_VERSION);
   },
 
+  // Onboarding yakunlanganligini belgilash (alternative name)
+  markCompleted: () => {
+    localStorage.setItem(ONBOARDING_KEY, 'true');
+    localStorage.setItem(ONBOARDING_VERSION_KEY, CURRENT_VERSION);
+  },
+
   // Onboarding holatini tozalash (test uchun)
   reset: () => {
     localStorage.removeItem(ONBOARDING_KEY);

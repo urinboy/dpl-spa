@@ -10,8 +10,18 @@ export const OnboardingProvider = ({ children }) => {
 
   // Component mount bo'lganda onboarding holatini tekshirish
   useEffect(() => {
-    const shouldShowOnboarding = !OnboardingStorage.isCompleted();
-    setIsOnboardingVisible(shouldShowOnboarding);
+    const checkOnboardingStatus = () => {
+      const isOnboardingCompleted = OnboardingStorage.isCompleted();
+      
+      // Onboarding tugallanmagan bo'lsa ko'rsatish
+      if (!isOnboardingCompleted) {
+        setTimeout(() => {
+          setIsOnboardingVisible(true);
+        }, 1000); // Splash screen tugagandan keyin
+      }
+    };
+
+    checkOnboardingStatus();
   }, []);
 
   // Onboarding'ni boshlash
@@ -29,7 +39,7 @@ export const OnboardingProvider = ({ children }) => {
     setTimeout(() => {
       setCurrentStep(prev => prev + 1);
       setIsAnimating(false);
-    }, 300);
+    }, 600); // Animatsiya vaqtini uzaytirdik
   };
 
   // Oldingi stepga qaytish
@@ -40,7 +50,7 @@ export const OnboardingProvider = ({ children }) => {
     setTimeout(() => {
       setCurrentStep(prev => prev - 1);
       setIsAnimating(false);
-    }, 300);
+    }, 600); // Animatsiya vaqtini uzaytirdik
   };
 
   // Ma'lum stepga o'tish
@@ -51,95 +61,24 @@ export const OnboardingProvider = ({ children }) => {
     setTimeout(() => {
       setCurrentStep(stepIndex);
       setIsAnimating(false);
-    }, 300);
+    }, 600); // Animatsiya vaqtini uzaytirdik
   };
 
-  // Onboarding'ni yakunlash va GPS orqali location aniqlash
-  const completeOnboarding = async () => {
-    OnboardingStorage.setCompleted();
+  // Onboarding'ni yakunlash
+  const completeOnboarding = () => {
+    if (isAnimating) return;
+    
     setIsAnimating(true);
     
-    // GPS orqali location ni aniqlashga harakat qilish
-    try {
-      if (navigator.geolocation) {
-        await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(
-            async (position) => {
-              try {
-                // Location ma'lumotlarini saqlash
-                const locationData = {
-                  position: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude
-                  },
-                  method: 'gps',
-                  timestamp: Date.now(),
-                  isDetected: true
-                };
-                
-                // Reverse geocoding orqali address olish
-                const address = await reverseGeocode(position.coords.latitude, position.coords.longitude);
-                if (address) {
-                  locationData.address = address.display_name || address.formatted_address;
-                  locationData.city = address.city || address.town || address.village;
-                  locationData.region = address.state || address.region;
-                  locationData.country = address.country;
-                }
-                
-                // LocalStorage ga saqlash
-                localStorage.setItem('user_location', JSON.stringify(locationData));
-                console.log('✅ GPS location saved during onboarding completion');
-                
-                resolve();
-              } catch (error) {
-                console.error('GPS ma\'lumotlarini saqlashda xatolik:', error);
-                resolve(); // Xatolik bo'lsa ham davom etish
-              }
-            },
-            (error) => {
-              console.log('GPS ruxsat berilmadi yoki xatolik:', error.message);
-              resolve(); // GPS ishlamasa ham onboarding tugashi kerak
-            },
-            {
-              enableHighAccuracy: true,
-              timeout: 10000,
-              maximumAge: 600000
-            }
-          );
-        });
-      }
-    } catch (error) {
-      console.error('GPS aniqlashda xatolik:', error);
-    }
+    // LocalStorage'ga saqlash
+    OnboardingStorage.markCompleted();
     
+    // Onboarding'ni yashirish
     setTimeout(() => {
       setIsOnboardingVisible(false);
       setCurrentStep(0);
       setIsAnimating(false);
-    }, 300);
-  };
-
-  // Reverse geocoding funksiyasi
-  const reverseGeocode = async (lat, lng) => {
-    try {
-      // OpenStreetMap Nominatim API
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
-      );
-      const data = await response.json();
-      
-      if (data && data.display_name) {
-        return {
-          display_name: data.display_name,
-          city: data.address?.city || data.address?.town || data.address?.village,
-          state: data.address?.state || data.address?.region,
-          country: data.address?.country
-        };
-      }
-    } catch (error) {
-      console.error('Reverse geocoding xatolik:', error);
-    }
-    return null;
+    }, 600); // Animatsiya vaqtini uzaytirdik
   };
 
   // Onboarding'ni o'tkazib yuborish
@@ -151,12 +90,16 @@ export const OnboardingProvider = ({ children }) => {
     isOnboardingVisible,
     currentStep,
     isAnimating,
+    totalSteps: 6, // Language, Welcome, Products, Delivery, Payment, Location
     startOnboarding,
     nextStep,
     previousStep,
     goToStep,
     completeOnboarding,
-    skipOnboarding
+    skipOnboarding,
+    // Utility properties
+    isFirstStep: currentStep === 0,
+    isLastStep: currentStep === 5 // 6 steps (0-5)
   };
 
   return (
@@ -166,10 +109,13 @@ export const OnboardingProvider = ({ children }) => {
   );
 };
 
+// Hook onboarding context'ini ishlatish uchun
 export const useOnboarding = () => {
   const context = useContext(OnboardingContext);
-  if (context === undefined) {
-    throw new Error('useOnboarding must be used within an OnboardingProvider');
+  if (!context) {
+    throw new Error('useOnboarding must be used within OnboardingProvider');
   }
   return context;
 };
+
+export default OnboardingContext;

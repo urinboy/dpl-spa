@@ -17,16 +17,13 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
 import SplashScreen from './components/SplashScreen';
+import LanguageSelectorModal from './components/LanguageSelectorModal'; // Import LanguageSelectorModal
 import OnboardingOverlay from './components/OnboardingOverlay'; // Import OnboardingOverlay
 import OnboardingDebug from './components/OnboardingDebug'; // Import OnboardingDebug
 import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
-import LocationHeader from './components/LocationHeader'; // Import LocationHeader
-import LocationModal from './components/LocationModal'; // Import LocationModal
+import LocationDisplay from './components/LocationDisplay'; // Import LocationDisplay
 // import LocationSuccessNotification from './components/LocationSuccessNotification'; // Import LocationSuccessNotification - DISABLED
 import ApiTestPage from './admin/pages/ApiTestPage'
-import YandexMapsTest from './components/YandexMapsTest'
-import LocationTest from './components/LocationTest'
-import OpenStreetMapTest from './components/OpenStreetMapTest'
 import AdminApp from './admin/AdminApp'; // Import AdminApp
 import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
 
@@ -70,8 +67,8 @@ function App() {
     const isDetailPage = location.pathname.startsWith('/products/') && location.pathname.split('/').length === 3;
 
     return (
-        <div className="app-container" id="app">
-            {/* Onboarding Overlay */}
+        <div className="app-container" id="app">            
+            {/* Onboarding Overlay - Splash dan keyin */}
             <OnboardingOverlay />
             
             <Routes>
@@ -87,7 +84,7 @@ function App() {
                                         <h1 className="logo">
                                             <img src="/logos/white.png" alt="White Logo" className='logo-image'/>
                                         </h1>
-                                        <LocationHeader />
+                                        <LocationDisplay />
                                     </div>
                                     <div className="search-container desktop-search">
                                         <i className="fas fa-search search-icon"></i>
@@ -125,9 +122,6 @@ function App() {
                                 <Route path="/search" element={<SearchResultsPage />} />
                                 <Route path="/categories" element={<CategoriesPage />} />
                                 <Route path="/api-test" element={<ApiTestPage />} />
-                                <Route path="/yandex-test" element={<YandexMapsTest />} />
-                                <Route path="/location-test" element={<LocationTest />} />
-                                <Route path="/osm-test" element={<OpenStreetMapTest />} />
                             </Routes>
                         </main>
 
@@ -157,9 +151,6 @@ function App() {
                             </nav>
                         )}
 
-                        {/* Location Modal */}
-                        <LocationModal />
-                        
                         {/* Location Success Notification - DISABLED */}
                         {/* <LocationSuccessNotification /> */}
                         

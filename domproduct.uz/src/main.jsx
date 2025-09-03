@@ -12,6 +12,7 @@ import './assets/css/responsive.css';
 import './assets/css/slider.css'; // Import slider styles
 import './assets/css/products-enhanced.css'; // Import enhanced products styles
 import './assets/css/onboarding.css'; // Import onboarding styles
+import './assets/css/location-display.css'; // Import location display styles
 
 import { BrowserRouter } from 'react-router-dom';
 import { ToastProvider } from './components/Toast';
@@ -23,31 +24,28 @@ import { WishlistProvider } from './contexts/WishlistContext'; // Import Wishlis
 import { LanguageProvider } from './contexts/LanguageContext'; // Import LanguageProvider
 import { OnboardingProvider } from './contexts/OnboardingContext'; // Import OnboardingProvider
 import { ProductFilterProvider } from './contexts/ProductFilterContext'; // Import ProductFilterProvider  
-import { LocationProvider } from './contexts/LocationContext'; // Import LocationProvider
 import ScrollToTop from './components/ScrollToTop';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
         <LanguageProvider>
             <OnboardingProvider>
-                <LocationProvider>
-                    <AuthProvider>
-                        <ToastProvider>
-                            <CartProvider>
-                                <WishlistProvider>
-                                    <ProductFilterProvider>
-                                        <LoadingProvider>
-                                            <ModalProvider>
-                                                <ScrollToTop />
-                                                <App />
-                                            </ModalProvider>
-                                        </LoadingProvider>
-                                    </ProductFilterProvider>
-                                </WishlistProvider>
-                            </CartProvider>
-                        </ToastProvider>
-                    </AuthProvider>
-                </LocationProvider>
+                <AuthProvider>
+                    <ToastProvider>
+                        <CartProvider>
+                            <WishlistProvider>
+                                <ProductFilterProvider>
+                                    <LoadingProvider>
+                                        <ModalProvider>
+                                            <ScrollToTop />
+                                            <App />
+                                        </ModalProvider>
+                                    </LoadingProvider>
+                                </ProductFilterProvider>
+                            </WishlistProvider>
+                        </CartProvider>
+                    </ToastProvider>
+                </AuthProvider>
             </OnboardingProvider>
         </LanguageProvider>
     </BrowserRouter>

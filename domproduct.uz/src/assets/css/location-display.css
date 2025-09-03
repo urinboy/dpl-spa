@@ -1,0 +1,277 @@
+/* =================================
+   ENHANCED MODERN LOCATION DISPLAY
+   ================================= */
+
+.location-display {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-2xl);
+  border: 2px solid var(--gray-200);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  min-width: 200px;
+  backdrop-filter: blur(8px);
+}
+
+.location-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition: left 0.5s ease;
+}
+
+.location-display:hover::before {
+  left: 100%;
+}
+
+.location-display:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary-300);
+  background: linear-gradient(135deg, var(--primary-25) 0%, var(--white) 100%);
+}
+
+.location-display:active {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Location Icon Container */
+.location-icon {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 1.2rem;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.location-icon::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--primary-400), var(--primary-700));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.location-display:hover .location-icon {
+  transform: rotate(8deg) scale(1.08);
+  box-shadow: var(--shadow-lg);
+}
+
+.location-display:hover .location-icon::after {
+  opacity: 1;
+}
+
+/* Animated Location Dot */
+.location-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  background: var(--green-400);
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+  animation: locationPulse 2s ease-in-out infinite;
+  z-index: 10;
+}
+
+@keyframes locationPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.5);
+  }
+  50% {
+    transform: scale(1.3);
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.7);
+  }
+}
+
+/* Location Text Container */
+.location-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.location-city {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: linear-gradient(135deg, var(--gray-900), var(--gray-700));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.location-district {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.location-display:hover .location-city {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.location-display:hover .location-district {
+  opacity: 1;
+  color: var(--primary-600);
+}
+
+/* Location Arrow */
+.location-arrow {
+  width: 28px;
+  height: 28px;
+  background: var(--gray-100);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-600);
+  font-size: 0.8rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  border: 1px solid var(--gray-200);
+}
+
+.location-display:hover .location-arrow {
+  background: var(--primary-100);
+  color: var(--primary-600);
+  transform: rotate(180deg);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--primary-200);
+}
+
+/* Animation States */
+.location-display.animating {
+  animation: locationUpdate 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes locationUpdate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-xs);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Placeholder State */
+.location-placeholder {
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+  border: 2px dashed var(--gray-300);
+}
+
+.location-placeholder .location-icon {
+  background: linear-gradient(135deg, var(--gray-400), var(--gray-500));
+  animation: placeholderPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes placeholderPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.location-pulse {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-500);
+  border-radius: 50%;
+  margin-left: var(--space-2);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .location-display {
+    min-width: 180px;
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2);
+  }
+  
+  .location-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+  
+  .location-city {
+    font-size: 0.9rem;
+  }
+  
+  .location-district {
+    font-size: 0.7rem;
+  }
+  
+  .location-arrow {
+    width: 24px;
+    height: 24px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .location-display {
+    min-width: 160px;
+  }
+  
+  .location-text {
+    gap: 1px;
+  }
+  
+  .location-city {
+    font-size: 0.85rem;
+  }
+  
+  .location-district {
+    font-size: 0.65rem;
+  }
+}

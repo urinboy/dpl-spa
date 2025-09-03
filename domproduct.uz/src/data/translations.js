@@ -132,6 +132,43 @@ export const resources = {
       "onboarding_payment_description": "Naqd, karta, Click, Payme va boshqa to'lov tizimlari",
       "onboarding_language_title": "Tilni tanlang",
       "onboarding_language_description": "O'zbek, Rus yoki Ingliz tilida foydalaning",
+      "onboarding_location_title": "Joylashuvingizni aniqlang",
+      "onboarding_location_description": "Sizga eng yaqin do'konlar va mahsulotlarni ko'rsatish uchun",
+      "onboarding_features_title": "Nima uchun aynan biz?",
+      "onboarding_features_description": "Sizning qulayligingiz uchun yaratilgan xizmatlar",
+
+      // Location Detection
+      "detect_location": "Joylashuvni aniqlash",
+      "location_help_text": "GPS orqali aniq joylashuvingizni aniqlash",
+      "detecting_location": "Joylashuv aniqlanmoqda...",
+      "detecting_location_short": "Aniqlanmoqda...",
+      "location_detected": "Joylashuv aniqlandi",
+      "try_again": "Qayta urinish",
+      "refresh": "Yangilash",
+      "location_detection_title": "Joylashuvni aniqlang",
+      "location_detection_subtitle": "Sizga eng yaqin do'konlar va mahsulotlarni ko'rsatish uchun",
+
+      // Welcome Features
+      "quality_products": "Sifatli mahsulotlar",
+      "fast_delivery": "Tez yetkazib berish",
+      "secure_payment": "Xavfsiz to'lov",
+
+      // Compact feature descriptions - Yangi jozibali matnlar
+      "products_short_desc": "10,000+ sertifikatlangan va sifatli mahsulotlar",
+      "delivery_short_desc": "24 soat ichida eshigingizgacha yetkazib berish",
+      "payment_short_desc": "Click, Payme, Uzcard va naqd to'lov imkoniyati",
+
+      // Onboarding titles - Yangi jozibali sarlavhalar
+      "onboarding_products_title": "Katta tanlov",
+      "onboarding_delivery_title": "Tezkor yetkazib berish", 
+      "onboarding_payment_title": "Xavfsiz to'lovlar",
+
+      // Language Selector Modal
+      "select_language": "Tilni tanlang",
+      "choose_your_preferred_language": "O'zingiz uchun qulay tilni tanlang",
+      "continue": "Davom etish",
+      "applying": "Qo'llanmoqda...",
+      "language_can_be_changed_later": "Tilni keyinchalik sozlamalarda o'zgartirish mumkin",
       
       // Products
       "products_found": "ta mahsulot topildi",
@@ -524,6 +561,43 @@ export const resources = {
       "onboarding_payment_description": "Наличные, карта, Click, Payme и другие системы",
       "onboarding_language_title": "Выберите язык",
       "onboarding_language_description": "Используйте узбекский, русский или английский язык",
+      "onboarding_location_title": "Определите ваше местоположение",
+      "onboarding_location_description": "Для показа ближайших магазинов и товаров",
+      "onboarding_features_title": "Почему именно мы?",
+      "onboarding_features_description": "Сервисы, созданные для вашего удобства",
+
+      // Location Detection
+      "detect_location": "Определить местоположение",
+      "location_help_text": "Точное определение через GPS",
+      "detecting_location": "Определяется местоположение...",
+      "detecting_location_short": "Определяется...",
+      "location_detected": "Местоположение определено",
+      "try_again": "Попробовать снова",
+      "refresh": "Обновить",
+      "location_detection_title": "Определите местоположение",
+      "location_detection_subtitle": "Для показа ближайших магазинов и товаров",
+
+      // Welcome Features
+      "quality_products": "Качественные товары",
+      "fast_delivery": "Быстрая доставка",
+      "secure_payment": "Безопасная оплата",
+
+      // Compact feature descriptions - Новые привлекательные тексты
+      "products_short_desc": "10,000+ сертифицированных и качественных товаров",
+      "delivery_short_desc": "Доставка к вашему порогу в течение 24 часов",
+      "payment_short_desc": "Click, Payme, Uzcard и наличная оплата",
+
+      // Onboarding titles - Новые привлекательные заголовки
+      "onboarding_products_title": "Большой выбор",
+      "onboarding_delivery_title": "Быстрая доставка",
+      "onboarding_payment_title": "Безопасные платежи",
+
+      // Language Selector Modal
+      "select_language": "Выберите язык",
+      "choose_your_preferred_language": "Выберите удобный для вас язык",
+      "continue": "Продолжить",
+      "applying": "Применяется...",
+      "language_can_be_changed_later": "Язык можно изменить позже в настройках",
 
       // Location Detection
       "location_title": "Определите ваше местоположение",

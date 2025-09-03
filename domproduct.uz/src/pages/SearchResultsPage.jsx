@@ -29,7 +29,14 @@ const SearchResultsPage = () => {
                         <div className="product-card" key={product.id}>
                             <Link to={`/products/${product.id}`} className="product-image-link">
                                 <div className="product-image">
-                                    <img src={product.image} alt={product.name} />
+                                    <img 
+                                        src={product.image || '/placeholder-image.png'} 
+                                        alt={product.name}
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            e.target.parentElement.innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--gray-300);"></i>';
+                                        }}
+                                    />
                                 </div>
                             </Link>
                             <div className="product-info">

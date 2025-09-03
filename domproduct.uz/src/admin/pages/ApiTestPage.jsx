@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import YandexMapsTest from '../../components/YandexMapsTest';
 import LocationStorageService from '../../services/LocationStorageService';
 import LocationAPIService from '../../services/LocationAPIService';
 

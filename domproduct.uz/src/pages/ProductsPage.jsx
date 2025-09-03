@@ -133,7 +133,15 @@ const ProductsPage = () => {
                         <div className={`product-card ${viewMode}-view`} key={product.id}>
                             <Link to={`/products/${product.id}`} className="product-image-link">
                                 <div className="product-image">
-                                    <img src={product.image} alt={product.name} />
+                                    <img 
+                                        src={product.image || '/placeholder-image.png'} 
+                                        alt={product.name}
+                                        onError={(e) => {
+                                            e.target.src = '/placeholder-image.png';
+                                            e.target.style.display = 'none';
+                                            e.target.parentElement.innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--gray-300);"></i>';
+                                        }}
+                                    />
                                     {product.originalPrice && product.originalPrice > product.price && (
                                         <div className="discount-badge">
                                             -{Math.round((product.originalPrice - product.price) / product.originalPrice * 100)}%

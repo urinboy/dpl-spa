@@ -28,7 +28,14 @@ const WishlistPage = () => {
                     {wishlistItems.map(product => (
                         <div key={product.id} className="product-card">
                              <div className="product-image">
-                                <img src={product.image} alt={product.name} />
+                                <img 
+                                    src={product.image || '/placeholder-image.png'} 
+                                    alt={product.name}
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = '<i class="fas fa-image" style="font-size: 3rem; color: var(--gray-300);"></i>';
+                                    }}
+                                />
                                 <button className="wishlist-btn-remove" onClick={() => toggleWishlist(product)}>
                                     <i className="fas fa-times"></i>
                                 </button>
