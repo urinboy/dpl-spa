@@ -3,6 +3,7 @@ import axios from 'axios';
 import OpenStreetMapUtils from '../utils/OpenStreetMapUtils';
 import LocationAPIService from '../services/LocationAPIService';
 import LocationStorageService from '../services/LocationStorageService';
+import { OnboardingStorage } from '../utils/OnboardingStorage';
 
 const LocationContext = createContext();
 
@@ -47,10 +48,13 @@ export const LocationProvider = ({ children }) => {
       }
     }
     
-    // Agar saqlangan ma'lumot bo'lmasa, modal ko'rsatish
-    setTimeout(() => {
-      setShowLocationModal(true);
-    }, 2000); // 2 soniyadan keyin so'rash
+    // Agar saqlangan ma'lumot bo'lmasa va onboarding tugagan bo'lsa, modal ko'rsatish
+    const isOnboardingCompleted = OnboardingStorage.isCompleted();
+    if (isOnboardingCompleted) {
+      setTimeout(() => {
+        setShowLocationModal(true);
+      }, 2000); // 2 soniyadan keyin so'rash
+    }
   }, []);
 
   // Joylashuvni localStorage va API ga saqlash

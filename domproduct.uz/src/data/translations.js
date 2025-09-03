@@ -117,6 +117,22 @@ export const resources = {
       "2_stars_plus": "2 yulduz va undan yuqori",
       "1_star_plus": "1 yulduz va undan yuqori",
       
+      // Onboarding
+      "skip": "O'tkazib yuborish",
+      "next": "Keyingisi",
+      "previous": "Oldingi",
+      "get_started": "Boshlash",
+      "onboarding_welcome_title": "DomProduct.uz ga xush kelibsiz!",
+      "onboarding_welcome_description": "O'zbekistonning eng yaxshi onlayn do'konida xarid qiling",
+      "onboarding_products_title": "Minglab sifatli mahsulotlar",
+      "onboarding_products_description": "Uy-ro'zg'or buyumlari, elektronika, kiyim va boshqa hamma narsa",
+      "onboarding_delivery_title": "Tez va ishonchli yetkazib berish",
+      "onboarding_delivery_description": "Butun O'zbekiston bo'ylab bepul yetkazib berish xizmati",
+      "onboarding_payment_title": "Qulay to'lov usullari",
+      "onboarding_payment_description": "Naqd, karta, Click, Payme va boshqa to'lov tizimlari",
+      "onboarding_language_title": "Tilni tanlang",
+      "onboarding_language_description": "O'zbek, Rus yoki Ingliz tilida foydalaning",
+      
       // Products
       "products_found": "ta mahsulot topildi",
       "no_products_found_title": "Hech qanday mahsulot topilmadi",
@@ -492,6 +508,22 @@ export const resources = {
       "category_books": "Книги",
       "category_furniture": "Мебель",
       "category_construction": "Строительные материалы",
+
+      // Onboarding
+      "skip": "Пропустить",
+      "next": "Далее",
+      "previous": "Назад",
+      "get_started": "Начать",
+      "onboarding_welcome_title": "Добро пожаловать в DomProduct.uz!",
+      "onboarding_welcome_description": "Покупайте в лучшем онлайн-магазине Узбекистана",
+      "onboarding_products_title": "Тысячи качественных товаров",
+      "onboarding_products_description": "Товары для дома, электроника, одежда и многое другое",
+      "onboarding_delivery_title": "Быстрая и надежная доставка",
+      "onboarding_delivery_description": "Бесплатная доставка по всему Узбекистану",
+      "onboarding_payment_title": "Удобные способы оплаты",
+      "onboarding_payment_description": "Наличные, карта, Click, Payme и другие системы",
+      "onboarding_language_title": "Выберите язык",
+      "onboarding_language_description": "Используйте узбекский, русский или английский язык",
 
       // Location Detection
       "location_title": "Определите ваше местоположение",

@@ -15,8 +15,12 @@
 
     /* Brand Colors */
     --primary-color: #087c36;
+    --primary-dark: #065c28;
+    --primary-light: #e8f5e8;
     --secondary-color: #116128;
+    --secondary-light: #e8f2e8;
     --success-color: #087c36;
+    --success-dark: #065c28;
     --danger-color: #e53e3e; /* Slightly softer red */
     --warning-color: #dd6b20; /* Slightly softer orange */
     --info-color: #3b82f6;
@@ -44,6 +48,11 @@
     --gray-900: #212529;
     --white: #ffffff;
     --black: #000000;
+
+    /* Text Colors */
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --text-muted: #868e96;
 
     /* Modern UI Properties */
     --radius-sm: 4px;

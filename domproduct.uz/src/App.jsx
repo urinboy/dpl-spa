@@ -17,6 +17,8 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import SearchResultsPage from './pages/SearchResultsPage';
 import SearchOverlay from './components/SearchOverlay';
 import SplashScreen from './components/SplashScreen';
+import OnboardingOverlay from './components/OnboardingOverlay'; // Import OnboardingOverlay
+import OnboardingDebug from './components/OnboardingDebug'; // Import OnboardingDebug
 import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
 import LocationHeader from './components/LocationHeader'; // Import LocationHeader
 import LocationModal from './components/LocationModal'; // Import LocationModal
@@ -69,6 +71,9 @@ function App() {
 
     return (
         <div className="app-container" id="app">
+            {/* Onboarding Overlay */}
+            <OnboardingOverlay />
+            
             <Routes>
                 <Route path="/admin/*" element={<AdminApp />} />
                 <Route path="/*" element={
@@ -157,6 +162,9 @@ function App() {
                         
                         {/* Location Success Notification - DISABLED */}
                         {/* <LocationSuccessNotification /> */}
+                        
+                        {/* Onboarding Debug (only in development) */}
+                        <OnboardingDebug />
                     </>
                 } />
             </Routes>
