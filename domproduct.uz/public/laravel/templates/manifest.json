@@ -1,0 +1,199 @@
+{
+  "name": "DOM PRODUCT - Online Market",
+  "short_name": "DOM PRODUCT",
+  "description": "Oziq-ovqat mahsulotlarini onlayn xarid qilish uchun eng yaxshi platforma",
+  "version": "1.0.0",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#10b981",
+  "background_color": "#ffffff",
+  "lang": "uz",
+  "dir": "ltr",
+
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "screenshots/mobile-home.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Bosh sahifa"
+    },
+    {
+      "src": "screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop bosh sahifa"
+    },
+    {
+      "src": "screenshots/mobile-products.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mahsulotlar"
+    },
+    {
+      "src": "screenshots/mobile-cart.png",
+      "sizes": "375x812",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Savat"
+    }
+  ],
+
+  "categories": [
+    "shopping",
+    "food",
+    "lifestyle",
+    "business"
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Kategoriyalar",
+      "short_name": "Kategoriyalar",
+      "description": "Mahsulot kategoriyalarini ko'rish",
+      "url": "/categories.html",
+      "icons": [
+        {
+          "src": "icons/shortcut-categories.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Savat",
+      "short_name": "Savat",
+      "description": "Xarid savatini ko'rish",
+      "url": "/cart.html",
+      "icons": [
+        {
+          "src": "icons/shortcut-cart.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Buyurtmalar",
+      "short_name": "Buyurtmalar",
+      "description": "Buyurtmalar tarixini ko'rish",
+      "url": "/orders.html",
+      "icons": [
+        {
+          "src": "icons/shortcut-orders.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Profil",
+      "short_name": "Profil",
+      "description": "Foydalanuvchi profili",
+      "url": "/profile.html",
+      "icons": [
+        {
+          "src": "icons/shortcut-profile.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+
+  "related_applications": [],
+  "prefer_related_applications": false,
+
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+
+  "protocol_handlers": [
+    {
+      "protocol": "web+domproduct",
+      "url": "/product-detail.html?id=%s"
+    }
+  ],
+
+  "file_handlers": [
+    {
+      "action": "/share-target/",
+      "accept": {
+        "text/plain": [".txt"],
+        "image/*": [".jpg", ".jpeg", ".png", ".webp", ".gif"]
+      }
+    }
+  ],
+
+  "share_target": {
+    "action": "/share-target/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": ["image/*", "text/plain"]
+        }
+      ]
+    }
+  }
+}
