@@ -284,132 +284,307 @@
     backdrop-filter: blur(3px);
 }
 
-/* Header styles */
+/* Enhanced Responsive Header Styles */
 .header-content {
     display: flex;
+    flex-wrap: wrap; /* Jo'y yetmasa keyingi qatorga o'tadi */
     justify-content: space-between;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.8rem; /* Elementlar orasini yaqinlashtirdim */
     width: 100%;
     max-width: none;
     margin: 0 auto;
-    padding: 1rem;
-    overflow-x: auto; /* Horizontal scroll if needed */
+    padding: 0.8rem;
     min-height: 60px;
+    overflow: visible; /* Scroll o'rniga ko'rinadigan qilish */
 }
 
-/* Large screens - All elements visible */
+/* Katta ekranlar - Barcha elementlar bir qatorda */
 @media (min-width: 1400px) {
     .header-content {
-        gap: 2rem;
+        gap: 1.5rem;
         padding: 1rem 2rem;
+        flex-wrap: nowrap; /* Katta ekranlarda wrap bo'lmasin */
     }
 }
 
-/* Desktop - Reduce gaps and paddings */
+/* Desktop - Gap va paddinglarni kamaytirish */
 @media (max-width: 1399px) and (min-width: 1200px) {
     .header-content {
-        gap: 1.5rem;
-        padding: 1rem 1.5rem;
+        gap: 1rem;
+        padding: 0.8rem 1.5rem;
+        flex-wrap: nowrap;
     }
 }
 
-/* Medium Desktop - Tighter spacing */
+/* O'rta Desktop - Qattiqroq joylashish */
 @media (max-width: 1199px) and (min-width: 1024px) {
     .header-content {
-        gap: 1.2rem;
-        padding: 1rem;
-    }
-    
-    .header-left {
         gap: 0.8rem;
-    }
-    
-    .header-left .location-display {
-        min-width: 180px;
-        max-width: 220px;
-        padding: 0.6rem 0.8rem;
-    }
-}
-
-/* Small Desktop/Large Tablet */
-@media (max-width: 1023px) and (min-width: 896px) {
-    .header-content {
-        gap: 1rem;
         padding: 0.8rem;
+        flex-wrap: nowrap; /* Bir qatorda saqlash */
+        justify-content: space-between;
     }
     
     .header-left {
         gap: 0.6rem;
+        flex: 0 1 auto;
+        order: 1;
+    }
+    
+    /* Til tanlash yonida chiqishi uchun */
+    .header-actions {
+        order: 2; /* Header-left dan keyin */
+        flex: 0 0 auto;
+        margin-left: 0.8rem;
+    }
+    
+    .search-container.desktop-search {
+        order: 3;
+        flex: 1 1 auto;
+        margin: 0 0.8rem;
+        max-width: 350px;
+        min-width: 180px;
+    }
+    
+    .header-nav-menu {
+        order: 4; /* Oxirda */
+        flex: 0 0 auto;
     }
     
     .header-left .location-display {
         min-width: 160px;
-        max-width: 180px;
-        padding: 0.5rem 0.6rem;
-        font-size: 0.9rem;
+        max-width: 200px;
+        padding: 0.5rem 0.7rem;
+    }
+}
+
+/* Tablet - Location, search button, language va nav menu bir qatorda */
+@media (max-width: 1023px) and (min-width: 771px) {
+    .header-content {
+        gap: 0.3rem; /* Gap ni kamaytirdik */
+        padding: 0.4rem 0.6rem; /* Vertikal padding kamaytirdik */
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
     }
     
+    .header-left {
+        gap: 0.3rem; /* Gap ni kamaytirdik */
+        order: 1;
+        flex: 1 1 auto;
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Mobile search button - header-left dan keyin (yashirilgan) */
+    .mobile-search-btn:not(.header-actions .mobile-search-btn) {
+        order: 2;
+        flex: 0 0 auto;
+        display: none;
+    }
+    
+    /* Header nav menu - search button dan keyin */
+    .header-nav-menu {
+        order: 3;
+        flex: 0 0 auto;
+        gap: 0.1rem; /* Nav elementlar orasidagi gap kamaytirdik */
+        margin: 0;
+        display: flex;
+        justify-content: center; /* Markazga joylashtirish */
+        width: auto !important; /* 30% ni bekor qilish */
+    }
+    
+    /* Header actions - eng oxirida */
+    .header-actions {
+        order: 4;
+        flex: 0 0 auto;
+        gap: 0.2rem; /* Gap ni kamaytirdik */
+        display: flex;
+        align-items: center;
+    }
+    
+    /* Header actions ichidagi mobile search button */
+    .header-actions .mobile-search-btn {
+        display: inline-block;
+        order: 1;
+        padding: 0.4rem; /* Padding kamaytirdik */
+    }
+    
+    /* Language switcher */
+    .header-actions .language-switcher {
+        order: 2;
+        display: inline-block;
+    }
+    
+    .header-actions .language-btn {
+        padding: 0.4rem; /* Padding kamaytirdik */
+    }
+    
+    /* Nav item larni yanada kichikroq qilish */
+    .header-nav-item {
+        padding: 0.3rem 0.4rem; /* Padding kamaytirdik */
+        font-size: 0.75rem; /* Font size kamaytirdik */
+        min-width: auto;
+        border-radius: var(--radius-sm);
+    }
+    
+    /* Navigation text yashirish - faqat iconlar (1200px dan kichik ekranlarda) */
+    .header-nav-menu .header-nav-text {
+        display: none;
+    }
+    
+    /* Icon size ni moslash */
+    .header-nav-icon {
+        font-size: 0.85rem; /* Icon size kamaytirdik */
+    }
+    
+    /* Desktop search yashirilgan */
     .search-container.desktop-search {
-        margin: 0 0.5rem;
-        max-width: 250px;
-        min-width: 180px;
+        display: none;
+    }
+    
+    /* Location display ni yanada ixcham qilish */
+    .header-left .location-display {
+        min-width: 100px; /* Min width kamaytirdik */
+        max-width: 140px; /* Max width kamaytirdik */
+        padding: 0.3rem 0.5rem; /* Padding kamaytirdik */
+        font-size: 0.8rem; /* Font size kamaytirdik */
+    }
+    
+    /* Logo size ni moslash */
+    .header-logo img {
+        height: 28px; /* Logo height kamaytirdik */
+    }
+
+    
+    /* Nav item larni kichikroq qilish */
+    .header-nav-item {
+        padding: 0.4rem 0.5rem;
+        font-size: 0.8rem;
+        min-width: auto;
+    }
+    
+    /* Navigation text yashirish - faqat iconlar */
+    .header-nav-menu .header-nav-text {
+        display: none;
+    }
+    
+}
+
+/* 1023px dan pastida header-nav-menu width 30% */
+@media (max-width: 1023px) {
+    .header-nav-menu {
+        width: 30% !important;
+        justify-content: center;
     }
 }
 
-@media (max-width: 768px) {
+/* 768px+ da header-nav-menu uchun maxsus stil */
+@media (min-width: 768px) {
+    .header-nav-menu {
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 30%;
+        margin-top: 0.5rem;
+    }
+}
+
+/* 770px dan pastida header navigation menu yashirish */
+@media (max-width: 770px) {
+    .header-nav-menu {
+        display: none !important;
+    }
+}
+
+/* 768px gacha - Mobile (Bottom nav ko'rsatilgan) */
+@media (max-width: 767px) {
     .header-content {
-        padding: 0.75rem;
-        gap: 1rem;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        flex-wrap: nowrap; /* Bir qatorda saqlab qolish */
+        justify-content: space-between;
+        align-items: center;
     }
+    
+    .header-left {
+        order: 1;
+        flex: 1 1 auto; /* Ko'proq joy egallashi */
+        gap: 0.4rem;
+    }
+    
+    /* Mobile nav menu yashirish */
+    .header-nav-menu {
+        display: none;
+    }
+    
+    .header-actions {
+        order: 2;
+        flex: 0 0 auto;
+    }
+    
+    /* Desktop search yashirilgan, mobile search button avtomatik ko'rsatiladi 1023px breakpoint orqali */
 }
 
+/* 480px gacha - Juda kichik mobile */
 @media (max-width: 480px) {
     .header-content {
-        padding: 0.5rem;
-        gap: 0.75rem;
+        padding: 0.4rem;
+        gap: 0.3rem;
+    }
+    
+    .header-left {
+        gap: 0.3rem;
+    }
+    
+    .header-nav-menu {
+        gap: 0.2rem; /* Juda kichik gap */
     }
 }
 
 .header-left {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    flex-shrink: 1; /* Allow shrinking to prevent overflow */
-    min-width: 0; /* Allow flex items to shrink below their content size */
+    gap: 0.8rem; /* Elementlar orasini yaqinlashtirdim */
+    flex-shrink: 1;
+    min-width: 0;
+    flex-wrap: nowrap; /* Ichidagi elementlar bir qatorda qoladigan */
 }
 
-/* Large screens - Normal spacing */
+/* Katta ekranlar - Normal masofa */
 @media (min-width: 1200px) {
     .header-left {
-        gap: 1.2rem;
+        gap: 1rem;
         flex-shrink: 0;
     }
 }
 
-/* Medium screens - Compact spacing */
+/* O'rta ekranlar - Ixcham masofa */
 @media (max-width: 1199px) and (min-width: 896px) {
     .header-left {
-        gap: 0.9rem;
+        gap: 0.6rem;
     }
 }
 
-/* Small screens - Tight spacing */
+/* Kichik ekranlar - Qattiq masofa */
 @media (max-width: 895px) and (min-width: 768px) {
     .header-left {
-        gap: 0.7rem;
+        gap: 0.5rem;
     }
 }
 
 @media (max-width: 768px) {
     .header-left {
-        gap: 0.75rem;
+        gap: 0.5rem;
+        flex: 1 1 auto; /* Mobilda ko'proq joy egallashi */
     }
 }
 
 @media (max-width: 480px) {
     .header-left {
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 }
 
@@ -470,60 +645,144 @@
     }
 }
 
-/* Location Display in Header */
+/* Location Display in Header - Responsive qilingan */
 .header-left .location-display {
     background: rgba(255, 255, 255, 0.15);
     color: white;
     border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 0.8rem 1rem;
+    padding: 0.5rem 1rem; /* O'rta padding */
     border-radius: var(--radius-lg);
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 1rem;
+    gap: 0.6rem;
+    font-size: 0.9rem;
     cursor: default;
-    max-width: 280px;
-    min-width: 200px;
+    max-width: 260px;
+    min-width: 180px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 1; /* Allow shrinking when needed */
+    flex-shrink: 1;
+    white-space: nowrap;
 }
 
-/* Large screens - Normal location display */
-@media (min-width: 1200px) {
+/* Juda katta ekranlar */
+@media (min-width: 1400px) {
     .header-left .location-display {
         max-width: 300px;
         min-width: 220px;
+        padding: 0.7rem 1.4rem; /* Eng katta padding */
+        font-size: 1rem;
+        gap: 0.75rem;
     }
 }
 
-/* Medium screens - Compact location display */
-@media (max-width: 1199px) and (min-width: 896px) {
+/* Katta ekranlar - Normal location display */
+@media (max-width: 1399px) and (min-width: 1200px) {
     .header-left .location-display {
-        max-width: 250px;
-        min-width: 180px;
-        padding: 0.6rem 0.8rem;
+        max-width: 280px;
+        min-width: 200px;
+        padding: 0.6rem 1.2rem; /* Katta padding */
         font-size: 0.95rem;
     }
 }
 
-/* Small screens - Very compact */
-@media (max-width: 895px) and (min-width: 768px) {
+/* O'rta ekranlar - Ixcham location display */
+@media (max-width: 1199px) and (min-width: 1024px) {
     .header-left .location-display {
-        max-width: 200px;
-        min-width: 150px;
-        padding: 0.5rem 0.7rem;
+        max-width: 230px;
+        min-width: 170px;
+        padding: 0.4rem 1rem; /* O'rta padding */
         font-size: 0.9rem;
         gap: 0.5rem;
     }
+}
+
+/* Kichik ekranlar - Juda ixcham */
+@media (max-width: 1023px) and (min-width: 896px) {
+    .header-left .location-display {
+        max-width: 200px;
+        min-width: 150px;
+        padding: 0.3rem 0.8rem; /* Kamaytirilgan padding */
+        font-size: 0.85rem;
+        gap: 0.4rem;
+    }
     
     .header-left .location-display .location-text {
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+}
+
+/* Tablet */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-left .location-display {
+        max-width: 180px;
+        min-width: 140px;
+        padding: 0.3rem 0.7rem; /* Kichik padding */
+        font-size: 0.8rem;
+    }
+    
+    .header-left .location-display .location-city {
+        font-size: 0.9rem;
+    }
+    
+    .header-left .location-display .location-district {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .header-left .location-display {
+        max-width: 200px;
+        min-width: 150px;
+        padding: 0.2rem 1.2rem; /* Sizning talabingiz bo'yicha */
+        font-size: 0.85rem;
+    }
+    
+    .header-left .location-display .location-icon {
+        font-size: 1rem;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-left .location-display .location-city {
+        font-size: 0.95rem;
+    }
+    
+    .header-left .location-display .location-district {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-left .location-display {
+        max-width: 160px;
+        min-width: 140px;
+        padding: 0.1rem 1rem; /* Eng kichik padding */
+        font-size: 0.8rem;
+    }
+    
+    .header-left .location-display .location-icon {
+        font-size: 0.9rem;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-left .location-display .location-city {
+        font-size: 0.85rem;
+    }
+    
+    .header-left .location-display .location-district {
+        font-size: 0.7rem;
     }
 }
 
@@ -534,11 +793,28 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Enhanced Location Icon - Umumiy stil */
+.location-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
 .header-left .location-display .location-icon {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Responsive o'lcham */
     color: rgba(255, 255, 255, 0.9);
     position: relative;
     flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-left .location-display .location-dot {
@@ -550,11 +826,12 @@
     flex-direction: column;
     line-height: 1.3;
     overflow: hidden;
+    min-width: 0; /* Flexbox shrinking uchun */
 }
 
 .header-left .location-display .location-city {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem; /* Base o'lcham */
     color: white;
     white-space: nowrap;
     overflow: hidden;
@@ -563,7 +840,7 @@
 }
 
 .header-left .location-display .location-district {
-    font-size: 0.85rem;
+    font-size: 0.8rem; /* Base o'lcham */
     color: rgba(255, 255, 255, 0.85);
     white-space: nowrap;
     overflow: hidden;
@@ -571,82 +848,19 @@
     font-weight: 500;
 }
 
-@media (max-width: 768px) {
-    .header-left .location-display {
-        max-width: 220px;
-        min-width: 180px;
-        padding: 0.6rem 0.8rem;
-        font-size: 0.9rem;
-    }
-    
-    .header-left .location-display .location-icon {
-        font-size: 1.1rem;
-    }
-    
-    .header-left .location-display .location-city {
-        font-size: 1rem;
-    }
-    
-    .header-left .location-display .location-district {
-        font-size: 0.8rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .header-left .location-display {
-        max-width: 160px;
-        min-width: 188px;
-        padding: 0.3rem 0.9rem;
-    }
-    
-    .header-left .location-display .location-icon {
-        font-size: 1rem;
-    }
-    
-    .header-left .location-display .location-city {
-        font-size: 0.9rem;
-    }
-    
-    .header-left .location-display .location-district {
-        font-size: 0.75rem;
-    }
-}
-
-/* Large screens (896px+) */
-@media (min-width: 896px) {
-    .header-left .location-display {
-        background: rgba(255, 255, 255, 0.15);
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 0.5rem 1rem;
-        border-radius: var(--radius-lg);
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        font-size: 1rem;
-        cursor: default;
-        max-width: 280px;
-        min-width: 259px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-}
-
+/* Logo styles - Enhanced responsive */
 .logo {
     font-family: var(--font-logo);
-    font-size: 1.8rem; /* Increased base size */
+    font-size: 1.6rem; /* Responsive o'lcham */
     font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    flex-shrink: 0; /* Prevent logo from shrinking */
+    gap: 0.5rem; /* Kichikroq gap */
+    flex-shrink: 0;
 }
 
 .logo-image {
-    height: 40px; /* Adjusted height for better visibility */
+    height: 38px; /* Responsive height */
 }
 
 .search-container {
@@ -660,9 +874,9 @@
 
 .search-container.desktop-search {
     flex: 1 1 auto;
-    max-width: 600px;
-    min-width: 250px;
-    margin: 0 1.5rem;
+    max-width: 500px; /* Maksimal kenglik */
+    min-width: 200px; /* Minimal kenglik */
+    margin: 0 0.8rem; /* Yaqinroq margin */
 }
 
 .search-input {
@@ -698,26 +912,42 @@
     font-size: 1.1rem;
 }
 
-/* Search responsive styles */
-@media (min-width: 1200px) {
+/* Search responsive styles - yangilangan */
+@media (min-width: 1400px) {
     .search-container.desktop-search {
-        max-width: 700px;
-        margin: 0 2rem;
+        max-width: 600px;
+        margin: 0 1.5rem;
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1399px) and (min-width: 1200px) {
     .search-container.desktop-search {
-        max-width: 400px;
+        max-width: 450px;
         margin: 0 1rem;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1199px) and (min-width: 1024px) {
+    .search-container.desktop-search {
+        max-width: 350px;
+        margin: 0 0.8rem;
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 1023px) and (min-width: 896px) {
     .search-container.desktop-search {
         max-width: 300px;
-        min-width: 200px;
+        min-width: 150px;
         margin: 0 0.5rem;
+    }
+}
+
+@media (max-width: 895px) and (min-width: 768px) {
+    .search-container.desktop-search {
+        flex: 1 1 100%; /* To'liq kenglik, yangi qator */
+        max-width: none;
+        margin: 0.5rem 0 0 0;
     }
     
     .search-input {
@@ -731,48 +961,102 @@
     }
 }
 
+/* 1024px dan kichik ekranlarda desktop search yashirish */
+@media (max-width: 1023px) {
+    .search-container.desktop-search {
+        display: none; /* 1024px dan kichik ekranlarda yashirish */
+    }
+    
+    .mobile-search-btn {
+        display: flex; /* Mobile search button ko'rsatish */
+    }
+}
+
+/* 1024px dan katta ekranlarda mobile search yashirish */
+@media (min-width: 1024px) {
+    .mobile-search-btn {
+        display: none; /* 1024px dan katta ekranlarda yashirish */
+    }
+    
+    .search-container.desktop-search {
+        display: flex; /* Desktop search ko'rsatish */
+        max-width: 350px; /* Maksimal width 350px */
+        flex: 0 0 350px; /* Fixed width 350px */
+        margin: 0 0.5rem; /* Margin kamaytirish */
+    }
+    
+    .header-content {
+        width: 100% !important; /* Header content 100% width */
+        max-width: 100% !important; /* Max width ham 100% */
+    }
+    
+    .header-nav-menu {
+        width: 550px; /* Header nav menu width 550px */
+        gap: 0.4rem; /* Gap 0.4rem */
+        justify-content: center; /* Markazga joylashtirish */
+    }
+}
+
+/* 1400px+ da header-nav-menu uchun maxsus stil */
+@media (min-width: 1400px) {
+    .header-nav-menu {
+        gap: 0.4rem;
+        flex-wrap: nowrap;
+    }
+}
+
+/* Mobil ekranlarda desktop search ni yashirish (eski qoida) */
+@media (max-width: 767px) {
+    .search-container.desktop-search {
+        display: none;
+    }
+}
+
 .header-actions {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem; /* Tugmalar orasini yaqinlashtirdim */
     align-items: center;
-    flex-shrink: 0; /* Prevent shrinking */
+    flex-shrink: 0;
 }
 
-/* Large screens - Normal spacing */
+/* Katta ekranlar - Normal masofa */
 @media (min-width: 1200px) {
     .header-actions {
-        gap: 1rem;
+        gap: 0.8rem;
     }
 }
 
-/* Medium screens - Tighter spacing */
+/* O'rta ekranlar - Qattiqroq masofa */
 @media (max-width: 1199px) and (min-width: 896px) {
-    .header-actions {
-        gap: 0.6rem;
-    }
-}
-
-/* Small screens - Minimal spacing */
-@media (max-width: 895px) and (min-width: 768px) {
     .header-actions {
         gap: 0.4rem;
     }
+}
+
+/* Kichik ekranlar - Minimal masofa */
+@media (max-width: 895px) and (min-width: 768px) {
+    .header-actions {
+        gap: 0.3rem;
+    }
     
     .icon-btn {
-        padding: 0.5rem;
-        font-size: 1.2rem;
+        padding: 0.4rem;
+        font-size: 1.1rem;
+        width: 38px;
+        height: 38px;
     }
 }
 
 @media (max-width: 480px) {
     .header-actions {
-        gap: 0.5rem;
+        gap: 0.3rem;
     }
     
     .mobile-search-btn,
     .language-btn {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+        padding: 0.3rem;
     }
 }
 
@@ -837,7 +1121,7 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Mobile Search Button */
+/* Mobile Search Button - Default yashirilgan */
 .mobile-search-btn {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -848,6 +1132,7 @@
     width: 44px;
     height: 44px;
     border-radius: var(--radius-full);
+    display: none; /* Default holatda yashirilgan */
 }
 
 .mobile-search-btn:hover {
@@ -941,78 +1226,66 @@
     }
 }
 
-/* Header navigation menu - Desktop/Tablet only */
+/* Header navigation menu - Responsive qilib ko'rsatish */
 .header-nav-menu {
-    display: none;
+    display: flex; /* Default holatda ko'rsatish */
     flex-direction: row;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.8rem;
+    flex-wrap: nowrap;
 }
 
+/* 768px dan yuqorida (Desktop/Tablet) */
 @media (min-width: 768px) {
     .header-nav-menu {
-        display: flex;
+        display: flex; /* Desktop/Tablet da ko'rsatish */
     }
 }
 
-/* Large desktop - Full navigation with text */
+/* Juda katta desktop - To'liq navigatsiya matn bilan */
 @media (min-width: 1400px) {
     .header-nav-menu {
-        gap: 1.5rem;
+        gap: 1.2rem;
+        flex-wrap: nowrap;
     }
     
     .header-nav-item {
-        padding: 0.6rem 1rem;
-        font-size: 0.95rem;
+        padding: 0.5rem 0.8rem;
+        font-size: 0.9rem;
+        white-space: nowrap; /* Matnni kesmaslik */
     }
 }
 
-/* Medium desktop - Reduced text size */
+/* O'rta desktop - Kamaytirilgan matn o'lchami */
 @media (max-width: 1399px) and (min-width: 1200px) {
     .header-nav-menu {
-        gap: 1.2rem;
-    }
-    
-    .header-nav-item {
-        padding: 0.5rem 0.9rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* Small desktop - Hide text, icon only */
-@media (max-width: 1199px) and (min-width: 896px) {
-    .header-nav-menu {
         gap: 1rem;
+        flex-wrap: nowrap;
     }
     
     .header-nav-item {
-        padding: 0.5rem 0.7rem;
-        font-size: 0.9rem;
-    }
-    
-    .header-nav-text {
-        display: none;
-    }
-    
-    .header-nav-icon {
-        font-size: 1.2rem;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
     }
 }
 
-/* Tablet - Compact icons */
-@media (max-width: 895px) and (min-width: 768px) {
+/* Kichik desktop - Faqat ikonkalar */
+@media (max-width: 1199px) and (min-width: 1024px) {
     .header-nav-menu {
         gap: 0.6rem;
+        flex-wrap: wrap; /* Kerak bo'lsa wrap qilish */
+        justify-content: center;
     }
     
     .header-nav-item {
-        padding: 0.4rem 0.5rem;
+        padding: 0.4rem 0.6rem;
         font-size: 0.8rem;
         min-width: auto;
     }
     
     .header-nav-text {
-        display: none;
+        display: none; /* 1200px dan kichik ekranlarda yashirish */
     }
     
     .header-nav-icon {
@@ -1020,11 +1293,47 @@
     }
 }
 
-/* Overflow protection for nav menu */
+/* Tablet - Ixcham ikonlar */
 @media (max-width: 1023px) and (min-width: 768px) {
     .header-nav-menu {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    .header-nav-item {
+        padding: 0.3rem 0.4rem;
+        font-size: 0.75rem;
+        min-width: auto;
+        border-radius: var(--radius-md);
+    }
+    
+    .header-nav-text {
+        display: none; /* Tabletda matnni yashirish */
+    }
+    
+    .header-nav-icon {
+        font-size: 1rem;
+    }
+}
+
+/* 1200px dan kichik ekranlarda nav text yashirish */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .header-nav-text {
+        display: none !important; /* 1200px dan kichik ekranlarda yashirish */
+    }
+    
+    .header-nav-icon {
+        margin-right: 0; /* Icon dan keyin text yo'q bo'lgani uchun margin bekor qilish */
+    }
+}
+
+/* Overflow himoyasi nav menu uchun */
+@media (max-width: 1199px) and (min-width: 768px) {
+    .header-nav-menu {
+        overflow-x: visible; /* Scroll o'rniga wrap */
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
@@ -1037,25 +1346,27 @@
 .header-nav-item {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem; /* Kichikroq gap */
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
-    padding: 0.6rem 1rem;
-    border-radius: var(--radius-lg);
+    padding: 0.5rem 0.7rem; /* Kichikroq padding */
+    border-radius: var(--radius-md); /* Kichikroq radius */
     transition: all 0.3s ease;
-    font-size: 0.95rem;
+    font-size: 0.85rem; /* Kichikroq font */
     font-weight: 500;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.15);
+    white-space: nowrap; /* Text qismini uzilmasligi */
+    min-width: 0; /* Flexbox shrinking */
 }
 
 .header-nav-item:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.25);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-1px); /* Kichikroq transform */
 }
 
 .header-nav-item.active {
@@ -1066,16 +1377,32 @@
 }
 
 .header-nav-item.active .header-nav-icon {
-    transform: scale(1.1);
+    transform: scale(1.05); /* Kichikroq scale */
 }
 
 .header-nav-icon {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Kichikroq icon */
     transition: all 0.2s ease;
+    flex-shrink: 0; /* Icon ning shrink bo'lmasligi */
 }
 
 .header-nav-text {
     white-space: nowrap;
+    min-width: 0; /* Flexbox uchun */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block; /* Default holatda ko'rinadi */
+}
+
+/* 1200px dan katta ekranlarda nav text ko'rsatish */
+@media (min-width: 1200px) {
+    .header-nav-text {
+        display: inline-block !important; /* Katta ekranlarda majburiy ko'rsatish */
+    }
+    
+    .header-nav-menu .header-nav-text {
+        display: inline-block !important; /* Header nav menu ichida ham majburiy ko'rsatish */
+    }
 }
 
 /* Cart badge in header nav */
