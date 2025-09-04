@@ -76,6 +76,31 @@ export const resources = {
       "change_location": "Joylashuvni o'zgartirish",
       "refresh_location": "Yangilash",
 
+      // City translations
+      "city_tashkent": "Toshkent",
+      "city_samarkand": "Samarqand", 
+      "city_bukhara": "Buxoro",
+      "city_khiva": "Xiva",
+      "city_andijan": "Andijon",
+      "city_fergana": "Farg'ona",
+      "city_namangan": "Namangan",
+      "city_karshi": "Qarshi",
+      "city_termez": "Termiz",
+      "city_urgench": "Urganch",
+      "city_nukus": "Nukus",
+      "city_gulistan": "Guliston",
+      "city_jizzakh": "Jizzax",
+      "city_kokand": "Qo'qon",
+      "city_margilan": "Marg'ilon",
+
+      // Location error handling
+      "location_error_permission": "Joylashuvga ruxsat berilmadi",
+      "location_error_unavailable": "Joylashuv aniqlash xizmati mavjud emas",
+      "location_error_timeout": "Joylashuv aniqlash vaqti tugadi",
+      "location_error_unknown": "Noma'lum xatolik yuz berdi",
+      "location_fallback_message": "Default shahar tanlandi",
+      "location_manual_selection": "Qo'lda shahar tanlash",
+
       // Filters
       "filters": "Filtrlar",
       "filter": "Filtr",
@@ -631,6 +656,32 @@ export const resources = {
       "method": "Метод",
       "change_location": "Изменить местоположение",
       "refresh_location": "Обновить",
+
+      // City translations
+      "city_tashkent": "Ташкент",
+      "city_samarkand": "Самарканд",
+      "city_bukhara": "Бухара", 
+      "city_khiva": "Хива",
+      "city_andijan": "Андижан",
+      "city_fergana": "Фергана",
+      "city_namangan": "Наманган",
+      "city_karshi": "Карши",
+      "city_termez": "Термез",
+      "city_urgench": "Ургенч",
+      "city_nukus": "Нукус",
+      "city_gulistan": "Гулистан",
+      "city_jizzakh": "Джизак",
+      "city_kokand": "Коканд",
+      "city_margilan": "Маргилан",
+
+      // Location error handling
+      "location_error_permission": "Разрешение на местоположение отклонено",
+      "location_error_unavailable": "Служба определения местоположения недоступна",
+      "location_error_timeout": "Время определения местоположения истекло",
+      "location_error_unknown": "Произошла неизвестная ошибка",
+      "location_fallback_message": "Выбран город по умолчанию",
+      "location_manual_selection": "Ручной выбор города",
+
       "category_auto": "Автотовары",
       "category_vegetables": "Овощи",
       "category_fruits": "Фрукты",
@@ -830,7 +881,117 @@ export const resources = {
       "language_updated": "Язык успешно обновлен",
       "language_deleted": "Язык успешно удален",
       "error_occurred": "Произошла ошибка",
-      "saving": "Сохранение..."
+      "saving": "Сохранение...",
+
+      // Common Actions
+      "save": "Сохранить",
+      "edit": "Редактировать",
+      "delete": "Удалить",
+      "confirm": "Подтвердить",
+      "yes": "Да",
+      "no": "Нет",
+      "close": "Закрыть"
+    }
+  },
+  en: {
+    translation: {
+      // Bottom Menu
+      "home": "Home",
+      "cart": "Cart",
+      "orders": "Orders",
+      "profile": "Profile",
+      "wishlist": "Wishlist",
+
+      // Header
+      "search_placeholder": "Search products...",
+      "language": "Language",
+      "uzbek": "🇺🇿 Uzbek",
+      "russian": "🇷🇺 Russian",
+      "english": "🇺🇸 English",
+
+      // Language Selection
+      "select_language": "Select Language",
+      "choose_your_preferred_language": "Choose your preferred language",
+      "language_can_be_changed_later": "Language can be changed later",
+      "no_languages_found": "No languages found",
+
+      // Location Detection
+      "location_title": "Detect your location",
+      "location_subtitle": "To show you the nearest products and delivery options",
+      "gps_title": "GPS detection",
+      "gps_description": "Accurate location via GPS",
+      "ip_title": "Internet detection",
+      "ip_description": "Approximate location by IP address",
+      "manual_title": "Choose manually",
+      "manual_description": "Select city from list",
+      "detect_location": "Detect location",
+      "detect_by_ip": "Detect by IP",
+      "search_city": "Search your city...",
+      "confirm_city": "Confirm city",
+      "skip_later": "Later",
+      "detecting": "Detecting...",
+      "gps_accurate": "Accurate location",
+      "ip_approximate": "Approximate location",
+      "manual_selected": "Selected",
+      "unknown_location": "Unknown location",
+      "current_location": "Current location",
+      "city": "City",
+      "region": "Region",
+      "country": "Country",
+      "method": "Method",
+      "change_location": "Change location",
+      "refresh_location": "Refresh",
+
+      // City translations
+      "city_tashkent": "Tashkent",
+      "city_samarkand": "Samarkand",
+      "city_bukhara": "Bukhara",
+      "city_khiva": "Khiva",
+      "city_andijan": "Andijan",
+      "city_fergana": "Fergana",
+      "city_namangan": "Namangan",
+      "city_karshi": "Karshi",
+      "city_termez": "Termez",
+      "city_urgench": "Urgench",
+      "city_nukus": "Nukus",
+      "city_gulistan": "Gulistan",
+      "city_jizzakh": "Jizzakh",
+      "city_kokand": "Kokand",
+      "city_margilan": "Margilan",
+
+      // Location error handling
+      "location_error_permission": "Location permission denied",
+      "location_error_unavailable": "Location service unavailable",
+      "location_error_timeout": "Location detection timeout",
+      "location_error_unknown": "Unknown error occurred",
+      "location_fallback_message": "Default city selected",
+      "location_manual_selection": "Manual city selection",
+
+      // Onboarding
+      "onboarding_location_title": "Detect your location",
+      "onboarding_location_description": "To show you nearest stores and products",
+      "location_detection_title": "Detect location",
+      "location_detection_subtitle": "To show you nearest stores and products",
+      "detect_location": "Detect location",
+      "location_help_text": "Precise location detection via GPS",
+      "detecting_location": "Detecting location...",
+      "detecting_location_short": "Detecting...",
+      "location_detected": "Location detected",
+
+      // General
+      "loading": "Loading...",
+      "try_again": "Try again",
+      "error_occurred": "An error occurred",
+      "saving": "Saving...",
+
+      // Common Actions
+      "save": "Save",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "yes": "Yes",
+      "no": "No",
+      "close": "Close"
     }
   }
 };

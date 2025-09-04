@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../contexts/LanguageContext';
+import { getTranslatedCityName } from '../utils/locationUtils';
 
 const OnboardingStep = ({ 
   step, 
@@ -121,8 +122,7 @@ const OnboardingStep = ({
                           <span className="location-pin">📍</span>
                           <div className="location-details">
                             <div className="location-main-text">
-                              {locationData.address.city}
-                              {locationData.address.district && `, ${locationData.address.district}`}
+                              {getTranslatedCityName(locationData, t)}
                             </div>
                           </div>
                         </div>

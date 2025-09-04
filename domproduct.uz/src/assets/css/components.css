@@ -864,6 +864,20 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: 500;
+    display: block; /* Default ko'rinadi */
+}
+
+/* Location city only mode - district yo'q bo'lsa */
+.header-left .location-display .location-text:not(:has(.location-district)) .location-city {
+    font-size: 1rem; /* Kattaroq qilamiz */
+    display: flex;
+    align-items: center;
+    min-height: 2.2rem; /* Minimum balandlik */
+}
+
+/* District mavjud bo'lsa, city kichikroq */
+.header-left .location-display .location-text:has(.location-district) .location-city {
+    font-size: 0.95rem;
 }
 
 .header-left .location-display .location-arrow {

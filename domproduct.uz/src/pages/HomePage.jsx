@@ -107,7 +107,7 @@ const HomePage = () => {
                         </div>
                         <div className="creator_by">
                             <span>{t('developed_by')}</span>
-                            <a target="_blank" href="https://simplex.uz?ref_src=domproduct.uz" rel="noopener noreferrer" className="dev-link">
+                            <a target="_blank" href="https://urinboydev.uz?ref_src=domproduct.uz" rel="noopener noreferrer" className="dev-link">
                                 <img width="104" height="30" src="https://urinboydev.uz/static/media/logo.9f15ba03dac502a26263.png" alt="simplex logo" />
                                 <span>UrinboyDev.uz</span>
                             </a>

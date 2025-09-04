@@ -27,6 +27,7 @@ import LocationDisplay from './components/LocationDisplay'; // Import LocationDi
 import ApiTestPage from './admin/pages/ApiTestPage'
 import AdminApp from './admin/AdminApp'; // Import AdminApp
 import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
+import { getCityName, getDistrictName, getTranslatedCityName } from './utils/locationUtils'; // Import location utilities
 
 function App() {
     const { t } = useTranslation(); // Initialize translation hook
@@ -130,11 +131,14 @@ function App() {
                                             </div>
                                             <div className="location-text">
                                                 <span className="location-city">
-                                                    {userLocation?.address?.city || 'Tashkent'}
+                                                    {getTranslatedCityName(userLocation, t)}
                                                 </span>
-                                                <span className="location-district">
-                                                    {userLocation?.address?.district || 'Shahar markazi'}
-                                                </span>
+                                                {/* District faqat mavjud bo'lsa ko'rsatiladi */}
+                                                {getDistrictName(userLocation) && (
+                                                    <span className="location-district">
+                                                        {getDistrictName(userLocation)}
+                                                    </span>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

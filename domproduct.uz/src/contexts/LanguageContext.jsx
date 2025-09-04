@@ -23,6 +23,15 @@ export const LanguageProvider = ({ children }) => {
             is_active: true,
             is_default: false,
             sort_order: 2
+        },
+        {
+            id: 3,
+            name: "English",
+            code: "en",
+            flag: "🇺🇸",
+            is_active: true,
+            is_default: false,
+            sort_order: 3
         }
     ]);
 
