@@ -208,6 +208,10 @@ export const resources = {
       "new_products": "Yangi mahsulotlar",
       "see_all": "Barchasini ko'rish",
       "details": "Batafsil",
+      
+      // Footer
+      "payment_methods": "To'lov uchun qabul qilamiz",
+      "developed_by": "Ishlab chiqdi",
 
       // Auth Modals
       "login_success": "Muvaffaqiyatli kirdingiz!",
@@ -660,6 +664,10 @@ export const resources = {
       "new_products": "Новые продукты",
       "see_all": "Смотреть все",
       "details": "Подробнее",
+      
+      // Footer
+      "payment_methods": "Принимаем к оплате",
+      "developed_by": "Разработка",
 
       // Auth Modals
       "login_success": "Вы успешно вошли!",
@@ -812,76 +820,17 @@ export const resources = {
       "edit_language": "Редактировать язык",
       "confirm_delete_language": "Подтвердите удаление языка?",
       "search_languages": "Поиск языков",
-      "language_code": "Код языка",
-      "language_name": "Название языка",
-      "native_name": "Название на родном языке",
-      "flag": "Флаг",
-      "flag_emoji": "Эмодзи флага",
-      "direction": "Направление",
-      "text_direction": "Направление текста",
-      "left_to_right": "Слева направо",
-      "right_to_left": "Справа налево",
-      "language_active": "Язык активен",
-      "language_code_help": "Код языка по стандарту ISO 639-1 (uz, ru, en)",
-      "no_languages_found": "Языки не найдены",
-      "code": "Код",
       "is_default": "Основной язык",
       "default": "Основной",
       "not_default": "Не основной",
       "sort_order": "Порядок сортировки",
-      "flag": "Флаг",
       "flag_emoji": "Эмодзи флага",
       "default_language": "Основной язык",
       "language_created": "Язык успешно добавлен",
       "language_updated": "Язык успешно обновлен",
       "language_deleted": "Язык успешно удален",
       "error_occurred": "Произошла ошибка",
-      "saving": "Сохранение...",
-      
-      // Translations Management
-      "translations_management": "Управление переводами",
-      "translations_management_subtitle": "Управление переводами текстов сайта на все языки",
-      "translation_created": "Перевод успешно добавлен",
-      "translation_updated": "Перевод успешно обновлен",
-      "translation_deleted": "Перевод успешно удален",
-      "some_translations_failed": "Некоторые переводы не удалось сохранить",
-      "add_translation": "Добавить перевод",
-      "edit_translation": "Редактировать перевод",
-      "confirm_delete_translation": "Подтвердите удаление перевода?",
-      "search_translations": "Поиск переводов",
-      "translation_key": "Ключ перевода",
-      "translation_value": "Значение перевода",
-      "coverage": "Покрытие",
-      "total_keys": "Всего ключей",
-      "view_language": "Язык просмотра",
-      "no_translation": "Нет перевода",
-      "translation_for": "Перевод для:",
-      "translation_key_help": "Уникальное имя ключа (например: welcome_message)",
-      "export_translations": "Экспорт переводов",
-      "no_translations_found": "Переводы не найдены",
-      
-      // Common Actions  
-      "save": "Сохранить",
-      "edit": "Редактировать",
-      "delete": "Удалить", 
-      "confirm": "Подтвердить",
-      "yes": "Да",
-      "no": "Нет",
-      "close": "Закрыть",
-      "all_categories": "Все категории",
-      "all_statuses": "Все статусы",
-      "email": "Email",
-      "phone": "Телефон",
-      
-      // Confirm Messages
-      "confirm_delete": "Подтвердите удаление",
-      "delete_category_message": "Вы действительно хотите удалить эту категорию?",
-      "delete_product_message": "Вы действительно хотите удалить этот товар?",
-      "delete_user_message": "Вы действительно хотите удалить этого пользователя?",
-      "delete_order_message": "Вы действительно хотите удалить этот заказ?", 
-      "delete_language_message": "Вы действительно хотите удалить этот язык?",
-      "delete_translation_message": "Вы действительно хотите удалить этот перевод?",
-      "delete_warning_message": "Это действие нельзя отменить!",
+      "saving": "Сохранение..."
     }
   }
 };
