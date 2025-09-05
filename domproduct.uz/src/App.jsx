@@ -27,6 +27,7 @@ import LocationDisplay from './components/LocationDisplay'; // Import LocationDi
 import ApiTestPage from './admin/pages/ApiTestPage'
 import AdminApp from './admin/AdminApp'; // Import AdminApp
 import CategoriesPage from './pages/CategoriesPage'; // Import CategoriesPage
+import CategoryDetailPage from './pages/CategoryDetailPage'; // Import CategoryDetailPage
 import { getCityName, getDistrictName, getTranslatedCityName } from './utils/locationUtils'; // Import location utilities
 
 function App() {
@@ -224,6 +225,7 @@ function App() {
                                 <Route path="/profile" element={<ProfilePage />} />
                                 <Route path="/search" element={<SearchResultsPage />} />
                                 <Route path="/categories" element={<CategoriesPage />} />
+                                <Route path="/category/:categorySlug" element={<CategoryDetailPage />} />
                                 <Route path="/api-test" element={<ApiTestPage />} />
                             </Routes>
                         </main>

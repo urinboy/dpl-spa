@@ -183,3 +183,26 @@ export const products = {
 };
 
 export default allProducts;
+
+// Get products by category
+export const getProductsByCategory = (categorySlug) => {
+  if (!categorySlug) return [];
+  return allProducts.filter(product => product.category === categorySlug);
+};
+
+// Get featured products
+export const getFeaturedProducts = (limit = 8) => {
+  return allProducts.filter(product => product.rating >= 4.5).slice(0, limit);
+};
+
+// Get products by search query
+export const searchProducts = (query) => {
+  if (!query) return [];
+  const searchTerm = query.toLowerCase();
+  return allProducts.filter(product => 
+    product.name.toLowerCase().includes(searchTerm) ||
+    product.category.toLowerCase().includes(searchTerm) ||
+    product.brand.toLowerCase().includes(searchTerm) ||
+    product.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+  );
+};

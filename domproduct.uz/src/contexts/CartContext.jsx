@@ -55,12 +55,53 @@ export const CartProvider = ({ children }) => {
         );
     };
 
+    const updateQuantity = (productId, newQuantity) => {
+        if (newQuantity <= 0) {
+            removeFromCart(productId);
+        } else {
+            setCartItems(prevItems =>
+                prevItems.map(item =>
+                    item.id === productId ? { ...item, quantity: newQuantity } : item
+                )
+            );
+        }
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, incrementQuantity, decrementQuantity }}>
+        <CartContext.Provider value={{ 
+            cartItems, 
+            addToCart, 
+            removeFromCart, 
+            incrementQuantity, 
+            decrementQuantity,
+            updateQuantity 
+        }}>
             {children}
         </CartContext.Provider>
     );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        return {
+            cart: [],
+            cartItems: [],
+            addToCart: () => {},
+            removeFromCart: () => {},
+            updateQuantity: () => {},
+            incrementQuantity: () => {},
+            decrementQuantity: () => {}
+        };
+    }
+    return {
+        cart: context.cartItems || [],
+        cartItems: context.cartItems || [],
+        addToCart: context.addToCart,
+        removeFromCart: context.removeFromCart,
+        updateQuantity: context.updateQuantity || context.decrementQuantity,
+        incrementQuantity: context.incrementQuantity,
+        decrementQuantity: context.decrementQuantity
+    };
+};
 

@@ -72,7 +72,9 @@ function CategoriesPage() {
                 </div>
 
                 <div className="category-actions">
-                  
+                  <Link to={`/category/${category.slug}`} className="view-products-button">
+                    <i className="fas fa-box"></i> {t('view_products')}
+                  </Link>
                   {subCategories.length > 0 && (
                     <button 
                       className={`expand-button ${isExpanded ? 'expanded' : ''}`}
@@ -100,7 +102,7 @@ function CategoriesPage() {
                       return (
                         <Link 
                           key={subCategory.id}
-                          to={`/products?category=${subCategory.slug}`} 
+                          to={`/category/${subCategory.slug}`} 
                           className="subcategory-item"
                         >
                           <div className="subcategory-icon">
