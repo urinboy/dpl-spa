@@ -39,10 +39,6 @@ export const ruTranslations = {
   "release_to_refresh": "Отпустите для обновления",
   "refreshing": "Обновление...",
 
-  // Back Button Confirmation
-  "confirm_exit": "Подтвердите выход",
-  "press_back_again": "Нажмите назад еще раз",
-
   // Categories
   "categories": "Категории",
   "all_categories": "Все категории",
@@ -571,5 +567,9 @@ export const ruTranslations = {
   "applying": "Применяется...",
 
   // English language in header
-  "english": "🇺🇸 Английский"
+  "english": "🇺🇸 Английский",
+
+  // Tags
+  "tags": "Теги",
+  "current_lang": "ru"
 };

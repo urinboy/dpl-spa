@@ -2,7 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { allProducts } from '../data/products';
-import { categories } from '../data/categories'; // Import categories
+import { featuredCategories, getCategoryTranslation } from '../data/categories'; // Import categories
+import { featuredTags } from '../data/tags'; // Import tags
 import ImageSlider from '../components/ImageSlider';
 import PullToRefresh from '../components/PullToRefresh';
 import { useCart } from '../contexts/CartContext';
@@ -15,14 +16,15 @@ const HomePage = () => {
     const { addToCart } = useCart();
     const { toggleWishlist, isItemInWishlist } = useWishlist();
 
-    // Show a limited number of categories on the home page
-    const featuredCategories = categories.slice(0, 5);
-    
     // Featured products
     const featuredProducts = allProducts.slice(0, 4);
 
     const handleCategoryClick = (categorySlug) => {
         navigate(`/products?category=${categorySlug}`);
+    };
+
+    const handleTagClick = (tagSlug) => {
+        navigate(`/products?tag=${tagSlug}`);
     };
 
     const handleRefresh = async () => {
@@ -46,18 +48,71 @@ const HomePage = () => {
                 <Link to="/categories" className="see-all-link">{t('see_all')}</Link>
             </div>
             <div className="category-grid" id="categoriesGrid">
-                {featuredCategories.map(category => (
+                {featuredCategories.map(category => {
+                    const categoryTranslation = getCategoryTranslation(category, t('current_lang'));
+                    return (
+                        <div 
+                            className="category-card" 
+                            key={category.id}
+                            onClick={() => handleCategoryClick(category.slug)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <div className="category-image-wrapper">
+                                {category.image ? (
+                                    <img 
+                                        src={category.image} 
+                                        alt={categoryTranslation.name}
+                                        className="category-image"
+                                        loading="lazy"
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            e.target.parentElement.innerHTML = `<span class="category-icon">${category.icon}</span>`;
+                                        }}
+                                    />
+                                ) : (
+                                    <span className="category-icon">{category.icon}</span>
+                                )}
+                            </div>
+                            <span className="category-name">
+                                {categoryTranslation.name}
+                            </span>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {/* Tags Section */}
+            {/* <div className="section-header">
+                <h2>{t('tags')}</h2>
+                <Link to="/tags" className="see-all-link">{t('see_all')}</Link>
+            </div> */}
+            <div className="tag-grid" id="tagsGrid">
+                {featuredTags.map(tag => (
                     <div 
-                        className="category-card" 
-                        key={category.id}
-                        onClick={() => handleCategoryClick(category.slug)}
+                        className="tag-card" 
+                        key={tag.id}
+                        onClick={() => handleTagClick(tag.slug)}
                         style={{ cursor: 'pointer' }}
                     >
-                        <i className={`${category.icon} category-icon`}></i> 
-                        <span>{t(`category_${category.slug}`)}</span>
+                        <div className="tag-card-icon">
+                            {tag.icon ? (
+                                <img 
+                                    src={tag.icon} 
+                                    alt={tag.translations[t('current_lang')] || tag.translations.uz}
+                                    loading="lazy"
+                                />
+                            ) : (
+                                <i className={tag.iconClass}></i>
+                            )}
+                        </div>
+                        <span className="tag-card-text">
+                            {tag.translations[t('current_lang')] || tag.translations.uz}
+                        </span>
                     </div>
                 ))}
             </div>
+
+            {/* Featured Products Section */}
             <div className="section-header">
                 <h2>{t('new_products')}</h2>
                 <Link to="/products" className="see-all-link">{t('see_all')}</Link>
@@ -106,15 +161,15 @@ const HomePage = () => {
                         <div className="main-payme">
                             <span>{t('payment_methods')}</span>
                             <div className="top-payme">
-                                <a href="#" title="Payme">
+                                <a href="https://payme.uz" title="Payme">
                                     <img src="/logos/payme.png" alt="payme" />
                                 </a>
-                                <a href="#" title="Click">
+                                <a href="https://click.uz" title="Click">
                                     <img src="/logos/click.png" alt="click" />
                                 </a>
-                                <a href="#" title="Paynet">
+                                {/* <a href="#" title="Paynet">
                                     <img src="/logos/paynet.png" alt="paynet" />
-                                </a>
+                                </a> */}
                             </div>
                         </div>
                         <div className="creator_by">

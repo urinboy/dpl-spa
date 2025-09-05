@@ -536,5 +536,9 @@ export const enTranslations = {
   "onboarding_language_title": "Choose Language",
   "onboarding_language_description": "Use Uzbek, Russian or English",
   "onboarding_features_title": "Why Choose Us?",
-  "onboarding_features_description": "Services created for your convenience"
+  "onboarding_features_description": "Services created for your convenience",
+
+  // Tags
+  "tags": "Tags",
+  "current_lang": "en"
 };

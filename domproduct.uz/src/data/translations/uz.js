@@ -39,10 +39,6 @@ export const uzTranslations = {
   "release_to_refresh": "Yangilash uchun qo'yib bering",
   "refreshing": "Yangilanmoqda...",
 
-  // Back Button Confirmation
-  "confirm_exit": "Chiqishni tasdiqlang",
-  "press_back_again": "Yana bir marta orqaga bosing",
-
   // Categories
   "categories": "Kategoriyalar",
   "all_categories": "Barcha kategoriyalar",
@@ -533,5 +529,9 @@ export const uzTranslations = {
   "profile_updated_success": "Profil muvaffaqiyatli yangilandi!",
 
   // Missing translation for english in header
-  "english": "🇺🇸 English"
+  "english": "🇺🇸 English",
+
+  // Tags
+  "tags": "Teglar",
+  "current_lang": "uz"
 };
