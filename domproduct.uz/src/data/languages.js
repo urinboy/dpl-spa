@@ -15,5 +15,13 @@ export const languages = [
     direction: 'ltr',
     isActive: true
   },
+  {
+    code: 'en',
+    name: 'English',
+    nativeName: 'English',
+    flag: '🇺🇸',
+    direction: 'ltr',
+    isActive: true
+  },
 ];
 
