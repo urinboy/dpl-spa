@@ -34,6 +34,11 @@ export const uzTranslations = {
   "register": "Ro'yxatdan o'tish",
   "logout": "Chiqish",
 
+  // Pull to Refresh
+  "pull_to_refresh": "Yangilash uchun torting",
+  "release_to_refresh": "Yangilash uchun qo'yib bering",
+  "refreshing": "Yangilanmoqda...",
+
   // Categories
   "categories": "Kategoriyalar",
   "all_categories": "Barcha kategoriyalar",

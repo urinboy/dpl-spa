@@ -8,6 +8,7 @@ import { useWishlist } from '../contexts/WishlistContext';
 import { useProductFilter } from '../contexts/ProductFilterContext';
 import Meta from '../components/Meta';
 import ProductFilters from '../components/ProductFilters';
+import PullToRefresh from '../components/PullToRefresh';
 import '../assets/css/filters.css';
 
 const ProductsPage = () => {
@@ -50,12 +51,24 @@ const ProductsPage = () => {
         return category ? t(`category_${category.slug}`) : t('all_products');
     };
 
+    const handleRefresh = async () => {
+        // Mahsulotlarni qayta yuklash
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // Filtrlarni qayta tiklash va sahifani yangilash
+                window.location.reload();
+                resolve();
+            }, 1500);
+        });
+    };
+
     return (
-        <div id="productsPage">
-            <Meta title={getCategoryName(selectedCategorySlug)} />
-            <h2 style={{ marginBottom: '1rem' }}>
-                {getCategoryName(selectedCategorySlug)}
-            </h2>
+        <PullToRefresh onRefresh={handleRefresh}>
+            <div id="productsPage">
+                <Meta title={getCategoryName(selectedCategorySlug)} />
+                <h2 style={{ marginBottom: '1rem' }}>
+                    {getCategoryName(selectedCategorySlug)}
+                </h2>
 
             {/* Yangi toolbar */}
             <div className="products-toolbar">
@@ -208,6 +221,7 @@ const ProductsPage = () => {
                 onClose={() => setIsFiltersOpen(false)} 
             />
         </div>
+        </PullToRefresh>
     );
 };
 

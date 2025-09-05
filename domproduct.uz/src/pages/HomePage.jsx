@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { allProducts } from '../data/products';
 import { categories } from '../data/categories'; // Import categories
 import ImageSlider from '../components/ImageSlider';
+import PullToRefresh from '../components/PullToRefresh';
 import { useCart } from '../contexts/CartContext';
 import { useWishlist } from '../contexts/WishlistContext';
 import Meta from '../components/Meta';
@@ -24,10 +25,21 @@ const HomePage = () => {
         navigate(`/products?category=${categorySlug}`);
     };
 
+    const handleRefresh = async () => {
+        // Sahifani yangilash simulyatsiyasi
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                window.location.reload();
+                resolve();
+            }, 1500);
+        });
+    };
+
     return (
-        <div id="homePage">
-            <Meta />
-            <ImageSlider />
+        <PullToRefresh onRefresh={handleRefresh}>
+            <div id="homePage">
+                <Meta />
+                <ImageSlider />
             
             <div className="section-header">
                 <h2>{t('categories')}</h2>
@@ -116,6 +128,7 @@ const HomePage = () => {
                 </div>
             </div>
         </div>
+        </PullToRefresh>
     );
 };
 

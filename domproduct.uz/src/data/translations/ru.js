@@ -34,6 +34,11 @@ export const ruTranslations = {
   "register": "Зарегистрироваться",
   "logout": "Выйти",
 
+  // Pull to Refresh
+  "pull_to_refresh": "Потяните для обновления",
+  "release_to_refresh": "Отпустите для обновления",
+  "refreshing": "Обновление...",
+
   // Categories
   "categories": "Категории",
   "all_categories": "Все категории",
