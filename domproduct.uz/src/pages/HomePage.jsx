@@ -167,9 +167,9 @@ const HomePage = () => {
                                 <a href="https://click.uz" title="Click">
                                     <img src="/logos/click.png" alt="click" />
                                 </a>
-                                {/* <a href="#" title="Paynet">
+                                <a href="https://paynet.uz" title="Paynet">
                                     <img src="/logos/paynet.png" alt="paynet" />
-                                </a> */}
+                                </a>
                             </div>
                         </div>
                         <div className="creator_by">

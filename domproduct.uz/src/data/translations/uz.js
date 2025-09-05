@@ -42,6 +42,9 @@ export const uzTranslations = {
   // Categories
   "categories": "Kategoriyalar",
   "all_categories": "Barcha kategoriyalar",
+  "browse_categories_description": "Mahsulotlarimizni kategoriyalar bo'yicha ko'rib chiqing",
+  "subcategories": "pastki kategoriyalar",
+  "view_all": "Hammasini ko'rish",
   "category_electronics": "Elektronika",
   "category_clothing": "Kiyim-kechak",
   "category_appliances": "Maishiy texnika",

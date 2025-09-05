@@ -42,6 +42,9 @@ export const ruTranslations = {
   // Categories
   "categories": "Категории",
   "all_categories": "Все категории",
+  "browse_categories_description": "Выберите категорию для просмотра товаров",
+  "subcategories": "Подкатегории",
+  "view_all": "Смотреть все",
   "category_electronics": "Электроника",
   "category_clothing": "Одежда",
   "category_appliances": "Бытовая техника",

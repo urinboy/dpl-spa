@@ -120,6 +120,9 @@ export const enTranslations = {
   // Categories
   "categories": "Categories",
   "all_categories": "All Categories",
+  "browse_categories_description": "Choose a category to browse products",
+  "subcategories": "Subcategories",
+  "view_all": "View All",
   "category_electronics": "Electronics",
   "category_clothing": "Clothing",
   "category_appliances": "Home Appliances",
