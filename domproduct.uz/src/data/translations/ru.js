@@ -39,6 +39,10 @@ export const ruTranslations = {
   "release_to_refresh": "Отпустите для обновления",
   "refreshing": "Обновление...",
 
+  // Back Button Confirmation
+  "confirm_exit": "Подтвердите выход",
+  "press_back_again": "Нажмите назад еще раз",
+
   // Categories
   "categories": "Категории",
   "all_categories": "Все категории",

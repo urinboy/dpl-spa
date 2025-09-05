@@ -23,6 +23,7 @@ import OnboardingOverlay from './components/OnboardingOverlay'; // Import Onboar
 import OnboardingDebug from './components/OnboardingDebug'; // Import OnboardingDebug
 import LanguageSwitcher from './components/LanguageSwitcher'; // Import LanguageSwitcher
 import LocationDisplay from './components/LocationDisplay'; // Import LocationDisplay
+import BackButtonConfirmation from './components/BackButtonConfirmation'; // Import BackButtonConfirmation
 // import LocationSuccessNotification from './components/LocationSuccessNotification'; // Import LocationSuccessNotification - DISABLED
 import ApiTestPage from './admin/pages/ApiTestPage'
 import AdminApp from './admin/AdminApp'; // Import AdminApp
@@ -106,9 +107,10 @@ function App() {
     const isDetailPage = location.pathname.startsWith('/products/') && location.pathname.split('/').length === 3;
 
     return (
-        <div className="app-container" id="app">            
-            {/* Onboarding Overlay - Splash dan keyin */}
-            <OnboardingOverlay />
+        <BackButtonConfirmation>
+            <div className="app-container" id="app">            
+                {/* Onboarding Overlay - Splash dan keyin */}
+                <OnboardingOverlay />
             
             <Routes>
                 <Route path="/admin/*" element={<AdminApp />} />
@@ -269,6 +271,7 @@ function App() {
                 } />
             </Routes>
         </div>
+        </BackButtonConfirmation>
     );
 }
 

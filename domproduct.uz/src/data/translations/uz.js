@@ -39,6 +39,10 @@ export const uzTranslations = {
   "release_to_refresh": "Yangilash uchun qo'yib bering",
   "refreshing": "Yangilanmoqda...",
 
+  // Back Button Confirmation
+  "confirm_exit": "Chiqishni tasdiqlang",
+  "press_back_again": "Yana bir marta orqaga bosing",
+
   // Categories
   "categories": "Kategoriyalar",
   "all_categories": "Barcha kategoriyalar",

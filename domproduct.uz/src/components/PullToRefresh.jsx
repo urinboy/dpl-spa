@@ -90,34 +90,15 @@ const PullToRefresh = ({ onRefresh, children, threshold = 80 }) => {
     return t('pull_to_refresh');
   };
 
-  const getIconRotation = () => {
-    if (isRefreshing) {
-      return 'rotate(360deg)';
-    }
-    if (isPulling) {
-      return 'rotate(180deg)';
-    }
-    return 'rotate(0deg)';
-  };
-
   return (
     <div ref={containerRef} className="pull-to-refresh-container">
       {/* Pull to Refresh indikatori */}
       <div 
-        className="pull-to-refresh-indicator"
-        style={{
-          transform: `translateY(${Math.max(0, pullDistance - threshold)}px)`,
-          opacity: pullDistance > 20 ? 1 : 0,
-        }}
+        className={`pull-to-refresh-indicator ${(isPulling || isRefreshing) ? 'visible' : ''}`}
       >
         <div className="refresh-content">
-          <div 
-            className={`refresh-icon ${isRefreshing ? 'spinning' : ''}`}
-            style={{
-              transform: getIconRotation(),
-            }}
-          >
-            <i className="fas fa-sync-alt"></i>
+          <div className={`refresh-icon ${isRefreshing ? 'spinning' : ''}`}>
+            {isRefreshing ? '⟳' : '↓'}
           </div>
           <span className="refresh-text">{getRefreshText()}</span>
         </div>
@@ -127,7 +108,7 @@ const PullToRefresh = ({ onRefresh, children, threshold = 80 }) => {
       <div 
         className="pull-to-refresh-content"
         style={{
-          transform: `translateY(${pullDistance}px)`,
+          transform: `translateY(${Math.min(pullDistance * 0.3, 30)}px)`,
           transition: pullDistance === 0 ? 'transform 0.3s ease' : 'none',
         }}
       >
