@@ -20,7 +20,7 @@ const HomePage = () => {
     const featuredProducts = allProducts.slice(0, 4);
 
     const handleCategoryClick = (categorySlug) => {
-        navigate(`/products?category=${categorySlug}`);
+        navigate(`/category/${categorySlug}`);
     };
 
     const handleTagClick = (tagSlug) => {
@@ -57,7 +57,7 @@ const HomePage = () => {
                             onClick={() => handleCategoryClick(category.slug)}
                             style={{ cursor: 'pointer' }}
                         >
-                            <div className="category-image-wrapper">
+                            <div className="category-icon-wrapper">
                                 {category.image ? (
                                     <img 
                                         src={category.image} 
@@ -66,12 +66,13 @@ const HomePage = () => {
                                         loading="lazy"
                                         onError={(e) => {
                                             e.target.style.display = 'none';
-                                            e.target.parentElement.innerHTML = `<span class="category-icon">${category.icon}</span>`;
+                                            e.target.parentElement.innerHTML = `<span class="category-emoji-large">${category.icon}</span>`;
                                         }}
                                     />
                                 ) : (
-                                    <span className="category-icon">{category.icon}</span>
+                                    <span className="category-emoji-large">{category.icon}</span>
                                 )}
+                                <div className="category-icon-bg"></div>
                             </div>
                             <span className="category-name">
                                 {categoryTranslation.name}
